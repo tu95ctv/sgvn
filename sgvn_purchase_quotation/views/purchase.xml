@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+            </field>
+            <field name="partner_ref" position="replace">
+                <!-- <field name="trans_classify_id" options="{'no_create': True}"/> -->
+                <field name="type"/>
+                <field name="origin"/>
+                <field name="desired_delivery"/>
+            </field>
+            <xpath expr="//form/sheet/group[1]/group[2]" position="after">
+                <group>
+                    <field name="create_date" />
+                    <field name="date_planned" />
+                    <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                    <field name="date_issuance" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                    <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
+                </group>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath expr="//page[@name='products']/field/tree/field[@name='product_qty']" position="before">
+                <field name="delivery_destination_id" />
+            </xpath>
+
+            <xpath expr="//page[@name='purchase_delivery_invoice']/group[1]" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <page name="purchase_delivery_invoice" position="inside">
+                <group>
+                    <group name="other_info">
+                        <field name="jurisdiction_id" options="{'no_create': True}"/>
+                        <field name="create_uid" readonly="1"/>
+                        <field name="picking_type_id" />
+                        <field name="dest_address_id" /> 
+                    </group>
+                    <group>
+                        <!-- <field name="organization_id"/>  -->
+                    </group>
+                </group>
+                <group>
+                    <field name="dest_address_infor"/>
+                </group>
+            </page>
+            <page name="products" position="after">
+                <page string="Construction information" name="construction_information" >
+                    <group>
+                        <group name="construction_info">
+                            <field name="construction_name"/>
+                            <field name="construction_site"/>
+                            <label for="construction_period_start"/>
+                            <div name="construction_period_div" class="o_row">
+                                <field name="construction_period_start"/>
+                                <h2> ~ </h2>
+                                <field name="construction_period_end"/>
+                            </div>
+
+
+                            <field name="pres_abs_supplies" widget="radio" options="{'horizontal': true}"/> 
+                            <field name="construction_supplies" /> 
+                            <field name="construction_payment_term" /> 
+
+                            <label for="construction_cash" invisible="1"/>
+                            <div name="construction_cash_bill_div" class="o_row">
+                                <label for="construction_cash"/>
+                                <field name="construction_cash"/>
+                                <h2>%</h2>
+                                <span>&#160;&#160;</span>
+                                <label for="construction_bills"/>
+                                <field name="construction_bills"/>
+                                <h2>%</h2>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="pres_abs_current_theory" widget="radio" options="{'horizontal': true}"/>
+                            <field name="construction_current_date"/>
+                            <field name="construction_current_place"/>
+                            <field name="construction_others"/>    
+
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes_construction_contract"/>
+                        <field name="estimated_subcontracting_work"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="purchase_order_kpis_tree" model="ir.ui.view">
+        <field name="name">purchase.order.inherit.purchase.order.tree</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">     
+            <!-- <field name="partner_id" position="after">
+                <field name="organization_id"/>
+            </field> -->
+            <field name="company_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="date_planned" position="replace">
+                <field name="date_response"/>
+                <!-- <field name="trans_classify_id"/> -->
+            </field>
+            <field name="activity_ids" position="replace">
+                <field name="jurisdiction_id"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
