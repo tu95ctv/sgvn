@@ -111,7 +111,7 @@
             <field name="company_id" position="attributes">
                 <attribute name="optional">hide</attribute>
             </field>
-            <field name="date_planned" position="replace">
+            <field name="date_order" position="replace">
                 <field name="date_response"/>
                 <!-- <field name="trans_classify_id"/> -->
             </field>
