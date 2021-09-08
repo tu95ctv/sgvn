@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+    
+        <record id="view_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.view.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                    <group>
+                        <field name="x_contact_classification" string="Contact Classify"
+                            widget="radio" options="{'horizontal': True}" />
+                        <field name="x_partner_code" />
+                    </group>
+                </xpath>
+                <xpath expr="//sheet/group/group[2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//sheet/group" position="inside">
+                    <group>
+                        <field name="x_transaction_classification" string="Transaction Classify"
+                            widget="many2many_tags" />
+                        <field name="x_show_construction_permit" invisible="1" />
+                        <field name="x_department" widget="radio" />
+                    </group>
+                </xpath>
+                <xpath expr="//sheet/group" position="after">
+                    <group>
+                        <group name="phone_fax">
+                            <field name="phone" widget="phone" string="TEL representative" />
+                            <field name="mobile" widget="phone" string="TEL direct" />
+                            <field name="x_fax_number" />
+                            <field name="x_payment_notice_fax_number" />
+                        </group>
+                        <group name="transaction_contract">
+                            <field name="x_transaction_basic_contract"
+                                widget="radio" options="{'horizontal': True}" />
+                            <field name="x_contract_not_apply_reason"
+                                attrs="{'required': [('x_transaction_basic_contract', '!=', 'yes')]}" />
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='contact_addresses']" position="after">
+                    <page name="partner_overview" string="Business Partner Overview">
+                        <group>
+                            <group>
+                                <field name="company_id" string="About Us" />
+                            </group>
+                            <group></group>
+                            <group attrs="{'invisible': [('company_type', '=', 'person')]}">
+                                <field name="x_founding_year" />
+                                <field name="x_capital" />
+                            </group>
+                            <group></group>
+                            <group string="Performance Information"
+                                attrs="{'invisible': [('company_type', '=', 'person')]}">
+                                <field name="x_partner_performance" nolabel="1">
+                                    <tree editable="top">
+                                        <field name="x_fiscal_year" />
+                                        <field name="x_ammount_of_sale" />
+                                        <field name="x_management_profit" />
+                                        <field name="currency_id" invisible="1" />
+                                    </tree>
+                                </field>
+                            </group>
+                            <group></group>
+                        </group>
+                        <group string="Construction Permit"
+                            attrs="{'invisible': ['|', ('company_type', '=', 'person'), ('x_show_construction_permit', '=', False)]}">
+                            <field name="x_partner_construction_permit" nolabel="1">
+                                <tree editable="top">
+                                    <field name="x_construction_permit_type_id" />
+                                    <field name="x_authorize_classification" />
+                                    <field name="x_type_classification" />
+                                    <field name="name" />
+                                    <field name="x_permission_date" />
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']/group[@name='container_row_2']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']/group[@name='container_row_2']" position="after">
+                    <group name="x_partner_sales_purchases">
+                        <group name="company_branch_info" string="About Us">
+                            <field name="company_id" />
+                            <field name="x_organization_id" string="Branch Information" />
+                        </group>
+                        <group></group>
+                        <group name="purchase" string="Purchase"
+                            attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
+                            <field name="x_purchase_person_id" />
+                            <field name="x_purchase_area" />
+                            <field name="x_minimum_purchase" />
+                            <field name="x_delivery_place" />
+                            <field name="property_supplier_payment_term_id" string="Payment Terms" />
+                        </group>
+                        <group name="sale" string="Sale"
+                            attrs="{'invisible': [('x_contact_classification', '!=', 'customer')]}">
+                            <field name="user_id" />
+                            <field name="x_sale_area" />
+                            <field name="x_minimum_sale" />
+                            <field name="x_receipt_place" />
+                            <field name="property_payment_term_id" string="Payment Terms" />
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_partner_property_form" model="ir.ui.view">
+            <field name="name">res.partner.view.form.account.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']" position="attributes">
+                    <attribute name="string">Accounting Information</attribute>
+                </xpath>
+                <xpath expr="//group[@name='banks']" position="before">
+                    <group>
+                        <field name="company_id" string="About Us" />
+                    </group>
+                    <group></group>
+                </xpath>
+                <xpath expr="//tree/field[@name='bank_id']" position="after">
+                    <field name="x_organization_id" string="Branch Name" />
+                </xpath>
+                <xpath expr="//tree/field[@name='acc_number']" position="after">
+                    <field name="x_deposit_type" optional="hide" />
+                    <field name="partner_id" optional="hide" />
+                    <field name="x_furigana" optional="hide" />
+                </xpath>
+                <xpath expr="//group[@name='accounting_entries']" position="before">
+                    <group />
+                    <group string="Payment Terms" attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
+                        <field name="x_payment_term_using" widget="radio" options="{'horizontal': True}" />
+                        <field name="x_other_payment_term"
+                            attrs="{'invisible': [('x_payment_term_using', '=', 'regular')], 'required': [('x_payment_term_using', '=', 'other')]}" />
+                        <field name="x_reason_to_change_payment_term"
+                            attrs="{'invisible': [('x_payment_term_using', '=', 'regular')], 'required': [('x_payment_term_using', '=', 'other')]}" />
+                    </group>
+                </xpath>
+                <xpath expr="//group[@name='accounting_entries']" position="inside">
+                    <field name="x_control_account" />
+                </xpath>
+                <xpath expr="//group[@name='accounting_entries']" position="after">
+                    <group string="Details of our regulations on payment terms"
+                        attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
+                        <field name="name" nolabel="1" readonly="1" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
