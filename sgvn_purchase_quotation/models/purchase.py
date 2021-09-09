@@ -3,11 +3,14 @@
 from odoo import models, fields, api, _
 
 class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
+    _name = 'purchase.order'
+    _inherit = ['purchase.order', 'x.x_company_organization.org_mixin']
 
-    # Loai giao dich
-    # As the initial value, the "Transaction classification" item of the supplier master is automatically reflected
-    # trans_classify_id = fields.Many2one('res.partner.case', "Transaction classification")
+    trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
+
+    @api.onchange("partner_id")
+    def _onchange_partner_id_trans(self):
+        self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
 
     type = fields.Selection([
         ('normal', 'Usually buy'),
@@ -17,18 +20,12 @@ class PurchaseOrder(models.Model):
         ('full', 'Full payment request'),
         ('separated', 'Can be paid in installments'),
     ], string='Desired delivery', copy=False, default='full')
-    # Only the slip status "draft, sent" is displayed.
     date_response = fields.Datetime("Response date", copy=False)
-    # Only the slip status "draft, sent" is displayed.
     date_issuance = fields.Date("Issuance date", copy=False, default=fields.Date.context_today)
-
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
-    # If the direct delivery item is visible, display it
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
-    # The initial value reflects the organization name of the slip creator
-    # organization_id = fields.Many2one('res.organization', "Organization in charge")
 
-    # Displayed only when the transaction category item is Construction
+    # Displayed only when the transaction classification item of the slip is "Construction"
     construction_name = fields.Char("Construction name")
     construction_site = fields.Char("Construction site")
     construction_period_start = fields.Date('Scheduled construction period', copy=False)

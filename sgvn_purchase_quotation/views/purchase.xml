@@ -1,32 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="purchase_order_form" model="ir.ui.view">
+    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
         <field name="name">purchase.order.form.inherit</field>
         <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="inherit_id" ref="purchase_stock.purchase_order_view_form_inherit"/>
         <field name="arch" type="xml">
             <field name="partner_id" position="attributes">
                 <attribute name="options">{'no_create': True}</attribute>
             </field>
-            <field name="partner_ref" position="replace">
-                <!-- <field name="trans_classify_id" options="{'no_create': True}"/> -->
+             <field name="partner_ref" position="attributes">
+                <attribute name="invisible">1</attribute>
+             </field>
+            <field name="partner_ref" position="after">
+                <field name="trans_classify_id" options="{'no_create': True}"/>
                 <field name="type"/>
-                <field name="origin"/>
+                <field name="origin" position="move"/>
                 <field name="desired_delivery"/>
             </field>
-            <xpath expr="//form/sheet/group[1]/group[2]" position="after">
-                <group>
-                    <field name="create_date" />
-                    <field name="date_planned" />
-                    <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
-                    <field name="date_issuance" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
-                    <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
-                </group>
-            </xpath>
-            <xpath expr="//form/sheet/group[1]/group[2]" position="attributes">
+
+            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/label[@for='date_approve']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_approve']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/label[@for='receipt_reminder_email']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='reminder']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="after">
+                <field name="create_date" />
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
+                <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                <field name="date_issuance" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                <field name="user_id" position="move"/>
+            </xpath>
+
             <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
                 <attribute name="optional">show</attribute>
             </xpath>
@@ -34,26 +51,36 @@
                 <field name="delivery_destination_id" />
             </xpath>
 
-            <xpath expr="//page[@name='purchase_delivery_invoice']/group[1]" position="attributes">
+            <field name="company_id" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </field>
+            <field name="incoterm_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="company_id" position="after">
+                <field name="jurisdiction_id" options="{'no_create': True}"/>
+                <field name="create_uid" readonly="1"/>
+            </field>
+
+            <field name="invoice_status" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="invoice_status" position="before">
+                <field name="x_organization_id"/>
+            </field>
+
+            <xpath expr="//page[@name='purchase_delivery_invoice']" position="inside">
+                <group>
+                    <field name="dest_address_infor" attrs="{'invisible': [('default_location_dest_id_usage', '=', 'customer')], 'required': [('default_location_dest_id_usage', '!=', 'customer')]}"/>
+                </group>
             </xpath>
 
-            <page name="purchase_delivery_invoice" position="inside">
-                <group>
-                    <group name="other_info">
-                        <field name="jurisdiction_id" options="{'no_create': True}"/>
-                        <field name="create_uid" readonly="1"/>
-                        <field name="picking_type_id" />
-                        <field name="dest_address_id" /> 
-                    </group>
-                    <group>
-                        <!-- <field name="organization_id"/>  -->
-                    </group>
-                </group>
-                <group>
-                    <field name="dest_address_infor"/>
-                </group>
-            </page>
             <page name="products" position="after">
                 <page string="Construction information" name="construction_information" >
                     <group>
@@ -105,15 +132,15 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
         <field name="arch" type="xml">     
-            <!-- <field name="partner_id" position="after">
-                <field name="organization_id"/>
-            </field> -->
+            <field name="partner_id" position="after">
+                <field name="x_organization_id"/>
+            </field>
             <field name="company_id" position="attributes">
                 <attribute name="optional">hide</attribute>
             </field>
             <field name="date_order" position="replace">
                 <field name="date_response"/>
-                <!-- <field name="trans_classify_id"/> -->
+                <field name="trans_classify_id"/>
             </field>
             <field name="activity_ids" position="replace">
                 <field name="jurisdiction_id"/>

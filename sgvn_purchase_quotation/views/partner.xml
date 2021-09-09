@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-<!--     <record id="purchase_order_form" model="ir.ui.view">
-        <field name="name">purchase.order.form.inherit</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="x_partner.view_partner_form"/>
         <field name="arch" type="xml">
-            <field name="partner_id" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </field>
+            <group name="x_partner_sales_purchases" position="inside">
+                <group name="purchase-email" string="Purchase Email" attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
+                    <field name="email_quote_request"/>
+                    <field name="email_purchase"/>
+                </group>
+            </group>
         </field>
     </record>
 
-    <record id="purchase_order_view_tree" model="ir.ui.view">
-        <field name="name">purchase.order.tree.inherit</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
-        <field name="arch" type="xml">
-            
-        </field>
-    </record>
- -->
 </odoo>

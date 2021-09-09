@@ -9,12 +9,13 @@
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
-        "hr", "purchase_stock", "sales_team"
+        "x_company_organization", "purchase_stock", "sales_team", "x_partner"
     ],
     "data": [
         "security/ir.model.access.csv",
         "views/company.xml",
         "views/purchase.xml",
+        "views/partner.xml",
     ],
     "application": False,
     "installable": True,
