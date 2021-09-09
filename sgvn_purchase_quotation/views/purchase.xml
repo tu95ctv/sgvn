@@ -13,11 +13,15 @@
                 <attribute name="invisible">1</attribute>
             </field>
             <field name="origin" position="attributes">
-                <attribute name="attrs">{'readonly':[('id','>',0)]}</attribute>
+                <attribute name="attrs"></attribute>
+            </field>
+            <field name="origin" position="attributes">
+                <attribute name="readonly">1</attribute>
             </field>
             <field name="partner_ref" position="after">
                 <field name="trans_classify_id" options="{'no_create': True}"/>
-                <field name="type" attrs="{'readonly':[('id','>',0)]}"/>
+                <!-- <field name="type" attrs="{'readonly':[('id','>',0)]}"/> -->
+                <field name="type" readonly="1"/>
                 <field name="origin" position="move"/>
                 <field name="desired_delivery"/>
             </field>
