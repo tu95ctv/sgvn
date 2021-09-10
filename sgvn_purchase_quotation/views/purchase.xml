@@ -24,6 +24,7 @@
                 <field name="type" readonly="1"/>
                 <field name="origin" position="move"/>
                 <field name="desired_delivery"/>
+                <field name="show_construction" invisible="1"/>
             </field>
 
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="attributes">
@@ -95,7 +96,7 @@
             </xpath>
 
             <page name="products" position="after">
-                <page string="Construction information" name="construction_information" >
+                <page string="Construction information" name="construction_information" attrs="{'invisible': [('show_construction', '=', False)]}">
                     <group>
                         <group name="construction_info">
                             <field name="construction_name"/>

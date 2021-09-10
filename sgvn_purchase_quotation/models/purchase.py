@@ -14,8 +14,20 @@ class PurchaseOrder(models.Model):
 
     @api.onchange('partner_id')
     def _onchange_partner_id_sgvn(self):
-        self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
-        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == self._default_organization_id()):
+        self.trans_classify_id = self.partner_id.x_transaction_classification and self.partner_id.x_transaction_classification[0].id
+        x_organization_id = self.x_organization_id and self.x_organization_id.id
+        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
+            return {
+                'warning': {
+                    'title': _("Alert: Insufficient supplier transaction information"),
+                    'message': _("""The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.\nPlease complete the purchase information input / approval of the relevant supplier from the supplier application screen.""")
+                },
+            }
+
+    @api.onchange('x_organization_id')
+    def _onchange_x_organization_id(self):
+        x_organization_id = self.x_organization_id and self.x_organization_id.id
+        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
             return {
                 'warning': {
                     'title': _("Alert: Insufficient supplier transaction information"),
@@ -36,7 +48,14 @@ class PurchaseOrder(models.Model):
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
 
+    @api.depends('trans_classify_id')
+    def _compute_show_construction(self):
+        for rec in self:
+            construction_trans_id = self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id
+            rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
+
     # Displayed only when the transaction classification item of the slip is "Construction"
+    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
     construction_site = fields.Char("Construction site")
     construction_period_start = fields.Date('Scheduled construction period', copy=False)
