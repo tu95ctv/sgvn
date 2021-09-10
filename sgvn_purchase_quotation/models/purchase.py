@@ -11,7 +11,8 @@ class PurchaseOrder(models.Model):
     @api.onchange("partner_id")
     def _onchange_partner_id_sgvn(self):
         self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
-        if self.partner_id and self.partner_id.x_organization_id != self.x_organization_id:
+        x_organization_id = self._default_organization_id()
+        if self.partner_id and (not self.partner_id.x_organization_id or self.partner_id.x_organization_id.id != x_organization_id):
             return {
                 'name': 'Alert: Insufficient supplier transaction information',
                 'type': 'ir.actions.act_window',
