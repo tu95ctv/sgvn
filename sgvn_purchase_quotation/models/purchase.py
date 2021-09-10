@@ -78,6 +78,13 @@ class PurchaseOrder(models.Model):
     notes_construction_contract = fields.Html("Notes on construction contract", related="company_id.notes_construction_contract")
     estimated_subcontracting_work = fields.Html("Estimated price and estimated period for subcontracting work", related="company_id.estimated_subcontracting_work")
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        res = super(PurchaseOrder, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                                                         submenu=submenu)
+        _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
+        return res
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
