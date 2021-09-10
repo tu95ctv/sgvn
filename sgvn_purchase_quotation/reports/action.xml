@@ -15,7 +15,6 @@
             <field name="header_spacing">10</field>
             <field name="dpi">90</field>
         </record>
-
         <report 
             id="action_report_purchasequotation"
             string="Quotation request form"
@@ -26,10 +25,9 @@
             print_report_name="object.name"
             paperformat="sgvn_purchase_quotation.paperformat_purchasequotation_a4"
         />
-
         <report 
             id="action_report_estimate_request"
-            string="Quotation request form"
+            string="Quotation request form <for construction>"
             model="purchase.order" 
             report_type="qweb-pdf"
             file="sgvn_purchase_quotation.report_estimate_request" 
