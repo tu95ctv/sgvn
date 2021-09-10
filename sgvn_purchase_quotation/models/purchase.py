@@ -48,7 +48,14 @@ class PurchaseOrder(models.Model):
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
 
+    @api.depends('trans_classify_id')
+    def _compute_show_construction(self):
+        for rec in self:
+            construction_trans_id = self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id
+            rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
+
     # Displayed only when the transaction classification item of the slip is "Construction"
+    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
     construction_site = fields.Char("Construction site")
     construction_period_start = fields.Date('Scheduled construction period', copy=False)

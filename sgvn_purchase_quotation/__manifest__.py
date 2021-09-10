@@ -14,6 +14,8 @@
     "data": [
         # SECURITY
         "security/ir.model.access.csv",
+        # DATA
+        "data/transaction_classification_data.xml",
         # VIEWS
         "views/company.xml",
         "views/purchase.xml",
