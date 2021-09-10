@@ -57,11 +57,12 @@
 
             <div>
                 <b>Remarks</b>
-                <p t-field="o.dest_address_infor"/>
+                <p t-field="o.notes"/>
                 <p t-field="o.notes"/>
             </div>
             <div>
                 <b>Direct shipping information</b>
+                <p t-field="o.dest_address_infor"/>
             </div>
 
             <div class="oe_structure"/>
