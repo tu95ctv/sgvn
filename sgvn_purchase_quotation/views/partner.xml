@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="x_partner.view_partner_form"/>
         <field name="arch" type="xml">
             <group name="x_partner_sales_purchases" position="inside">
-                <group name="purchase-email" string="Purchase Email" attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
+                <group name="purchase-email" attrs="{'invisible': [('x_contact_classification', '!=', 'supplier')]}">
                     <field name="email_quote_request"/>
                     <field name="email_purchase"/>
                 </group>
