@@ -22,8 +22,7 @@
         "views/partner.xml",
         # REPORTS
         "reports/action.xml",
-        "reports/layout_quotation_request_report.xml",
-        "reports/layout_estimate request_report.xml",
+        "reports/layout.xml",
         "reports/quotation_request_template_report.xml",
         "reports/estimate_request_template_report.xml",
 

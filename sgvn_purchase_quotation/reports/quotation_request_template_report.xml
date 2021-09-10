@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <template id="report_purchasequotation_document">
-    <t t-call="sgvn_purchase_quotation.external_layout_quotation_request">
+    <t t-call="sgvn_purchase_quotation.external_layout">
         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
         <div class="page">
             <div class="oe_structure"/>
@@ -24,7 +24,7 @@
                         <th name="th_description"><strong>Product code</strong></th>
                         <th name="th_expected_date" ><strong>Product name</strong></th>
                         <th name="th_destination" ><strong>Delivery destination</strong></th>
-                        <th name="th_quantity" ><strong>Delivery destination</strong></th>
+                        <th name="th_quantity" ><strong>Quantity</strong></th>
                     </tr>
                 </thead>
                 <tbody>

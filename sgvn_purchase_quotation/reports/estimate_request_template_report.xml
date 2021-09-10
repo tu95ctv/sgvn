@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <template id="report_estimate_request_document">
-    <t t-call="sgvn_purchase_quotation.external_layout_estimate_request">
+    <t t-call="sgvn_purchase_quotation.external_layout">
         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
         <div class="page">
             <div class="oe_structure"/>
@@ -23,7 +23,7 @@
                     <tr style="background-color:#f2f2f2;">
                         <th name="th_description"><strong>Product code</strong></th>
                         <th name="th_expected_date" ><strong>Product name</strong></th>
-                        <th name="th_quantity" ><strong>Delivery destination</strong></th>
+                        <th name="th_quantity" ><strong>Quantity</strong></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
             <div class="row" style="border-bottom: 1px solid black;border-top: 1px solid black;">
                 <div class="col-6">
                     <div><b>Construction name</b> <span t-field="o.construction_name"/></div>
-                    <div><b>construction site</b> <span t-field="o.construction_site"/></div>
+                    <div><b>Construction site</b> <span t-field="o.construction_site"/></div>
                     <div class="d-flex">
                         <div>
                             <b>Construction outline</b> According to a separate design document
@@ -63,7 +63,7 @@
                     <div><b>Scheduled construction period</b> <t t-if="o.construction_period_start"><span t-field="o.construction_period_start"/> ~ </t><span t-field="o.construction_period_end"/></div>
                     <div class="d-flex">
                         <div>
-                            <b>Construction method</b>According to a separate design document
+                            <b>Construction method</b> According to a separate design document
                         </div>
                     </div>
                 </div>
