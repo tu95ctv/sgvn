@@ -2,6 +2,10 @@
 
 from odoo import models, fields, api, _
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
 class PurchaseOrder(models.Model):
     _name = 'purchase.order'
     _inherit = ['purchase.order', 'x.x_company_organization.org_mixin']
@@ -11,8 +15,8 @@ class PurchaseOrder(models.Model):
     @api.onchange("partner_id")
     def _onchange_partner_id_sgvn(self):
         self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
-        x_organization_id = self._default_organization_id()
-        if self.partner_id and (not self.partner_id.x_organization_id or self.partner_id.x_organization_id.id != x_organization_id):
+        _logger.info('111111111111 self.partner_id.x_organization_id %s,  x_organization_id %s', self.partner_id.x_organization_id, self._default_organization_id())
+        if not self.partner_id.x_organization_id or self.partner_id.x_organization_id.id != self._default_organization_id():
             return {
                 'name': 'Alert: Insufficient supplier transaction information',
                 'type': 'ir.actions.act_window',
