@@ -82,7 +82,7 @@ class PurchaseOrder(models.Model):
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
         res = super(PurchaseOrder, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar,
                                                          submenu=submenu)
-        _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
+        _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}))
         return res
 
 
