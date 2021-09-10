@@ -12,7 +12,7 @@ class PurchaseOrder(models.Model):
 
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
 
-    @api.onchange("partner_id")
+    @api.onchange('partner_id')
     def _onchange_partner_id_sgvn(self):
         self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
         if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == self._default_organization_id()):
@@ -30,7 +30,7 @@ class PurchaseOrder(models.Model):
     desired_delivery = fields.Selection([
         ('full', 'Full payment request'),
         ('separated', 'Can be paid in installments'),
-    ], string='Desired delivery', copy=False, default='full')
+    ], string="Desired delivery", copy=False, default='full')
     date_response = fields.Datetime("Response date", copy=False)
     date_issuance = fields.Date("Issuance date", copy=False, default=fields.Date.context_today)
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
@@ -44,7 +44,7 @@ class PurchaseOrder(models.Model):
     pres_abs_supplies = fields.Selection([
         ('none', 'No'),
         ('having', 'Yes'),
-    ], string='Presence/absence of supplies', copy=False, default='none')
+    ], string="Presence/absence of supplies", copy=False, default='none')
     construction_supplies = fields.Char("Supplies")
     construction_payment_term = fields.Char("Payment terms", readonly=True, default=_("Dealine at the end of the month, payment at the end of the following month according to our regulations"))
     construction_cash = fields.Float("Cash")
@@ -64,3 +64,7 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     # The initial value reflects the delivery destination of the organization in charge of the slip
     delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
+
+    @api.onchange('order_id', 'order_id.x_organization_id')
+    def _onchange_partner_id_sgvn(self):
+        self.delivery_destination_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
