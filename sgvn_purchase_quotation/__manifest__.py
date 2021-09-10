@@ -15,6 +15,7 @@
         # SECURITY
         "security/ir.model.access.csv",
         # VIEWS
+        "wizard/message_wizard.xml",
         "views/company.xml",
         "views/purchase.xml",
         "views/partner.xml",

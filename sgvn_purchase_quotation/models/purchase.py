@@ -9,8 +9,23 @@ class PurchaseOrder(models.Model):
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
 
     @api.onchange("partner_id")
-    def _onchange_partner_id_trans(self):
+    def _onchange_partner_id_sgvn(self):
         self.trans_classify_id = self.partner_id.x_transaction_classification[0].id if self.partner_id.x_transaction_classification else False
+        if self.partner_id and self.partner_id.x_organization_id != self.x_organization_id:
+            return {
+                'name': 'Alert: Insufficient supplier transaction information',
+                'type': 'ir.actions.act_window',
+                'res_model': 'hr.wizard',
+                'view_mode': 'form',
+                'view_type': 'form',
+                'target': 'new',
+                'context': {
+                    'default_message': _("""
+                            The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.
+                            Please complete the purchase information input / approval of the relevant supplier from the supplier application screen. 
+                        """),
+                }
+            }
 
     type = fields.Selection([
         ('normal', 'Usually buy'),
@@ -47,6 +62,7 @@ class PurchaseOrder(models.Model):
     construction_others = fields.Text('others', copy=False)
     notes_construction_contract = fields.Html("Notes on construction contract", related="company_id.notes_construction_contract")
     estimated_subcontracting_work = fields.Html("Estimated price and estimated period for subcontracting work", related="company_id.estimated_subcontracting_work")
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
