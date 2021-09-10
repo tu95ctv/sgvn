@@ -24,10 +24,10 @@
                     <div t-esc="company.partner_id._display_address(True)" />
                             <div style="font-size:16px">
                                 <div>
-                                        TEL: <span t-esc="company.phone"/>
+                                    TEL: <span t-esc="company.phone"/>
                                 </div>
                                 <div>
-                                    FAX: 0859-38-3452
+                                    FAX: <span t-esc="company.partner_id.x_fax_number"/>
                                 </div>
                                 </div>
                         </div>
