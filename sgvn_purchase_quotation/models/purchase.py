@@ -65,6 +65,14 @@ class PurchaseOrderLine(models.Model):
     # The initial value reflects the delivery destination of the organization in charge of the slip
     delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
 
-    @api.onchange('order_id', 'order_id.x_organization_id')
-    def _onchange_partner_id_sgvn(self):
-        self.delivery_destination_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
+    @api.model
+    def default_get(self, fields):
+        rec = super(PurchaseOrderLine, self).default_get(fields)
+        active_model = self._context.get('active_model')
+        active_id = self._context.get('active_id')
+        _logger.info('111111111111111111111 %s', self._context)
+        return rec
+
+    # @api.onchange('order_id', 'order_id.x_organization_id')
+    # def _onchange_partner_id_sgvn(self):
+    #     self.delivery_destination_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
