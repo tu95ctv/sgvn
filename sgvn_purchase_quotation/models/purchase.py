@@ -62,15 +62,19 @@ class PurchaseOrder(models.Model):
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
-    # The initial value reflects the delivery destination of the organization in charge of the slip
+
     delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
 
     @api.model
     def default_get(self, fields):
         rec = super(PurchaseOrderLine, self).default_get(fields)
-        active_model = self._context.get('active_model')
-        active_id = self._context.get('active_id')
-        _logger.info('111111111111111111111 %s', self._context)
+        params = self._context.get('params')
+        if params.get('id'):
+            order_id = self.env['purchase.order'].browse(params.get('id'))
+            rec['delivery_destination_id'] = order_id.x_organization_id.x_purchase_stock_location_id.id if order_id.x_organization_id and order_id.x_organization_id.x_purchase_stock_location_id else False
+        else:
+            x_organization_id = self.env.user.x_organization_id
+            rec['delivery_destination_id'] = x_organization_id.x_purchase_stock_location_id.id if x_organization_id and x_organization_id.x_purchase_stock_location_id else False
         return rec
 
     # @api.onchange('order_id', 'order_id.x_organization_id')
