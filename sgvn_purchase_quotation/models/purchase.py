@@ -89,14 +89,14 @@ class PurchaseOrder(models.Model):
     # Update file attachment for mail template with trans_classify_id
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
-        if self.trans_classify_id:
+        if self.trans_classify_id and self.env.context.get('send_rfq', False):
             if self.trans_classify_id.id == self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id:
                 res['context'].update({
-                    'default_template_id': self.env.ref("sgvn_purchase_quotation.report_purchasequotation").id
+                    'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase").id
                 })
             elif self.trans_classify_id.id == self.env.ref("x_partner.transaction_classification_gas_equipment").id:
                 res['context'].update({
-                    'default_template_id': self.env.ref("sgvn_purchase_quotation.report_estimate_request").id
+                    'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase_construction").id
                 })
         return res
 

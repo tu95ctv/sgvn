@@ -16,6 +16,7 @@
         "security/ir.model.access.csv",
         # DATA
         "data/transaction_classification_data.xml",
+        "data/mail_template_data.xml",
         # VIEWS
         "views/company.xml",
         "views/purchase.xml",
