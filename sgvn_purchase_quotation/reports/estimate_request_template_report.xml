@@ -88,7 +88,8 @@
                             <b>Payment terms</b> 
                         </div>
                         <div style="margin-left:6px">
-                            Dealine at the end of the month, payment at the end of the following following month according to our regulations
+                            <div>Dealine at the end of the month, payment at the </div>
+                            <div>end of the following month according to our regulations</div>
                             <div>
                               Cash <span t-field="o.construction_cash"/> % Bills <span t-field="o.construction_bills"/> %
                             </div>
