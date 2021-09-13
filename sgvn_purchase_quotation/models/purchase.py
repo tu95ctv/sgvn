@@ -86,6 +86,20 @@ class PurchaseOrder(models.Model):
         # _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
         return res
 
+    # Update file attachment for mail template with trans_classify_id
+    def action_rfq_send(self):
+        res = super(PurchaseOrder, self).action_rfq_send()
+        if self.trans_classify_id:
+            if self.trans_classify_id.id == self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id:
+                res['context'].update({
+                    'default_template_id': self.env.ref("sgvn_purchase_quotation.report_purchasequotation").id
+                })
+            elif self.trans_classify_id.id == self.env.ref("x_partner.transaction_classification_gas_equipment").id:
+                res['context'].update({
+                    'default_template_id': self.env.ref("sgvn_purchase_quotation.report_estimate_request").id
+                })
+        return res
+
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
