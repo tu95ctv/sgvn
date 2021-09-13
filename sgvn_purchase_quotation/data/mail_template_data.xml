@@ -25,11 +25,12 @@
         Best regards,
     </p>
 </div></field>
-            <field name="report_template" ref="report_purchasequotation"/>
+            <field name="report_template" ref="action_report_purchasequotation"/>
             <field name="report_name">RFQ_${(object.name or '').replace('/','_')}</field>
             <field name="lang">${object.partner_id.lang}</field>
             <field name="auto_delete" eval="True"/>
         </record>
+
         <record id="email_template_edi_purchase_construction" model="mail.template">
             <field name="name">Purchase Order: Send RFQ</field>
             <field name="model_id" ref="purchase.model_purchase_order"/>
@@ -54,7 +55,7 @@
         Best regards,
     </p>
 </div></field>
-            <field name="report_template" ref="report_estimate_request"/>
+            <field name="report_template" ref="action_report_estimate_request"/>
             <field name="report_name">RFQ_${(object.name or '').replace('/','_')}</field>
             <field name="lang">${object.partner_id.lang}</field>
             <field name="auto_delete" eval="True"/>
