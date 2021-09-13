@@ -18,9 +18,9 @@
         "data/transaction_classification_data.xml",
         "data/mail_template_data.xml",
         # VIEWS
-        "views/company.xml",
-        "views/purchase.xml",
-        "views/partner.xml",
+        "views/res_company_views.xml",
+        "views/purchase_views.xml",
+        "views/res_partner_views.xml",
         # REPORTS
         "reports/action.xml",
         "reports/layout.xml",

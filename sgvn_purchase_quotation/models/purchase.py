@@ -86,7 +86,7 @@ class PurchaseOrder(models.Model):
         # _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
         return res
 
-    # Update file attachment for mail template with trans_classify_id
+    # Update file attachment for mail template with trans_classify_id in <![CDATA[]]>
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
         if self.trans_classify_id and self.env.context.get('send_rfq', False):
