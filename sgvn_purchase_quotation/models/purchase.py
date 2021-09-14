@@ -36,8 +36,8 @@ class PurchaseOrder(models.Model):
             }
 
     type = fields.Selection([
-        ('normal', 'Usually buy'),
-        ('tank_lorry', 'Raleigh delivery'),
+        ('normal', 'Normal purchase'),
+        ('tank_lorry', 'Truck delivery'),
     ], string='Purchase type', copy=False, default='normal')
     desired_delivery = fields.Selection([
         ('full', 'Full payment request'),
@@ -61,7 +61,7 @@ class PurchaseOrder(models.Model):
     construction_period_start = fields.Date('Scheduled construction period', copy=False)
     construction_period_end = fields.Date('Scheduled construction period (end)', copy=False)
     pres_abs_supplies = fields.Selection([
-        ('none', 'No'),
+        ('none', 'Nothing'),
         ('having', 'Yes'),
     ], string="Presence/absence of supplies", copy=False, default='none')
     construction_supplies = fields.Char("Supplies")
@@ -72,7 +72,7 @@ class PurchaseOrder(models.Model):
         ('none', 'No'),
         ('explanation', 'Yes'),
     ], string='Presence/absence of the current theory', copy=False, default='none')
-    construction_current_date = fields.Date('Current date', copy=False)
+    construction_current_date = fields.Date('Date of the current theory', copy=False)
     construction_current_place = fields.Char('Current theory place', copy=False)
     construction_others = fields.Text('others', copy=False)
     notes_construction_contract = fields.Html("Notes on construction contract", related="company_id.notes_construction_contract")

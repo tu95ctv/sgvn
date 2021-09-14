@@ -21,7 +21,7 @@
             <field name="partner_ref" position="after">
                 <field name="trans_classify_id" options="{'no_create': True}"/>
                 <!-- <field name="type" attrs="{'readonly':[('id','>',0)]}"/> -->
-                <field name="type" readonly="1"/>
+                <field name="type"/>
                 <field name="origin" position="move"/>
                 <field name="desired_delivery"/>
                 <field name="show_construction" invisible="1"/>
@@ -64,10 +64,6 @@
             <xpath expr="//page[@name='products']/field/tree/field[@name='product_qty']" position="before">
                 <field name="delivery_destination_id" options="{'no_create': True}"/>
             </xpath>
-
-            <field name="company_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="incoterm_id" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
@@ -75,15 +71,17 @@
                 <field name="jurisdiction_id" options="{'no_create': True}"/>
                 <field name="create_uid" readonly="1"/>
             </field>
-
             <field name="invoice_status" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <field name="payment_term_id" position="attributes">
-                <attribute name="invisible">1</attribute>
+            <field name="dest_address_id" position="attributes">
+                <attribute name="string">Direct delivery</attribute>
             </field>
             <field name="fiscal_position_id" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute name="string">Accounting position</attribute>
+            </field>
+            <field name="picking_type_id" position="attributes">
+                <attribute name="string">Delivery destination</attribute>
             </field>
             <field name="invoice_status" position="before">
                 <field name="x_organization_id" options="{'no_create': True}"/>
@@ -116,11 +114,11 @@
                             <label for="construction_cash" invisible="1"/>
                             <div name="construction_cash_bill_div" class="row mt16">
                                 <label for="construction_cash"/>
-                                <field name="construction_cash"/>
+                                <field name="construction_cash" class="oe_inline"/>
                                 <h2>%</h2>
                                 <span>&#160;&#160;</span>
                                 <label for="construction_bills"/>
-                                <field name="construction_bills"/>
+                                <field name="construction_bills" class="oe_inline"/>
                                 <h2>%</h2>
                             </div>
                         </group>
@@ -132,10 +130,12 @@
 
                         </group>
                     </group>
-                    <group>
-                        <field name="notes_construction_contract"/>
-                        <field name="estimated_subcontracting_work"/>
-                    </group>
+                    <hr/>
+                    <label for="notes_construction_contract" string="Notes on construction contract"/>
+                    <field name="notes_construction_contract"/>
+                    <label for="estimated_subcontracting_work" string="Estimated price and estimated period for subcontracting work"/>
+                    <field name="estimated_subcontracting_work"/>
+                    <hr/>
                 </page>
             </page>
         </field>

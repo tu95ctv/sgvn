@@ -6,10 +6,12 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-            <field name="website" position="after">
-                <field name="notes_construction_contract"/>
-                <field name="estimated_subcontracting_work"/>
-            </field>
+            <xpath expr="//page['general_info']" position="inside">
+                <group>
+                    <field name="notes_construction_contract"/>
+                    <field name="estimated_subcontracting_work"/>
+                </group>
+            </xpath>
         </field>
     </record>
     
