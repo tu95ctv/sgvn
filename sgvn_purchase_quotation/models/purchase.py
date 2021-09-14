@@ -58,13 +58,13 @@ class PurchaseOrder(models.Model):
     # Rename fields standard
     name = fields.Char(string="Slip No.")
     origin = fields.Char(string="Reference source")
-    partner_id = fields.Many2one(string="Supplier")
-    user_id = fields.Many2one(string="Purchasing person")
+    partner_id = fields.Many2one('res.partner',string="Supplier")
+    user_id = fields.Many2one('res.users',string="Purchasing person")
     create_date = fields.Datetime(string="Create date")
-    create_uid = fields.Many2one(string='Slip creator',)
-    picking_type_id = fields.Many2one(string='Delivery destination',)
-    dest_address_id = fields.Many2one(string='Direct delivery',)
-    fiscal_position_id = fields.Many2one(string='Accounting position',)
+    create_uid = fields.Many2one('res.users',string='Slip creator',)
+    picking_type_id = fields.Many2one('stock.picking.type',string='Delivery destination',)
+    dest_address_id = fields.Many2one('res.partner',string='Direct delivery',)
+    fiscal_position_id = fields.Many2one('account.fiscal.position', string='Accounting position',)
     date_planned = fields.Datetime(string="Requested delivery date")
 
     # TODO: Hide print with state
@@ -149,8 +149,8 @@ class PurchaseOrderLine(models.Model):
 
     delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
     # Rename fields standard
-    product_uom_id = fields.Many2one(string='Unit',)
-    taxes_id = fields.Many2many(string='Tax',)
+    product_uom_id = fields.Many2one('uom.uom', string='Unit',)
+    taxes_id = fields.Many2many('account.tax', string='Tax',)
 
     @api.model
     def default_get(self, fields):
