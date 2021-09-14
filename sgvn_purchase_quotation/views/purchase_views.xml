@@ -74,15 +74,6 @@
             <field name="invoice_status" position="attributes">
                 <attribute name="invisible">1</attribute>
             </field>
-            <field name="dest_address_id" position="attributes">
-                <attribute name="string">Direct delivery</attribute>
-            </field>
-            <field name="fiscal_position_id" position="attributes">
-                <attribute name="string">Accounting position</attribute>
-            </field>
-            <field name="picking_type_id" position="attributes">
-                <attribute name="string">Delivery destination</attribute>
-            </field>
             <field name="invoice_status" position="before">
                 <field name="x_organization_id" options="{'no_create': True}"/>
             </field>

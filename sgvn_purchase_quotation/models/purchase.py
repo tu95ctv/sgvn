@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 import logging
 
@@ -10,31 +11,14 @@ class PurchaseOrder(models.Model):
     _name = 'purchase.order'
     _inherit = ['purchase.order', 'x.x_company_organization.org_mixin']
 
+
+    @api.depends('trans_classify_id')
+    def _compute_show_construction(self):
+        for rec in self:
+            construction_trans_id = self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id
+            rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
+
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
-
-    @api.onchange('partner_id')
-    def _onchange_partner_id_sgvn(self):
-        self.trans_classify_id = self.partner_id.x_transaction_classification and self.partner_id.x_transaction_classification[0].id
-        x_organization_id = self.x_organization_id and self.x_organization_id.id
-        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
-            return {
-                'warning': {
-                    'title': _("Alert: Insufficient supplier transaction information"),
-                    'message': _("""The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.\nPlease complete the purchase information input / approval of the relevant supplier from the supplier application screen.""")
-                },
-            }
-
-    @api.onchange('x_organization_id')
-    def _onchange_x_organization_id(self):
-        x_organization_id = self.x_organization_id and self.x_organization_id.id
-        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
-            return {
-                'warning': {
-                    'title': _("Alert: Insufficient supplier transaction information"),
-                    'message': _("""The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.\nPlease complete the purchase information input / approval of the relevant supplier from the supplier application screen.""")
-                },
-            }
-
     type = fields.Selection([
         ('normal', 'Normal purchase'),
         ('tank_lorry', 'Truck delivery'),
@@ -47,13 +31,6 @@ class PurchaseOrder(models.Model):
     date_issuance = fields.Date("Issuance date", copy=False, default=fields.Date.context_today)
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
-
-    @api.depends('trans_classify_id')
-    def _compute_show_construction(self):
-        for rec in self:
-            construction_trans_id = self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id
-            rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
-
     # Displayed only when the transaction classification item of the slip is "Construction"
     show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
@@ -78,6 +55,18 @@ class PurchaseOrder(models.Model):
     notes_construction_contract = fields.Html("Notes on construction contract", related="company_id.notes_construction_contract")
     estimated_subcontracting_work = fields.Html("Estimated price and estimated period for subcontracting work", related="company_id.estimated_subcontracting_work")
 
+    # Rename fields standard
+    name = fields.Char(string="Slip No.")
+    origin = fields.Char(string="Reference source")
+    partner_id = fields.Many2one(string="Supplier")
+    user_id = fields.Many2one(string="Purchasing person")
+    create_date = fields.Datetime(string="Create date")
+    create_uid = fields.Many2one(string='Slip creator',)
+    picking_type_id = fields.Many2one(string='Delivery destination',)
+    dest_address_id = fields.Many2one(string='Direct delivery',)
+    fiscal_position_id = fields.Many2one(string='Accounting position',)
+    date_planned = fields.Datetime(string="Requested delivery date")
+
     # TODO: Hide print with state
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
@@ -85,6 +74,50 @@ class PurchaseOrder(models.Model):
                                                          submenu=submenu)
         # _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
         return res
+    
+    
+    @api.onchange('partner_id')
+    def _onchange_partner_id_sgvn(self):
+        self.trans_classify_id = self.partner_id.x_transaction_classification and self.partner_id.x_transaction_classification[0].id
+        x_organization_id = self.x_organization_id and self.x_organization_id.id
+        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
+            return {
+                'warning': {
+                    'title': _("Alert: Insufficient supplier transaction information"),
+                    'message': _("""The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.\nPlease complete the purchase information input / approval of the relevant supplier from the supplier application screen.""")
+                },
+            }
+
+    @api.onchange('x_organization_id')
+    def _onchange_x_organization_id(self):
+        x_organization_id = self.x_organization_id and self.x_organization_id.id
+        if self.partner_id and not (self.partner_id.x_organization_id and self.partner_id.x_organization_id.id == x_organization_id):
+            return {
+                'warning': {
+                    'title': _("Alert: Insufficient supplier transaction information"),
+                    'message': _("""The purchasing information for [Login User's Organization Name] does not exist for the selected supplier.\nPlease complete the purchase information input / approval of the relevant supplier from the supplier application screen.""")
+                },
+            }
+
+    @api.onchange('construction_cash')
+    def _onchange_construction_cash(self):
+        if self.construction_cash and self.clamp(self.construction_cash):
+            self.construction_bills = 100 - self.construction_cash
+
+    @api.onchange('construction_bills')
+    def _onchange_construction_bills(self):
+        if self.construction_bills and self.clamp(self.construction_bills):
+            self.construction_cash = 100 - self.construction_bills
+
+
+    @api.constrains("construction_cash", "construction_bills")
+    def _check_sum_construction_payment(self):
+        for record in self:
+            cash = record.construction_cash
+            bills = record.construction_bills
+            if cash or bills:
+                if sum([cash, bills]) != 100 or not(self.clamp(cash) or self.clamp(cash)):
+                    raise ValidationError(_('Total payment must be 100%%: Cash %s%% - Bills %s%%'%(cash, bills)))
 
     # Update file attachment for mail template with trans_classify_id in <![CDATA[]]>
     def action_rfq_send(self):
@@ -99,12 +132,25 @@ class PurchaseOrder(models.Model):
                     'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase").id
                 })
         return res
+    
+    @api.model
+    def clamp(self, number):
+        if number:
+            if number < 0:
+                return False
+            elif number > 100:
+                return False
+            else:
+                return number    
 
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
     delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
+    # Rename fields standard
+    product_uom_id = fields.Many2one(string='Unit',)
+    taxes_id = fields.Many2many(string='Tax',)
 
     @api.model
     def default_get(self, fields):
