@@ -32,7 +32,7 @@ class PurchaseOrder(models.Model):
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
     # Displayed only when the transaction classification item of the slip is "Construction"
-    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
+    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction', store=True,)
     construction_name = fields.Char("Construction name")
     construction_site = fields.Char("Construction site")
     construction_period_start = fields.Date('Scheduled construction period', copy=False)
@@ -123,23 +123,24 @@ class PurchaseOrder(models.Model):
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
         if self.trans_classify_id and self.env.context.get('send_rfq', False):
-            if self.trans_classify_id.id == self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id:
+            if self.show_construction:
                 res['context'].update({
                     'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase_construction").id
                 })
-            elif self.trans_classify_id.id == self.env.ref("x_partner.transaction_classification_gas_equipment").id:
+            else:
                 res['context'].update({
                     'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase").id
                 })
         return res
     
     def print_quotation(self):
-        self.write({'state': "sent"})
-        if self.trans_classify_id.id == self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id:
-            return self.env.ref('sgvn_purchase_quotation.action_report_estimate_request').report_action(self)
-        elif self.trans_classify_id.id == self.env.ref("x_partner.transaction_classification_gas_equipment").id:
-            return self.env.ref('sgvn_purchase_quotation.action_report_purchasequotation').report_action(self)
-        return super(PurchaseOrder, self).print_quotation()
+        res = super(PurchaseOrder, self).print_quotation()
+        if self.trans_classify_id:
+            if self.show_construction:
+                return self.env.ref('sgvn_purchase_quotation.action_report_estimate_request').report_action(self)
+            else:
+                return self.env.ref('sgvn_purchase_quotation.action_report_purchasequotation').report_action(self)
+        return res
     
     @api.model
     def clamp(self, number):
