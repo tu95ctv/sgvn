@@ -133,6 +133,14 @@ class PurchaseOrder(models.Model):
                 })
         return res
     
+    def print_quotation(self):
+        self.write({'state': "sent"})
+        if self.trans_classify_id.id == self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id:
+            return self.env.ref('sgvn_purchase_quotation.action_report_estimate_request').report_action(self)
+        elif self.trans_classify_id.id == self.env.ref("x_partner.transaction_classification_gas_equipment").id:
+            return self.env.ref('sgvn_purchase_quotation.action_report_purchasequotation').report_action(self)
+        return super(PurchaseOrder, self).print_quotation()
+    
     @api.model
     def clamp(self, number):
         if number:
