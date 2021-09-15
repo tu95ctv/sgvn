@@ -17,7 +17,8 @@
         # DATA
         "data/ir_sequence_data.xml",
         # VIEWS
-        "views/partner_rebate_views.xml"
+        "views/partner_rebate_views.xml",
+        "views/webclient_templates.xml",
         # REPORTS
 
     ],
