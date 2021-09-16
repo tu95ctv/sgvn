@@ -35,6 +35,21 @@ class PartnerRebate(models.Model):
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
 
 
+    @api.constrains("date_start", "date_end")
+    def _check_dates(self):
+        """End date should not be before start date, if not filled
+
+        :raises ValidationError: When constraint is violated
+        """
+        for record in self:
+            if (
+                record.date_start
+                and record.date_end
+                and record.date_start > record.date_end
+            ):
+                raise ValidationError(
+                    _("The starting date cannot be after the ending date.")
+                )
 
     @api.model
     def create(self, vals):
@@ -46,3 +61,34 @@ class PartnerRebate(models.Model):
     @api.model
     def _default_organization_id(self):
         return self.env.user.x_organization_id and self.env.user.x_organization_id.id
+
+    @api.model
+    def _compute_state(self):
+        """PhuongTN: update state based on date_eng"""
+        if self.date_end:
+            year = self.compute_year(self.date_end)
+            current_date = fields.Datetime.now()
+            if year >= 1 and self.state == 'expired':
+                self.write({
+                    'state': 'closed',
+                    'active': False,
+                })
+            elif current_date > self.date_end and self.state == 'on_going':
+                self.write({
+                    'state': 'expired',
+                })
+        return True
+
+    @api.model
+    def compute_year(self, date_end):
+        """PhuongTN: calculate the distance between date_end and current date"""
+        days_in_year = 365.2425   
+        year = int((fields.Datetime.now() - date_end).days / days_in_year)
+        return year
+    
+    @api.model
+    def _compute_state_cron(self):
+        """PhuongTN: Function for automated"""
+        records = self.search([('state', 'in', ['on_going','expired'])])
+        for r in records:
+            r._compute_state()
