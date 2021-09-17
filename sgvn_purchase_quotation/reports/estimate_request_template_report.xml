@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <template id="report_estimate_request_document">
-    <t t-call="x_purchase_quotation.external_layout">
+    <t t-call="sgvn_purchase_quotation.external_layout">
         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
         <div class="page">
             <div class="oe_structure"/>
@@ -129,7 +129,7 @@
 <template id="report_estimate_request">
     <t t-call="web.html_container">
         <t t-foreach="docs" t-as="o">
-            <t t-call="x_purchase_quotation.report_estimate_request_document" t-lang="o.partner_id.lang"/>
+            <t t-call="sgvn_purchase_quotation.report_estimate_request_document" t-lang="o.partner_id.lang"/>
         </t>
     </t>
 </template>
