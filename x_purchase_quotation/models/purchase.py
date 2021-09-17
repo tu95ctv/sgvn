@@ -32,7 +32,7 @@ class PurchaseOrder(models.Model):
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     dest_address_infor = fields.Html("Direct shipping information", copy=False)
     # Displayed only when the transaction classification item of the slip is "Construction"
-    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction', store=True,)
+    show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
     construction_site = fields.Char("Construction site")
     construction_period_start = fields.Date('Scheduled construction period', copy=False)
