@@ -16,7 +16,6 @@
         "security/ir.model.access.csv",
         # DATA
         "data/transaction_classification_data.xml",
-        "data/mail_template_data.xml",
         # VIEWS
         "views/res_company_views.xml",
         "views/purchase_views.xml",
@@ -26,7 +25,8 @@
         "reports/layout.xml",
         "reports/quotation_request_template_report.xml",
         "reports/estimate_request_template_report.xml",
-
+        # MAIL TEMPLATE
+        "data/mail_template_data.xml",
     ],
     "application": False,
     "installable": True,
