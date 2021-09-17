@@ -77,7 +77,7 @@
             </t>
         </t>
 
-        <t t-if="1" t-call="sgvn_purchase_quotation.external_layout_standard">
+        <t t-if="1" t-call="x_purchase_quotation.external_layout_standard">
             <t t-raw="0"/>
         </t>
     </template>
