@@ -3,8 +3,8 @@
     <data>
         <record id="action_check_state" model="ir.actions.server">
             <field name="name">Check status</field>
-            <field name="model_id" ref="x_rebate_management.model_x_partner_rebate"/>
-            <field name="binding_model_id" ref="x_rebate_management.model_x_partner_rebate"/>
+            <field name="model_id" ref="sgvn_rebate_management.model_x_partner_rebate"/>
+            <field name="binding_model_id" ref="sgvn_rebate_management.model_x_partner_rebate"/>
             <field name="binding_view_types">list</field>
             <field name="state">code</field>
             <field name="code">
