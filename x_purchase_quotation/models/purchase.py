@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
     @api.depends('trans_classify_id')
     def _compute_show_construction(self):
         for rec in self:
-            construction_trans_id = self.env.ref("sgvn_purchase_quotation.transaction_classification_construction").id
+            construction_trans_id = self.env.ref("x_purchase_quotation.transaction_classification_construction").id
             rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
 
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
@@ -125,11 +125,11 @@ class PurchaseOrder(models.Model):
         if self.trans_classify_id and self.env.context.get('send_rfq', False):
             if self.show_construction:
                 res['context'].update({
-                    'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase_construction").id
+                    'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase_construction").id
                 })
             else:
                 res['context'].update({
-                    'default_template_id': self.env.ref("sgvn_purchase_quotation.email_template_edi_purchase").id
+                    'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase").id
                 })
         return res
     
@@ -137,9 +137,9 @@ class PurchaseOrder(models.Model):
         res = super(PurchaseOrder, self).print_quotation()
         if self.trans_classify_id:
             if self.show_construction:
-                return self.env.ref('sgvn_purchase_quotation.action_report_estimate_request').report_action(self)
+                return self.env.ref('x_purchase_quotation.action_report_estimate_request').report_action(self)
             else:
-                return self.env.ref('sgvn_purchase_quotation.action_report_purchasequotation').report_action(self)
+                return self.env.ref('x_purchase_quotation.action_report_purchasequotation').report_action(self)
         return res
     
     @api.model
