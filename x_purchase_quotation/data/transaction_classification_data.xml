@@ -7,9 +7,8 @@
             <field name="name">Construction</field>
             <field name="default">0</field>
             <field name="description"></field>
+            <field name="code">construction</field>
         </record>
-    
-    </data>
-    
 
+    </data>
 </odoo>
