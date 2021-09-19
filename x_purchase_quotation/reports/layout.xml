@@ -25,10 +25,10 @@
                     <div t-esc="company.partner_id._display_address(True)" />
                             <div style="font-size:16px">
                                 <div>
-                                    TEL: <span t-esc="company.phone"/>
+                                    TEL: <span t-esc="o.x_organization_id and o.x_organization_id.phone or ''"/>
                                 </div>
                                 <div>
-                                    FAX: <span t-esc="company.partner_id.x_fax_number"/>
+                                    FAX: <span t-esc="o.x_organization_id and o.x_fax_number.name or ''"/>
                                 </div>
                                 </div>
                         </div>
