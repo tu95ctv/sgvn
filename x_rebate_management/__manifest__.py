@@ -21,6 +21,8 @@
         # VIEWS
         "views/partner_rebate_views.xml",
         "views/webclient_templates.xml",
+        # WIZARDS
+        "wizards/partner_rebate_attachment_wizard_views.xml",
         # REPORTS
 
     ],
