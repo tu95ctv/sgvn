@@ -20,7 +20,8 @@
                             
                         </div>
                         <div name="company_address" style="margin-left:5px;line-height:1.2;" class="text-center">
-                            <div><b t-field="company.name"></b></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.name or ''"></b></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.street or ''"></b></div>
                     <div t-esc="company.partner_id._display_address(True)" />
                             <div style="font-size:16px">
                                 <div>
