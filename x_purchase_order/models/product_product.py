@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class ProductProduct(models.Model):
     _inherit = 'product.product'
 
-    po_qty_confirm = fields.Float("Purchase Order quantity", default=0)
+    po_qty_confirm = fields.Integer("Purchase Order quantity", default=0)
     po_amount_confirm = fields.Float("Purchase Order amount", default=0)
     po_uom_ids = fields.Many2many(
         comodel_name="uom.uom", relation="purchase_uom_product_product_rel",
