@@ -8,19 +8,19 @@
             <group name="bill" position="attributes">
                 <attribute name="string">Supplier Invoice</attribute>
             </group>
-            <group name="bill" position="after">
+            <!-- <group name="bill" position="after">
                 <group name="setting" string="Setting Purchase Order" groups="purchase.group_purchase_manager">
                     <field name="po_amount_confirm" widget='monetary' options="{'currency_field': 'currency_id'}" groups="x_purchase_order.group_warning_amount_product_purchase"/>
                     <field name="po_qty_confirm" groups="x_purchase_order.group_warning_qty_product_purchase"/>
                     <field name="po_uom_ids" widget="many2many_tags" groups="x_purchase_order.group_warning_unit_product_purchase"/>
                 </group>
-                <!-- <group name="empty">
+                <group name="empty">
                 </group>
                 <group name="info" string="Purchase Order Information">
                     <field name="po_fixed_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                </group> -->
+                </group>
 
-            </group>
+            </group> -->
         </field>
     </record>
 
