@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api, _
 from odoo.exceptions import AccessError, UserError, ValidationError
+from itertools import groupby
 
 import logging
 
