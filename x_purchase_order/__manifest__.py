@@ -21,6 +21,8 @@
         "views/product_product_views.xml",
         "views/purchase_views.xml",
         "views/res_config_settings_views.xml",
+        # WIZARDS
+        "wizards/purchase_confirm_wiz_view.xml",
         # REPORTS
         # MAIL TEMPLATE
         # "data/mail_template_data.xml",
