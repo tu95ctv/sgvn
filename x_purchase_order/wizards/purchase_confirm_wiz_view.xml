@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="msg" readonly="1"/>
+                    <field name="msg" readonly="1" nolabel="1"/>
                     <field name="po_id" readonly="1" invisible="1"/>
                 </group>
                 <footer>
