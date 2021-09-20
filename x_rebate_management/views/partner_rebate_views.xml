@@ -7,8 +7,8 @@
             <field name="arch" type="xml">
                 <form string="Rebate condition">
                     <header>
-                        <button name="action_add_attachment" string="Attachment file" type="object" />
-                        <field name="state" widget="statusbar" statusbar_visible="on_going,expired,closed" readonly="1"/>
+                        <button name="action_add_attachment" string="Attachment file" type="object" icon="fa-paperclip" />
+                        <!-- <field name="state" widget="statusbar" statusbar_visible="on_going,expired,closed" readonly="1"/> -->
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -16,7 +16,7 @@
                                 class="oe_stat_button"
                                 icon="fa-file-text-o"
                                 type="object">
-                                <field name="attachment_number" widget="statinfo" string="Receipts" options="{'reload_on_button': true}"/>
+                                <field name="attachment_number" widget="statinfo" string="Documents" options="{'reload_on_button': true}"/>
                             </button>
                         </div>
                         <div class="oe_title">
@@ -112,7 +112,7 @@
             id="x_partner_rebate_finance_action_menu"
             name="Rebate condition"
             action="x_partner_rebate_action"
-            parent="account.menu_finance"
+            parent="account.menu_finance_payables"
             sequence="150"/>
     </data>
 </odoo>
