@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <record id="paperformat_purchasequotation_a4" model="report.paperformat">
-            <field name="name">Format A4 FOR PURCHASE QUOTATION</field>
+        <record id="paperformat_purchaseorder_a4" model="report.paperformat">
+            <field name="name">Format A4 FOR PURCHASE ORDER</field>
             <field name="default" eval="True" />
             <field name="format">A4</field>
             <field name="page_height">0</field>
@@ -17,24 +17,24 @@
         </record>
 
         <report 
-            id="action_report_purchasequotation"
-            string="Quotation request form"
+            id="action_report_purchaseorder"
+            string="Purchase Order form"
             model="purchase.order" 
             report_type="qweb-pdf"
-            file="x_purchase_quotation.report_purchasequotation" 
-            name="x_purchase_quotation.report_purchasequotation"
-            print_report_name="'Request for Quotation - %s' % (object.name)"
-            paperformat="x_purchase_quotation.paperformat_purchasequotation_a4"
+            file="x_purchase_order.report_purchaseorder" 
+            name="x_purchase_order.report_purchaseorder"
+            print_report_name="'Purchase Order - %s' % (object.name)"
+            paperformat="x_purchase_order.paperformat_purchaseorder_a4"
         />
 
         <report 
-            id="action_report_estimate_request"
-            string="Quotation request form &lt;for construction&gt;"
+            id="action_report_purchaseorder_construction"
+            string="Purchase Order form &lt;for construction&gt;"
             model="purchase.order" 
             report_type="qweb-pdf"
-            file="x_purchase_quotation.report_estimate_request" 
-            name="x_purchase_quotation.report_estimate_request"
-            print_report_name="'Request for Quotation - %s' % (object.name)"
-            paperformat="x_purchase_quotation.paperformat_purchasequotation_a4"
+            file="x_purchase_order.report_purchaseorder_construction" 
+            name="x_purchase_order.report_purchaseorder_construction"
+            print_report_name="'Purchase Order - %s' % (object.name)"
+            paperformat="x_purchase_order.paperformat_purchaseorder_a4"
         />
 </odoo>

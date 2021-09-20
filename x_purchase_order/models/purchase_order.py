@@ -82,6 +82,19 @@ class PurchaseOrder(models.Model):
         }
         return action
 
+    def action_rfq_send(self):
+        res = super(PurchaseOrder, self).action_rfq_send()
+        if self.trans_classify_id and not self.env.context.get('send_rfq', False):
+            if self.show_construction:
+                res['context'].update({
+                    'default_template_id': self.env.ref("x_purchase_order.email_template_purchased_purchase_construction").id
+                })
+            else:
+                res['context'].update({
+                    'default_template_id': self.env.ref("x_purchase_order.email_template_purchased_purchase").id
+                })
+        return res
+
     # Unblock when Split picking with "date_planned"
     # def _check_split_pickings(self):
     #     for order in self:
