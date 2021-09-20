@@ -6,13 +6,6 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="x_purchase_quotation.purchase_order_view_form_inherit"/>
         <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group[1]/group[2]/label[@for='date_approve']" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent'])]}</attribute>
-            </xpath>
-            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_approve']" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent'])]}</attribute>
-            </xpath>
-
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='create_date']" position="attributes">
                 <attribute name="attrs">{'invisible': [('state', 'not in', ['draft', 'sent'])]}</attribute>
             </xpath>
