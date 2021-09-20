@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="x_purchase_quotation.purchase_order_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[1]/group[2]/label[@for='date_approve']" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ['draft', 'sent'])]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_approve']" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'not in', ['draft', 'sent'])]}</attribute>
+            </xpath>
+
+            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='create_date']" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'in', ['draft', 'sent'])]}</attribute>
+            </xpath>
+            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
+                <field name="date_issuance_order" attrs="{'invisible': [('state', 'in', ['draft', 'sent'])]}"/>
+            </xpath>
+            <xpath expr="//page[@name='products']/field/tree/field[@name='taxes_id']" position="after">
+                <field name="fixed_price"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- <record id="purchase_order_kpis_tree" model="ir.ui.view">
+        <field name="name">purchase.order.inherit.purchase.order.tree</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+        <field name="arch" type="xml">     
+            <field name="partner_id" position="after">
+                <field name="x_organization_id"/>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
+            <field name="date_order" position="replace">
+                <field name="date_response"/>
+                <field name="trans_classify_id"/>
+            </field>
+            <field name="activity_ids" position="replace">
+                <field name="jurisdiction_id"/>
+            </field>
+        </field>
+    </record> -->
+
+</odoo>

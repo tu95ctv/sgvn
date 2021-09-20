@@ -9,7 +9,7 @@
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
-        "x_company_organization", "purchase_stock", "sales_team", "x_partner"
+        "x_company_organization", "purchase_stock", "sales_team", "x_partner", "x_base"
     ],
     "data": [
         # SECURITY

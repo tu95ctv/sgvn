@@ -44,7 +44,7 @@
             </xpath>
 
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="after">
-                <field name="create_date" />
+                <field name="create_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
                 <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
