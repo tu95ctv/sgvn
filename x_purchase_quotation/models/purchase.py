@@ -15,8 +15,7 @@ class PurchaseOrder(models.Model):
     @api.depends('trans_classify_id')
     def _compute_show_construction(self):
         for rec in self:
-            construction_trans_id = self.env.ref("x_purchase_quotation.transaction_classification_construction").id
-            rec.show_construction = rec.trans_classify_id and rec.trans_classify_id.id == construction_trans_id
+            rec.show_construction = True if self.trans_classify_id and self.trans_classify_id.code == 'construction' else False
 
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
     type = fields.Selection([

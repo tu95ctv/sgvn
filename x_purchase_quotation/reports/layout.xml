@@ -20,14 +20,15 @@
                             
                         </div>
                         <div name="company_address" style="margin-left:5px;line-height:1.2;" class="text-center">
-                            <div><b t-field="company.name"></b></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.name or ''"></b></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.street or ''"></b></div>
                     <div t-esc="company.partner_id._display_address(True)" />
                             <div style="font-size:16px">
                                 <div>
-                                    TEL: <span t-esc="company.phone"/>
+                                    TEL: <span t-esc="o.x_organization_id and o.x_organization_id.phone or ''"/>
                                 </div>
                                 <div>
-                                    FAX: <span t-esc="company.partner_id.x_fax_number"/>
+                                    FAX: <span t-esc="o.x_organization_id and o.x_fax_number.name or ''"/>
                                 </div>
                                 </div>
                         </div>

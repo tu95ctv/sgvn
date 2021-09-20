@@ -7,9 +7,18 @@
             <field name="arch" type="xml">
                 <form string="Rebate condition">
                     <header>
+                        <button name="action_add_attachment" string="Attachment file" type="object" />
                         <field name="state" widget="statusbar" statusbar_visible="on_going,expired,closed" readonly="1"/>
                     </header>
                     <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_get_attachment_view"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o"
+                                type="object">
+                                <field name="attachment_number" widget="statinfo" string="Receipts" options="{'reload_on_button': true}"/>
+                            </button>
+                        </div>
                         <div class="oe_title">
                             <h1>
                                 <field name="name" readonly="1"/>

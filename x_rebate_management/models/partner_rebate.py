@@ -33,6 +33,14 @@ class PartnerRebate(models.Model):
     target = fields.Char("Target")
     product_target = fields.Char("Product target")
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
+    attachment_number = fields.Integer('Number of Attachments', compute='_compute_attachment_number')
+
+
+    def _compute_attachment_number(self):
+        attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'x.partner.rebate'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
+        for record in self:
+            record.attachment_number = attachment.get(record.id, 0)
 
 
     @api.constrains("date_start", "date_end")
@@ -92,3 +100,25 @@ class PartnerRebate(models.Model):
         records = self.search([('state', 'in', ['on_going','expired'])])
         for r in records:
             r._compute_state()
+    
+    def action_get_attachment_view(self):
+        self.ensure_one()
+        res = self.env['ir.actions.act_window']._for_xml_id('base.action_attachment')
+        res['domain'] = [('res_model', '=', 'x.partner.rebate'), ('res_id', 'in', self.ids)]
+        res['context'] = {'default_res_model': 'x.partner.rebate', 'default_res_id': self.id}
+        return res
+    
+    def action_add_attachment(self):
+        action = {
+            'name': _("Attachment file"),
+            'type': 'ir.actions.act_window',
+            'views': [[False, 'form']],
+            'target': 'new',
+            'context': {
+                'default_rebate_id': self.id, 
+                },
+            'res_model': 'partner.rebate.attachment.wizard'
+            }
+        return action
+
+
