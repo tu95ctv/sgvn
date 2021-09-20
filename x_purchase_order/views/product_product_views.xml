@@ -14,11 +14,11 @@
                     <field name="po_qty_confirm" groups="x_purchase_order.group_warning_qty_product_purchase"/>
                     <field name="po_uom_ids" widget="many2many_tags" groups="x_purchase_order.group_warning_unit_product_purchase"/> -->
                 </group>
-                <!-- <group name="po-empty">
+                <group name="po-empty">
                 </group>
                 <group name="po-info" string="Purchase Order Information">
                     <field name="po_fixed_price" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                </group> -->
+                </group>
 
             </group>
         </field>
