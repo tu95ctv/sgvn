@@ -152,7 +152,7 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    delivery_destination_id = fields.Many2one('stock.location', "Delivery destination", domain=[("usage", "in", ["internal", "transit"])])
+    location_dest_id = fields.Many2one('stock.location', "Delivery destination", domain=[("usage", "in", ["internal", "transit"])])
     # Rename fields standard
     product_uom_id = fields.Many2one('uom.uom', string='Unit',)
     taxes_id = fields.Many2many('account.tax', string='Tax',)
@@ -163,12 +163,12 @@ class PurchaseOrderLine(models.Model):
         params = self._context.get('params')
         if params and params.get('id'):
             order_id = self.env['purchase.order'].browse(params.get('id'))
-            rec['delivery_destination_id'] = order_id.x_organization_id.x_purchase_stock_location_id.id if order_id.x_organization_id and order_id.x_organization_id.x_purchase_stock_location_id else False
+            rec['location_dest_id'] = order_id.x_organization_id.x_purchase_stock_location_id.id if order_id.x_organization_id and order_id.x_organization_id.x_purchase_stock_location_id else False
         else:
             x_organization_id = self.env.user.x_organization_id
-            rec['delivery_destination_id'] = x_organization_id.x_purchase_stock_location_id.id if x_organization_id and x_organization_id.x_purchase_stock_location_id else False
+            rec['location_dest_id'] = x_organization_id.x_purchase_stock_location_id.id if x_organization_id and x_organization_id.x_purchase_stock_location_id else False
         return rec
 
     # @api.onchange('order_id', 'order_id.x_organization_id')
     # def _onchange_partner_id_sgvn(self):
-    #     self.delivery_destination_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
+    #     self.location_dest_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False

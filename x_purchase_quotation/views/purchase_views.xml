@@ -56,7 +56,7 @@
                 <attribute name="options">{'no_create': True}</attribute>
             </xpath>
             <xpath expr="//page[@name='products']/field/tree/field[@name='product_qty']" position="before">
-                <field name="delivery_destination_id" options="{'no_create': True}"/>
+                <field name="location_dest_id" options="{'no_create': True}"/>
             </xpath>
             <field name="incoterm_id" position="attributes">
                 <attribute name="invisible">1</attribute>
