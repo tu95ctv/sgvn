@@ -66,8 +66,34 @@ class PurchaseOrder(models.Model):
                 'context': {
                     'default_po_id': self.id,
                     'default_msg': msg,
+                    'default_type': 'confirm',
                 },
                 'res_model': 'purchase.order.confirm.wizard'
             }
             return action
         return self.button_confirm()
+
+    def action_button_cancel(self):
+        msg = _("Do you want to cancel an order?")
+
+        action = {
+            'name': _("Purchase order slip: Cancel"),
+            'type': 'ir.actions.act_window',
+            'views': [[False, 'form']],
+            'target': 'new',
+            'context': {
+                'default_po_id': self.id,
+                'default_msg': msg,
+                'default_type': 'cancel',
+            },
+            'res_model': 'purchase.order.confirm.wizard'
+        }
+        return action
+
+    def button_cancel(self):
+        for order in self:
+            for inv in order.invoice_ids:
+                if inv and inv.state not in ('cancel', 'draft'):
+                    raise UserError(_("Unable to cancel this purchase order. You must first cancel the related vendor bills."))
+
+        self.write({'state': 'cancel'})
