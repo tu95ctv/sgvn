@@ -14,7 +14,7 @@ class PurchaseOrderLine(models.Model):
 
     @api.onchange('product_id')
     def _onchange_product_id_sgvn(self):
-        self.fixed_price = self.product_id and self.product_id.fixed_price
+        self.fixed_price = self.product_id and self.product_id.po_fixed_price
 
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
