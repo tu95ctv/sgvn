@@ -6,8 +6,8 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <field name="msg" />
-                    <field name="po_id" />
+                    <field name="msg" readonly="1"/>
+                    <field name="po_id" readonly="1" invisible="1"/>
                 </group>
                 <footer>
                     <button string="Return" class="oe_highlight" special="cancel"/>
