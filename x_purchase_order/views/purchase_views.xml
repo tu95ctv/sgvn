@@ -36,6 +36,9 @@
                 <field name="trans_classify_id"/>
                 <field name="jurisdiction_id"/>
             </field>
+            <field name="activity_ids" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </field>
         </field>
     </record>
 
