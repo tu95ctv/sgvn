@@ -38,7 +38,7 @@
                                     <span t-field="order_line.product_id.name"/>
                                 </td>
                                 <td>
-                                    <span t-field="order_line.delivery_destination_id"/>
+                                    <span t-field="order_line.location_dest_id"/>
                                 </td>
                                 <td>
                                     <span t-field="order_line.product_qty"/>
