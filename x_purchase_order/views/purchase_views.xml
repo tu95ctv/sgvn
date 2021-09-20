@@ -15,6 +15,17 @@
             <xpath expr="//page[@name='products']/field/tree/field[@name='taxes_id']" position="after">
                 <field name="fixed_price"/>
             </xpath>
+
+<!--             <button name="button_confirm" type="object" states="sent" string="Confirm Order" class="oe_highlight" id="bid_confirm"/>
+            <button name="button_confirm" type="object" states="draft" string="Confirm Order" id="draft_confirm"/>
+ -->
+            <xpath expr="//button[@id='bid_confirm']" position="attributes">
+                <attribute name="name">action_button_confirm</attribute>
+            </xpath>
+            <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                <attribute name="name">action_button_confirm</attribute>
+            </xpath>
+
         </field>
     </record>
 

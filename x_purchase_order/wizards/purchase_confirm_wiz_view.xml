@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="purchase_order_confirm_wizard_view" model="ir.ui.view">
+        <field name="name">purchase.order.confirm.wizard</field>
+        <field name="model">purchase.order.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="msg" />
+                    <field name="po_id" />
+                </group>
+                <footer>
+                    <button string="Return" class="oe_highlight" special="cancel"/>
+                    <button name="action_confirm" string="Confirm PO" type="object" class="oe_highlight" />
+                    
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
