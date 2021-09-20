@@ -13,7 +13,7 @@
     ],
     "data": [
         # SECURITY
-        "security/purchase_security.xml"
+        "security/purchase_security.xml",
         "security/ir.model.access.csv",
         # DATA
         # "data/transaction_classification_data.xml",
