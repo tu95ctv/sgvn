@@ -1,30 +1,32 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "SGVN Purchase Quotation",
+    "name": "SGVN Purchase Order",
     "summary": """
-        SGVN Purchase Quotation
+        SGVN Purchase Order
     """,
     "version": "14.0.1.0.0",
     "category": "Purchase",
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
-        "x_company_organization", "purchase_stock", "sales_team", "x_partner", "x_base"
+        "x_purchase_quotation"
     ],
     "data": [
         # SECURITY
+        "security/purchase_security.xml",
         "security/ir.model.access.csv",
         # DATA
-        "data/transaction_classification_data.xml",
         # VIEWS
-        "views/res_company_views.xml",
+        "views/product_product_views.xml",
         "views/purchase_views.xml",
-        "views/res_partner_views.xml",
+        "views/res_config_settings_views.xml",
+        # WIZARDS
+        "wizards/purchase_confirm_wiz_view.xml",
         # REPORTS
         "reports/action.xml",
         "reports/layout.xml",
-        "reports/quotation_request_template_report.xml",
-        "reports/estimate_request_template_report.xml",
+        "reports/purchase_order_construction_template_report.xml",
+        "reports/purchase_order_template_report.xml",
         # MAIL TEMPLATE
         "data/mail_template_data.xml",
     ],
