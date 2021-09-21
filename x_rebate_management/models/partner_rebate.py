@@ -121,4 +121,14 @@ class PartnerRebate(models.Model):
             }
         return action
 
-
+    def write(self, vals):
+        created_organization = self.create_uid.partner_id.x_organization_id and self.create_uid.partner_id.x_organization_id.id or False
+        user_organization = self.env.user.partner_id.x_organization_id and self.env.user.partner_id.x_organization_id.id or False
+        if not (created_organization == user_organization):
+            return {
+                'warning': {
+                    'title': _("Alert: No update permission"),
+                    'message': _("""The user who created the selected rebate condition and the organization do not match and cannot be updated.If you need renewal support, please contact the "Headquarters Sales Headquarters".""")
+                },
+            }
+        return super(PartnerRebate, self).write(vals)
