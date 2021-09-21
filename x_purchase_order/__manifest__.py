@@ -15,6 +15,7 @@
         # SECURITY
         "security/purchase_security.xml",
         "security/ir.model.access.csv",
+        "security/purchase_rule.xml",
         # DATA
         # VIEWS
         "views/product_product_views.xml",
