@@ -25,6 +25,7 @@ class Base(models.AbstractModel):
             operations = ["read", "create", "write", "unlink"]
         result = {}
         for operation in operations:
+            result[operation] = True
             try:
                 self.check_access_rule(operation)
             except exceptions.AccessError:
