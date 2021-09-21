@@ -122,8 +122,8 @@ class PartnerRebate(models.Model):
         return action
 
     def write(self, vals):
-        created_organization = self.create_uid.partner_id.x_organization_id and self.create_uid.partner_id.x_organization_id.id or False
-        user_organization = self.env.user.partner_id.x_organization_id and self.env.user.partner_id.x_organization_id.id or False
+        created_organization = self.x_organization_id and self.x_organization_id.x_code or False
+        user_organization = self.env.user.x_organization_id and self.env.user.x_organization_id.x_code or False
         if not (created_organization == user_organization):
             return {
                 'warning': {
