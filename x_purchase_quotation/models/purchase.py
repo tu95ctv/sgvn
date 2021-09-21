@@ -11,7 +11,6 @@ class PurchaseOrder(models.Model):
     _name = 'purchase.order'
     _inherit = ['purchase.order', 'x.x_company_organization.org_mixin']
 
-
     @api.depends('trans_classify_id')
     def _compute_show_construction(self):
         for rec in self:
@@ -57,12 +56,12 @@ class PurchaseOrder(models.Model):
     # Rename fields standard
     name = fields.Char(string="Slip No.")
     origin = fields.Char(string="Reference source")
-    partner_id = fields.Many2one('res.partner',string="Supplier")
-    user_id = fields.Many2one('res.users',string="Purchasing person")
+    partner_id = fields.Many2one('res.partner', string="Supplier")
+    user_id = fields.Many2one('res.users', string="Purchasing person")
     create_date = fields.Datetime(string="Create date")
-    create_uid = fields.Many2one('res.users',string='Slip creator',)
-    picking_type_id = fields.Many2one('stock.picking.type',string='Delivery destination',)
-    dest_address_id = fields.Many2one('res.partner',string='Direct delivery',)
+    create_uid = fields.Many2one('res.users', string='Slip creator',)
+    picking_type_id = fields.Many2one('stock.picking.type', string='Delivery destination',)
+    dest_address_id = fields.Many2one('res.partner', string='Direct delivery',)
     fiscal_position_id = fields.Many2one('account.fiscal.position', string='Accounting position',)
     date_planned = fields.Datetime(string="Requested delivery date")
 
@@ -73,8 +72,7 @@ class PurchaseOrder(models.Model):
                                                          submenu=submenu)
         # _logger.info('111111111111111 fields_view_get toolbar print: %s', res.get('toolbar', {}).get('print', []))
         return res
-    
-    
+
     @api.onchange('partner_id')
     def _onchange_partner_id_sgvn(self):
         self.trans_classify_id = self.partner_id.x_transaction_classification and self.partner_id.x_transaction_classification[0].id
@@ -108,7 +106,6 @@ class PurchaseOrder(models.Model):
         if self.construction_bills and self.clamp(self.construction_bills):
             self.construction_cash = 100 - self.construction_bills
 
-
     @api.constrains("construction_cash", "construction_bills")
     def _check_sum_construction_payment(self):
         for record in self:
@@ -116,7 +113,7 @@ class PurchaseOrder(models.Model):
             bills = record.construction_bills
             if cash or bills:
                 if sum([cash, bills]) != 100 or not(self.clamp(cash) or self.clamp(cash)):
-                    raise ValidationError(_('Total payment must be 100%%: Cash %s%% - Bills %s%%'%(cash, bills)))
+                    raise ValidationError(_('Total payment must be 100%%: Cash %s%% - Bills %s%%' % (cash, bills)))
 
     # Update file attachment for mail template with trans_classify_id in <![CDATA[]]>
     def action_rfq_send(self):
@@ -131,7 +128,7 @@ class PurchaseOrder(models.Model):
                     'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase").id
                 })
         return res
-    
+
     def print_quotation(self):
         res = super(PurchaseOrder, self).print_quotation()
         if self.trans_classify_id:
@@ -140,7 +137,7 @@ class PurchaseOrder(models.Model):
             else:
                 return self.env.ref('x_purchase_quotation.action_report_purchasequotation').report_action(self)
         return res
-    
+
     @api.model
     def clamp(self, number):
         if number:
@@ -149,13 +146,13 @@ class PurchaseOrder(models.Model):
             elif number > 100:
                 return False
             else:
-                return number    
+                return number
 
 
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    delivery_destination_id = fields.Many2one('stock.location', "Delivery destination")
+    location_dest_id = fields.Many2one('stock.location', "Delivery destination", domain=[("usage", "in", ["internal", "transit"])])
     # Rename fields standard
     product_uom_id = fields.Many2one('uom.uom', string='Unit',)
     taxes_id = fields.Many2many('account.tax', string='Tax',)
@@ -166,12 +163,12 @@ class PurchaseOrderLine(models.Model):
         params = self._context.get('params')
         if params and params.get('id'):
             order_id = self.env['purchase.order'].browse(params.get('id'))
-            rec['delivery_destination_id'] = order_id.x_organization_id.x_purchase_stock_location_id.id if order_id.x_organization_id and order_id.x_organization_id.x_purchase_stock_location_id else False
+            rec['location_dest_id'] = order_id.x_organization_id.x_purchase_stock_location_id.id if order_id.x_organization_id and order_id.x_organization_id.x_purchase_stock_location_id else False
         else:
             x_organization_id = self.env.user.x_organization_id
-            rec['delivery_destination_id'] = x_organization_id.x_purchase_stock_location_id.id if x_organization_id and x_organization_id.x_purchase_stock_location_id else False
+            rec['location_dest_id'] = x_organization_id.x_purchase_stock_location_id.id if x_organization_id and x_organization_id.x_purchase_stock_location_id else False
         return rec
 
     # @api.onchange('order_id', 'order_id.x_organization_id')
     # def _onchange_partner_id_sgvn(self):
-    #     self.delivery_destination_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
+    #     self.location_dest_id = self.order_id.x_organization_id.x_purchase_stock_location_id.id if self.order_id.x_organization_id.x_purchase_stock_location_id else False
