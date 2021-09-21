@@ -28,6 +28,7 @@ class Base(models.AbstractModel):
             try:
                 self.check_access_rule(operation)
             except exceptions.AccessError:
+                _logger.info('000000000000000000 exceptions.AccessError %s', exceptions.AccessError)
                 result[operation] = False
             if (
                 self.is_transient()
