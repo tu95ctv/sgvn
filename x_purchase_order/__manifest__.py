@@ -23,10 +23,8 @@
         # WIZARDS
         "wizards/purchase_confirm_wiz_view.xml",
         # REPORTS
-        "reports/action.xml",
-        "reports/layout.xml",
-        "reports/purchase_order_construction_template_report.xml",
         "reports/purchase_order_template_report.xml",
+        "reports/action.xml",
         # MAIL TEMPLATE
         "data/mail_template_data.xml",
     ],

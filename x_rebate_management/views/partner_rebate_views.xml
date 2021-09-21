@@ -8,7 +8,6 @@
                 <form string="Rebate condition">
                     <header>
                         <button name="action_add_attachment" string="Attachment file" type="object" icon="fa-paperclip" />
-                        <!-- <field name="state" widget="statusbar" statusbar_visible="on_going,expired,closed" readonly="1"/> -->
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
@@ -37,7 +36,7 @@
                                 <field name="currency_id" groups="base.group_multi_currency"/>
                             </group>
                         </group>
-                        <group string="Contract information">
+                        <group string="Contract">
                             <group>
                                 <field name="bonus_money" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="reward_criteria"/>
@@ -62,15 +61,15 @@
             <field name="name">x.partner.rebate.tree</field>
             <field name="model">x.partner.rebate</field>
             <field name="arch" type="xml">
-                <tree string="" decoration-info="state == 'on_going'" decoration-muted="state == 'closed'" decoration-danger="state == 'expired'">
+                <tree string="">
                     <field name="sequence" widget="handle"/>
-                    <field name="name"/>
                     <field name="jurisdiction_id"/>
+                    <field name="partner_code"/>
                     <field name="partner_id" string="Suppiler(Maker)"/>
                     <field name="date_start"/>
                     <field name="date_end"/>
                     <field name="bonus_money" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="state"/>
+                    <field name="reward_criteria"/>
                 </tree>
             </field>
         </record>
