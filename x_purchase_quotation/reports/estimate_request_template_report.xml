@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <template id="report_estimate_request_document">
-    <t t-call="x_purchase_quotation.external_layout">
+    <t t-call="x_base.external_layout">
         <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
         <div class="page">
             <div class="oe_structure"/>
@@ -13,7 +13,7 @@
                     <div><b>Response date: </b><span t-esc="o.date_response and o.date_response.strftime('%B %d, %Y') or ''"/></div>
                 </div>
                 <div class="col-8">
-                    <div style="margin-left:5em;"><b>Purchasing Managers:</b> <span t-esc="o.partner_id.parent_id and '%s - '%(o.partner_id.parent_id.name) or ''"/><span t-esc="o.partner_id.name"/></div>
+                    <div style="margin-left:5em;"><b>Purchasing Managers:</b> <span t-esc="o.user_id.partner_id.parent_id and '%s - '%(o.user_id.partner_id.parent_id.name) or ''"/><span t-field="o.user_id"/></div>
                 </div>
             </div>
             
