@@ -3,6 +3,9 @@
 
 from odoo import exceptions, models
 
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class Base(models.AbstractModel):
     """ The base model, which is implicitly inherited by all models. """
@@ -37,4 +40,6 @@ class Base(models.AbstractModel):
                 result[operation] = True
             else:
                 result[operation] = False
+        _logger.info('111111111111111111111 operations %s', operations)
+        _logger.info('222222222222222222222 result %s', result)
         return result

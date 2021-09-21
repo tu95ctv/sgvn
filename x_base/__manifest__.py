@@ -16,7 +16,7 @@
         "security/ir.model.access.csv",
         # DATA
         # VIEWS
-        # "views/web_access_rule_buttons.xml",
+        "views/web_access_rule_buttons.xml",
         # REPORTS
         "reports/layout.xml",
         "reports/paperformat.xml",
