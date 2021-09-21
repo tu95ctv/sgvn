@@ -30,17 +30,17 @@ class Base(models.AbstractModel):
             except exceptions.AccessError:
                 _logger.info('000000000000000000 exceptions.AccessError %s', exceptions.AccessError)
                 result[operation] = False
-            if (
-                self.is_transient()
-                or self.ids
-                and self.env.user.has_group("base.user_admin")
-            ):
-                # If we call check_access_rule() without id, it will try to
-                # run a SELECT without ID which will crash, so we just blindly
-                # allow the operations
-                result[operation] = True
-            else:
-                result[operation] = False
+                if (
+                    self.is_transient()
+                    or self.ids
+                    and self.env.user.has_group("base.user_admin")
+                ):
+                    # If we call check_access_rule() without id, it will try to
+                    # run a SELECT without ID which will crash, so we just blindly
+                    # allow the operations
+                    result[operation] = True
+                else:
+                    result[operation] = False
         _logger.info('111111111111111111111 operations %s', operations)
         _logger.info('222222222222222222222 result %s', result)
         return result
