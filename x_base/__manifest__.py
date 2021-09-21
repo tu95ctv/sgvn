@@ -17,6 +17,8 @@
         # DATA
         # VIEWS
         # REPORTS
+        "reports/layout.xml",
+        "reports/paperformat.xml",
 
     ],
     "application": False,
