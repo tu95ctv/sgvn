@@ -118,7 +118,7 @@ class PurchaseOrder(models.Model):
     # Update file attachment for mail template with trans_classify_id in <![CDATA[]]>
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
-        if self.trans_classify_id and self.env.context.get('send_rfq', False):
+        if self.env.context.get('send_rfq', False):
             if self.show_construction:
                 res['context'].update({
                     'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase_construction").id
@@ -131,11 +131,10 @@ class PurchaseOrder(models.Model):
 
     def print_quotation(self):
         res = super(PurchaseOrder, self).print_quotation()
-        if self.trans_classify_id:
-            if self.show_construction:
-                return self.env.ref('x_purchase_quotation.action_report_estimate_request').report_action(self)
-            else:
-                return self.env.ref('x_purchase_quotation.action_report_purchasequotation').report_action(self)
+        if self.show_construction:
+            return self.env.ref('x_purchase_quotation.action_report_estimate_request').report_action(self)
+        else:
+            return self.env.ref('x_purchase_quotation.action_report_purchasequotation').report_action(self)
         return res
 
     @api.model

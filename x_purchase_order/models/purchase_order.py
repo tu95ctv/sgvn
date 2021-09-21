@@ -20,23 +20,17 @@ class PurchaseOrder(models.Model):
         return res
 
     def _check_unit_line_product(self, line):
-        if not self.env.user.has_group('x_purchase_order.group_warning_unit_product_purchase'):
-            return True
         if line.product_id.po_uom_ids and line.product_uom in line.product_id.po_uom_ids:
             return True
         return False
 
     def _check_qty_line_product(self, line):
-        if not self.env.user.has_group('x_purchase_order.group_warning_qty_product_purchase'):
-            return True
         line_qty = line.product_uom_qty
         if line.product_id.po_qty_confirm and line_qty <= line.product_id.po_qty_confirm:
             return True
         return False
 
     def _check_amount_line_product(self, line):
-        if not self.env.user.has_group('x_purchase_order.group_warning_amount_product_purchase'):
-            return True
         line_amount = line.price_subtotal
         if line.product_id.po_amount_confirm and line_amount <= line.product_id.po_amount_confirm:
             return True
@@ -90,15 +84,10 @@ class PurchaseOrder(models.Model):
 
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
-        if self.trans_classify_id and not self.env.context.get('send_rfq', False):
-            if self.show_construction:
-                res['context'].update({
-                    'default_template_id': self.env.ref("x_purchase_order.email_template_purchased_purchase_construction").id
-                })
-            else:
-                res['context'].update({
-                    'default_template_id': self.env.ref("x_purchase_order.email_template_purchased_purchase").id
-                })
+        if not self.env.context.get('send_rfq', False):
+            res['context'].update({
+                'default_template_id': self.env.ref("x_purchase_order.email_template_edi_purchase_done").id
+            })
         return res
 
     # Unblock when Split picking with "date_planned"
