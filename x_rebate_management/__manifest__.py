@@ -14,6 +14,7 @@
     "data": [
         # SECURITY
         "security/ir.model.access.csv",
+        "security/rebate_security.xml",
         # DATA
         "data/ir_sequence_data.xml",
         "data/ir_action_server_data.xml",
