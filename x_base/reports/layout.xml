@@ -39,7 +39,7 @@
                                     TEL: <span t-esc="o.x_organization_id and o.x_organization_id.phone or ''"/>
                                 </div>
                                 <div>
-                                    FAX: <span t-esc="o.x_organization_id and o.x_fax_number.name or ''"/>
+                                    FAX: <span t-esc="o.x_organization_id and o.x_organization_id.x_fax_number or ''"/>
                                 </div>
                                 </div>
                         </div>
