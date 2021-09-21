@@ -26,7 +26,7 @@
         "reports/purchase_order_template_report.xml",
         "reports/action.xml",
         # MAIL TEMPLATE
-        # "data/mail_template_data.xml",
+        "data/mail_template_data.xml",
     ],
     "application": False,
     "installable": True,
