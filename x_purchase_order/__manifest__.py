@@ -16,7 +16,6 @@
         "security/purchase_security.xml",
         "security/ir.model.access.csv",
         # DATA
-        # "data/transaction_classification_data.xml",
         # VIEWS
         "views/product_product_views.xml",
         "views/purchase_views.xml",
@@ -24,6 +23,8 @@
         # WIZARDS
         "wizards/purchase_confirm_wiz_view.xml",
         # REPORTS
+        "reports/purchase_order_template_report.xml",
+        "reports/action.xml",
         # MAIL TEMPLATE
         # "data/mail_template_data.xml",
     ],
