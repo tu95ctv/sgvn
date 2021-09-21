@@ -11,7 +11,6 @@ class PartnerRebate(models.Model):
 
     name = fields.Char(string='No.', default='New', readonly=1)
     sequence = fields.Integer(string='Sequence', default=10)
-    state = fields.Selection([('on_going', 'On going'), ('expired', 'Expired'), ('closed', 'Closed')], string='Status', default='on_going')
     company_id = fields.Many2one(
         "res.company", string="Company", required=True,
         default=lambda self: self.env.company.id
@@ -23,6 +22,7 @@ class PartnerRebate(models.Model):
     )
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     partner_id = fields.Many2one('res.partner', string='Supplier', required=True, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
+    partner_code = fields.Char(relate='partner_id.x_partner_code', string="Code")
     employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
     active = fields.Boolean(string="Enable",default=True, help="Set active to false to hide the rebate contract without removing it.")
     date_start = fields.Datetime(string="Contract start date")
@@ -71,35 +71,11 @@ class PartnerRebate(models.Model):
         return self.env.user.x_organization_id and self.env.user.x_organization_id.id
 
     @api.model
-    def _compute_state(self):
-        """PhuongTN: update state based on date_eng"""
-        if self.date_end:
-            year = self.compute_year(self.date_end)
-            current_date = fields.Datetime.now()
-            if year >= 1 and self.state == 'expired':
-                self.write({
-                    'state': 'closed',
-                    'active': False,
-                })
-            elif current_date > self.date_end and self.state == 'on_going':
-                self.write({
-                    'state': 'expired',
-                })
-        return True
-
-    @api.model
     def compute_year(self, date_end):
         """PhuongTN: calculate the distance between date_end and current date"""
         days_in_year = 365.2425   
         year = int((fields.Datetime.now() - date_end).days / days_in_year)
         return year
-    
-    @api.model
-    def _compute_state_cron(self):
-        """PhuongTN: Function for automated"""
-        records = self.search([('state', 'in', ['on_going','expired'])])
-        for r in records:
-            r._compute_state()
     
     def action_get_attachment_view(self):
         self.ensure_one()
