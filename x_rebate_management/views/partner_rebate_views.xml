@@ -36,7 +36,7 @@
                                 <field name="currency_id" groups="base.group_multi_currency"/>
                             </group>
                         </group>
-                        <group string="Contract information">
+                        <group string="Contract">
                             <group>
                                 <field name="bonus_money" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 <field name="reward_criteria"/>
