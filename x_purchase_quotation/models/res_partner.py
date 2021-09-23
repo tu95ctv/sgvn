@@ -14,7 +14,7 @@ class ResPartner(models.Model):
     email_purchase = fields.Char("Purchase order sending email address", copy=False)
 
     def read(self, list_fields=None, load='_classic_read'):
-        _logger.info('44444444444444444444444 %s', self._context)
+        _logger.info('22222222222222222222 %s', self._context)
 
         # res_model = self._context.get('default_model', False)
         # res_id = self._context.get('default_res_id', False)
@@ -38,5 +38,9 @@ class ResPartner(models.Model):
             res = super(ResPartner, self).read(list_fields, load)
             for r in res:
                 r['email'] = r[partner_email_field]
-        _logger.info('2222222222222222222222 %s', res)
+            _logger.info('33333333333333333 %s', res)
+
+            return res
+        res = super(ResPartner, self).read(list_fields, load)
+        _logger.info('44444444444444444444 %s', res)
         return res
