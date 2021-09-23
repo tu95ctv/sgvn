@@ -118,19 +118,17 @@ class PurchaseOrder(models.Model):
     # Update file attachment for mail template with trans_classify_id in <![CDATA[]]>
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
-        # if self.env.context.get('send_rfq', False):
-        #     if self.show_construction:
-        #         res['context'].update({
-        #             'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase_construction").id
-        #         })
-        #     else:
-        #         res['context'].update({
-        #             'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase").id
-        #         })
+        if self.env.context.get('send_rfq', False):
+            if self.show_construction:
+                res['context'].update({
+                    'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase_construction").id
+                })
+            else:
+                res['context'].update({
+                    'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase").id
+                })
         res['context'].update({
             'partner_email_field': 'email_quote_request',
-            'default_template_id': False,
-            'default_use_template': False
         })
         return res
 

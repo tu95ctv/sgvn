@@ -19,5 +19,4 @@ class MailMail(models.Model):
             else:
                 email_to = tools.email_split_and_format(self.email_to)
             res.update({'email_to': email_to})
-        _logger.info('88888888888888888  _send_prepare_values %s', res)
         return res
