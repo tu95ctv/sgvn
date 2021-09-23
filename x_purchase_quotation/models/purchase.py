@@ -128,7 +128,9 @@ class PurchaseOrder(models.Model):
         #             'default_template_id': self.env.ref("x_purchase_quotation.email_template_edi_purchase").id
         #         })
         res['context'].update({
-            'partner_email_field': 'email_quote_request'
+            'partner_email_field': 'email_quote_request',
+            'default_template_id': False,
+            'default_use_template': False
         })
         return res
 
