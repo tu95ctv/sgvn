@@ -20,9 +20,8 @@ class ResPartner(models.Model):
                     partner_email_field = 'email_purchase'
                 list_fields += [partner_email_field]
                 res = super(ResPartner, self).read(list_fields, load)
-                _logger.info('2222222222222222222222 %s', res)
-
                 for r in res:
                     r['email'] = r[partner_email_field]
+                _logger.info('2222222222222222222222 %s', res)
                 return res
         return super(ResPartner, self).read(list_fields, load)
