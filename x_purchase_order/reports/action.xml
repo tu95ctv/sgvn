@@ -12,7 +12,7 @@
         />
         <report 
             id="action_report_purchaseorder_construction"
-            string="Purchase order<for construction>"
+            string="Purchase order &lt;for construction&gt;"
             model="purchase.order" 
             report_type="qweb-pdf"
             file="x_purchase_order.report_purchaseorder" 
