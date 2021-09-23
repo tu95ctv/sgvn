@@ -29,4 +29,5 @@ class ResPartner(models.Model):
                     r['email'] = r[partner_email_field]
                 _logger.info('2222222222222222222222 %s', res)
                 return res
-        return super(ResPartner, self).read(list_fields, load)
+        res = super(ResPartner, self).read(list_fields, load)
+        return res
