@@ -22,3 +22,11 @@ class MailMail(models.Model):
             if not self._context.get('partner_email_field'):
                 return super(MailMail, self).with_context(partner_email_field=partner_email_field)._send_prepare_values(partner)
         return super(MailMail, self)._send_prepare_values(partner)
+
+class MailComposer(models.TransientModel):
+    _inherit = 'mail.compose.message'
+
+    def send_mail(self, auto_commit=False):
+        _logger.info('333333333333333333 MailComposer %s', self._context)
+        _logger.info('44444444444444444 MailComposer %s', self)
+        return super(MailComposer, self).send_mail(auto_commit=auto_commit)
