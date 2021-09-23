@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError,ValidationError
+
 
 class PartnerRebate(models.Model):
     _name = 'x.partner.rebate'
@@ -22,7 +24,7 @@ class PartnerRebate(models.Model):
     )
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
     partner_id = fields.Many2one('res.partner', string='Supplier', required=True, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
-    partner_code = fields.Char(relate='partner_id.x_partner_code', string="Code")
+    partner_code = fields.Char(related='partner_id.x_partner_code', string="Supplier code")
     employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
     active = fields.Boolean(string="Enable",default=True, help="Set active to false to hide the rebate contract without removing it.")
     date_start = fields.Datetime(string="Contract start date")
