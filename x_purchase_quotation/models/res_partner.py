@@ -30,4 +30,6 @@ class ResPartner(models.Model):
                 _logger.info('2222222222222222222222 %s', res)
                 return res
         res = super(ResPartner, self).read(list_fields, load)
+        _logger.info('555555555555555555555555 %s', res)
+
         return res
