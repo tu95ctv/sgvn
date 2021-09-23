@@ -24,7 +24,13 @@
             if (this.$buttons) {
                 var button = this.$buttons.find(".o_form_button_edit");
                 if (button) {
-                    button.prop("disabled", !access);
+                    // button.prop("disabled", !access);
+                    if (!access){
+                        button.addClass('o_hidden');
+                    }
+                    else {
+                        button.removeClass('o_hidden')
+                    }
                 }
             }
         },
