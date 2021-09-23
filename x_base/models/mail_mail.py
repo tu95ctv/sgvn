@@ -18,6 +18,4 @@ class MailMail(models.Model):
         #         partner_email_field = 'email_purchase'
         #     if not self._context.get('partner_email_field'):
         #         return super(MailMail, self).with_context(partner_email_field=partner_email_field)._send_prepare_values(partner)
-        res = super(MailMail, self)._send_prepare_values(partner)
-        _logger.info('3333333333333333333 %s', res)
-        return res
+        return super(MailMail, self)._send_prepare_values(partner)
