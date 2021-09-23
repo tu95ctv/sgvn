@@ -2,10 +2,17 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
 class MailMail(models.Model):
     _inherit = 'mail.mail'
 
     def _send_prepare_values(self, partner=None):
+        _logger.info('333333333333333333 %s', self._context)
+        _logger.info('44444444444444444 %s', self.model)
+
         if self.model == 'purchase.order':
             po = self.env[self.model].sudo().brose(self.res_id)
             if po.state in ['draft', 'sent']:
