@@ -12,7 +12,7 @@ class ResPartner(models.Model):
         res_model = self._context.get('default_model', False)
         res_id = self._context.get('default_res_id', False)
         if res_model and res_id and res_model == 'purchase.order' and 'email' in list_fields:
-            po = self.env[res_model].sudo().brose(res_model)
+            po = self.env[res_model].sudo().browse(res_model)
             if po.state in ['draft', 'sent']:
                 partner_email_field = 'email_quote_request'
             else:
