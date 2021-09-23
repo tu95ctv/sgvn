@@ -34,7 +34,8 @@ class ResPartner(models.Model):
         # res = super(ResPartner, self).read(list_fields, load)
         # _logger.info('555555555555555555555555 %s', res)
         if 'partner_email_field' in self._context:
-            list_fields += [self._context.get('partner_email_field')]
+            partner_email_field = self._context.get('partner_email_field')
+            list_fields += [partner_email_field]
             res = super(ResPartner, self).read(list_fields, load)
             for r in res:
                 r['email'] = r[partner_email_field]
