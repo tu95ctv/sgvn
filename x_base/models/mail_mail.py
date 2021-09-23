@@ -29,7 +29,7 @@ class MailComposer(models.TransientModel):
     def send_mail(self, auto_commit=False):
         ctx = self._context.copy()
         if self[0].model == 'purchase.order':
-            po = self.env[self[0].model].sudo().brose(self[0].res_id)
+            po = self.env[self[0].model].sudo().browse(self[0].res_id)
             if po.state in ['draft', 'sent']:
                 partner_email_field = 'email_quote_request'
             else:
