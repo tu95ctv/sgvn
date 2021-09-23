@@ -10,5 +10,12 @@
             <field name="perm_read" eval="0"/>
             <field name="perm_create" eval="0"/>
         </record>
+
+        <record model="ir.rule" id="rebate_organiztion_sale_head">
+            <field name="name">Rebate organization: Sale Head</field>
+            <field name="model_id" ref="model_x_partner_rebate"/>
+            <field name="domain_force">[1, '=', 1]</field>
+            <field name="groups" eval="[(4, ref('x_security_groups.group_sale_head'))]"/>
+        </record>
     </data>
 </odoo>

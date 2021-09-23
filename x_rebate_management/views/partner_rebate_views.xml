@@ -66,6 +66,7 @@
             <field name="arch" type="xml">
                 <tree string="" decoration-danger="date_end and date_end &lt; datetime.date.today().strftime('%Y-%m-%d')">
                     <field name="sequence" widget="handle"/>
+                    <field name="name" string="No. Rebate"/>
                     <field name="jurisdiction_id"/>
                     <field name="partner_code"/>
                     <field name="partner_id" string="Suppiler"/>
