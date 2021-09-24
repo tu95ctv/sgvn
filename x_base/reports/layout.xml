@@ -25,14 +25,27 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12" style="margin-top: 10px">
-                    <div  style="margin-left:20em;display: inline-block;" class="d-flex">
+                <div class="col-4">
+                    <t t-if="o.state not in ['draft', 'sent']">
+                        <div>
+                            Dear <span t-esc="o.partner_id.name"/>
+                        </div>
+                        <div>
+                            TEL: <span t-esc="o.partner_id.mobile"/>
+                        </div><div>
+                            FAX: <span t-esc="o.partner_id.x_fax_number"/>
+                        </div>
+                    </t>
+                </div>
+                <div class="col-8" style="margin-top: 10px">
+                    <div style="display: inline-block;" class="d-flex">
                         <div >
                             <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 65px;" alt="Logo"/>
                         </div>
                         <div name="company_address" style="margin-left:5px;line-height:1.2;" class="text-center">
-                            <div><b t-esc="o.x_organization_id and o.x_organization_id.name or ''"></b></div>
-                            <div><b t-esc="o.x_organization_id and o.x_organization_id.street or ''"></b></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.parent_id and o.x_organization_id.parent_id.name or ''"/></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.name or ''"/></div>
+                            <div><b t-esc="o.x_organization_id and o.x_organization_id.street or ''"/></div>
                     <div t-esc="company.partner_id._display_address(True)" />
                             <div style="font-size:16px">
                                 <div>
