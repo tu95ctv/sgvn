@@ -94,6 +94,9 @@ class PurchaseOrder(models.Model):
             res['context'].update({
                 'default_template_id': self.env.ref("x_purchase_order.email_template_edi_purchase_done").id
             })
+        res['context'].update({
+            'partner_email_field': 'email_purchase',
+        })
         return res
 
     # Unblock when Split picking with "date_planned"
