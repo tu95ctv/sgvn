@@ -5,10 +5,12 @@
             <field name="name">Rebate organization</field>
             <field name="model_id" ref="model_x_partner_rebate"/>
             <field name="domain_force">['|', ('create_uid','=',False), ('create_uid','=',user.id), ('x_organization_id','=',user.x_organization_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_unlink" eval="0"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_read" eval="0"/>
             <field name="perm_create" eval="0"/>
+
         </record>
 
         <record model="ir.rule" id="rebate_organiztion_sale_head">
