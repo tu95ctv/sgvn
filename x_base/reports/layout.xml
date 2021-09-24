@@ -39,14 +39,13 @@
                 </div>
                 <div class="col-8">
                     <div style="display: inline-block;" class="d-flex">
-                        <div >
+                        <div style="position: relative;left: 50px;">
                             <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 65px;" alt="Logo"/>
                         </div>
-                        <div name="company_address" style="margin-left:5px;line-height:1.2;" class="text-center">
+                        <div name="company_address" style="margin-left:5px;line-height:1.2; position: absolute;right: 0px;" class="text-center">
                             <div><b t-esc="o.x_organization_id and o.x_organization_id.parent_id and o.x_organization_id.parent_id.name or ''"/></div>
                             <div><b t-esc="o.x_organization_id and o.x_organization_id.name or ''"/></div>
-                            <div><b t-esc="o.x_organization_id and o.x_organization_id.street or ''"/></div>
-                    <div t-esc="company.partner_id._display_address(True)" />
+                            <div style='word-wrap:break-word; width:400px'><b t-esc="o.x_organization_id and o.x_organization_id._display_address(True) or ''"/></div>
                             <div style="font-size:16px">
                                 <div>
                                     TEL: <span t-esc="o.x_organization_id and o.x_organization_id.phone or ''"/>
@@ -54,7 +53,7 @@
                                 <div>
                                     FAX: <span t-esc="o.x_organization_id and o.x_organization_id.x_fax_number or ''"/>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         
                     </div>
