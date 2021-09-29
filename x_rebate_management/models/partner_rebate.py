@@ -23,10 +23,16 @@ class PartnerRebate(models.Model):
         help="Organization which create this record."
     )
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
-    partner_id = fields.Many2one('res.partner', string='Supplier', required=True, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
-    partner_code = fields.Char(related='partner_id.x_partner_code', string="Supplier code")
-    employee_id = fields.Many2one('hr.employee', string="Employee", default=_default_employee, required=True, ondelete='cascade', index=True)
-    active = fields.Boolean(string="Enable",default=True, help="Set active to false to hide the rebate contract without removing it.")
+    partner_id = fields.Many2one('res.partner', string='Supplier',
+    required=True, change_default=True, tracking=True,
+    domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)",
+    help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
+    partner_code = fields.Char(related='partner_id.x_partner_code',
+    string="Supplier code")
+    employee_id = fields.Many2one('hr.employee', string="Employee",
+    default=_default_employee, required=True, ondelete='cascade', index=True)
+    active = fields.Boolean(string="Enable",default=True, 
+    help="Set active to false to hide the rebate contract without removing it.")
     date_start = fields.Datetime(string="Contract start date")
     date_end = fields.Datetime(string="Contract end date")
     bonus_money = fields.Float("Bonus money")
@@ -34,12 +40,16 @@ class PartnerRebate(models.Model):
     remark = fields.Text("Remark")
     target = fields.Char("Target")
     product_target = fields.Char("Product target")
-    currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
-    attachment_number = fields.Integer('Number of Attachments', compute='_compute_attachment_number')
+    currency_id = fields.Many2one('res.currency',
+    default=lambda self: self.env.company.currency_id)
+    attachment_number = fields.Integer('Number of Attachments',
+    compute='_compute_attachment_number')
 
 
     def _compute_attachment_number(self):
-        attachment_data = self.env['ir.attachment'].read_group([('res_model', '=', 'x.partner.rebate'), ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
+        attachment_data = self.env['ir.attachment'].read_group([
+            ('res_model', '=', 'x.partner.rebate'),
+            ('res_id', 'in', self.ids)], ['res_id'], ['res_id'])
         attachment = dict((data['res_id'], data['res_id_count']) for data in attachment_data)
         for record in self:
             record.attachment_number = attachment.get(record.id, 0)
@@ -64,13 +74,15 @@ class PartnerRebate(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('x.partner.rebate') or _('New')
+            vals['name'] = 
+            self.env['ir.sequence'].next_by_code('x.partner.rebate') or _('New')
         result = super(PartnerRebate, self).create(vals)
         return result
 
     @api.model
     def _default_organization_id(self):
-        return self.env.user.x_organization_id and self.env.user.x_organization_id.id
+        return self.env.user.x_organization_id and
+        self.env.user.x_organization_id.id
 
     @api.model
     def compute_year(self, date_end):
