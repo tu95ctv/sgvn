@@ -77,16 +77,13 @@ class PartnerRebate(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] =
-            self.env['ir.sequence'].next_by_code(
-                'x.partner.rebate') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code('x.partner.rebate') or _('New')
         result = super(PartnerRebate, self).create(vals)
         return result
 
     @api.model
     def _default_organization_id(self):
-        return self.env.user.x_organization_id and
-        self.env.user.x_organization_id.id
+        return self.env.user.x_organization_id and self.env.user.x_organization_id.id
 
     @api.model
     def compute_year(self, date_end):
