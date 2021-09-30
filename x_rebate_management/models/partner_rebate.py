@@ -77,7 +77,8 @@ class PartnerRebate(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('x.partner.rebate') or _('New')
+            vals['name'] = self.env['ir.sequence'].next_by_code(
+                'x.partner.rebate') or _('New')
         result = super(PartnerRebate, self).create(vals)
         return result
 
