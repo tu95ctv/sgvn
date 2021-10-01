@@ -37,8 +37,8 @@ class PartnerRebate(models.Model):
     active = fields.Boolean(
         string="Enable", default=True,
         help="Set active to false to hide the rebate contract without removing it.")
-    date_start = fields.Datetime(string="Contract start date")
-    date_end = fields.Datetime(string="Contract end date")
+    date_start = fields.Datetime(string="Contract start date", copy=False)
+    date_end = fields.Datetime(string="Contract end date", copy=False)
     bonus_money = fields.Float("Bonus money")
     reward_criteria = fields.Text("Reward criteria")
     remark = fields.Text("Remark")
