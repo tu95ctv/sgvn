@@ -26,7 +26,7 @@ class PartnerRebate(models.Model):
     partner_id = fields.Many2one(
         'res.partner', string='Supplier',
         required=True, change_default=True, tracking=True,
-        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)",
+        domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     partner_code = fields.Char(
         related='partner_id.x_partner_code',
