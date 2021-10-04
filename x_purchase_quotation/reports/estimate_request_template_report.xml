@@ -13,7 +13,7 @@
                     <div><b>Response date: </b><span t-esc="o.date_response and o.date_response.strftime('%B %d, %Y') or ''"/></div>
                 </div>
                 <div class="col-8">
-                    <div style="margin-left:5em;"><b>Purchasing Managers:</b> <span t-esc="o.user_id.partner_id.parent_id and '%s - '%(o.user_id.partner_id.parent_id.name) or ''"/><span t-field="o.user_id"/></div>
+                    <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-esc="o.partner_id.x_purchase_person_id and o.partner_id.x_purchase_person_id.name + ', ' or ''"/> <span t-esc="o.x_organization_id and o.x_organization_id.name + ', ' or ''"/> <span t-field="o.user_id"/></div>
                 </div>
             </div>
             
