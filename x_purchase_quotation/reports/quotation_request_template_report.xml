@@ -58,7 +58,6 @@
             <div>
                 <b>Remarks</b>
                 <p t-field="o.notes"/>
-                <p t-field="o.notes"/>
             </div>
             <div>
                 <b>Direct shipping information</b>
