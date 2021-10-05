@@ -152,15 +152,21 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <b>Remarks</b>
-                    <p t-field="o.notes"/>
-                </div>
-                <div>
+                
+            </t>
+            <div class="row">
+                <div class="col-8">
                     <b>Direct shipping information</b>
                     <p t-field="o.dest_address_infor"/>
                 </div>
-            </t>
+
+                <div class="col-4">
+                    <b>Remarks</b>
+                    <p t-field="o.notes"/>
+                </div>
+                
+            </div>
+            
             <div class="oe_structure"/>
         </div>
     </t>
