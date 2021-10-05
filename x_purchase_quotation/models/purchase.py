@@ -73,7 +73,7 @@ class PurchaseOrder(models.Model):
     dest_address_id = fields.Many2one('res.partner', string='Direct delivery',)
     fiscal_position_id = fields.Many2one('account.fiscal.position', string='Accounting position',)
     date_planned = fields.Datetime(string="Requested delivery date", copy=False)
-    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping', store=True,)
+    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping',)
 
 
     # TODO: Hide print with state
