@@ -14,5 +14,5 @@ class ProductTemplate(models.Model):
     po_amount_confirm = fields.Float("Purchase Order amount", default=0)
     po_uom_ids = fields.Many2many(
         comodel_name="uom.uom", relation="purchase_uom_product_template_rel",
-        column1="product_tmpl_id", column2="uom_id", string="Purchase Order Unit")
+        column1="product_tmpl_id", column2="uom_id", string="Purchase Order Unit", copy=False)
     po_fixed_price = fields.Float("Purchase Fixed price", default=0)
