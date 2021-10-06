@@ -7,8 +7,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class ProductProduct(models.Model):
-    _inherit = 'product.product'
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
 
     po_qty_confirm = fields.Integer("Purchase Order quantity", default=0)
     po_amount_confirm = fields.Float("Purchase Order amount", default=0)
