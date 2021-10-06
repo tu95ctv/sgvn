@@ -16,7 +16,7 @@ class PurchaseOrder(models.Model):
     def _compute_show_construction(self):
         for rec in self:
             rec.show_construction = True if self.trans_classify_id and self.trans_classify_id.code == 'construction' else False
-
+    
     @api.depends('order_line', 'order_line.product_id')
     def _compute_is_dropshipping(self):
         for record in self:
@@ -24,6 +24,36 @@ class PurchaseOrder(models.Model):
             if record.order_line:
                 route_id = self.env.ref('stock_dropshipping.route_drop_shipping', raise_if_not_found=False)
                 record.is_dropshipping = True if route_id in record.mapped('product_id').mapped('route_ids') else False
+
+    def _default_content(self):
+        return '''
+<div>
+<table style="border-collapse: collapse; width: 80%; height: 36px;">
+<tbody>
+<tr style="height: 18px; background-color: #f1c40f;">
+<td style="height: 18px; width: 56.5145%; text-align: center;" colspan="2"><span style="color: rgb(255, 255, 255); font-family: Calibri, sans-serif; font-size: 14px; line-height: 107%;">Direct shipping information</span></td>
+</tr>
+<tr style="height: 18px;">
+<td style="width: 42.2539%; height: 18px;">
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;"><strong>Estimated price and estimated period for subcontracting work</strong></span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">Planned construction price</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">Construction work less than 5 million yen</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">Construction work of 5 million yen or more and less than 50 million yen</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">Construction work of 50 million yen or more</span></p>
+</td>
+<td style="width: 14.2606%; height: 18px;">
+<p style="margin-bottom: 0cm; line-height: 1;"><font style="font-size: 14px;">&nbsp;</font></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">Estimated period</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">for 1 day or more</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">for 10 days or more</span></p>
+<p style="margin-bottom: 0cm; line-height: 1;"><span style="font-size: 14px;">15 days or more during</span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="line-height: 1;"><font style="font-size: 14px;">&nbsp;</font></p>
+</div>
+        '''
 
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
     type = fields.Selection([
@@ -37,7 +67,7 @@ class PurchaseOrder(models.Model):
     date_response = fields.Datetime("Response date", copy=False)
     date_issuance = fields.Date("Issuance date", copy=False, default=fields.Date.context_today)
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
-    dest_address_infor = fields.Html("Direct shipping information", copy=False)
+    dest_address_infor = fields.Html("Direct shipping information", copy=False, default=_default_content, translate=html_translate, sanitize=False)
     # Displayed only when the transaction classification item of the slip is "Construction"
     show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
@@ -73,8 +103,6 @@ class PurchaseOrder(models.Model):
     dest_address_id = fields.Many2one('res.partner', string='Direct delivery',)
     fiscal_position_id = fields.Many2one('account.fiscal.position', string='Accounting position',)
     date_planned = fields.Datetime(string="Requested delivery date", copy=False)
-    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping',)
-
 
     # TODO: Hide print with state
     @api.model
