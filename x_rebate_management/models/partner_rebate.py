@@ -86,13 +86,6 @@ class PartnerRebate(models.Model):
     def _default_organization_id(self):
         return self.env.user.x_organization_id and self.env.user.x_organization_id.id
 
-    @api.model
-    def compute_year(self, date_end):
-        """PhuongTN: calculate the distance between date_end and current date"""
-        days_in_year = 365.2425
-        year = int((fields.Datetime.now() - date_end).days / days_in_year)
-        return year
-
     def action_get_attachment_view(self):
         self.ensure_one()
         res = self.env['ir.actions.act_window']._for_xml_id(
