@@ -10,7 +10,7 @@
             </t>
             <div class="row">
                 <div class="col-12 text-right">
-                    <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-esc="x_purchase_person_id and o.x_purchase_person_id.name or ''"/> <span t-esc="o.x_organization_id and o.x_organization_id.name or ''"/> <span t-field="o.user_id"/></div>
+                    <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-esc="o.partner_id.x_purchase_person_id and o.partner_id.x_purchase_person_id.name + ', ' or ''"/> <span t-esc="o.x_organization_id and o.x_organization_id.name + ', ' or ''"/> <span t-field="o.user_id"/></div>
                 </div>
             </div>            
             <table class="table table-sm">
