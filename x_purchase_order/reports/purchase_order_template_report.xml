@@ -52,7 +52,7 @@
                                 <td name="td_fixed_price">
                                     <span t-field="order_line.fixed_price"/>
                                 </td>
-                                <td name="td_date_planned" class="text-center">
+                                <td name="td_date_planned">
                                     <span t-esc="o.date_planned and o.date_planned.strftime('%Y年%m月%d日') or ''"/>
                                 </td>
                             </t>
