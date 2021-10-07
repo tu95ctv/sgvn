@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data noupdate="0">
-        <record model="ir.rule" id="purchase_order_organiztion">
-            <field name="name">Purchase order organization</field>
+        <record model="ir.rule" id="purchase_order_organiztion_user">
+            <field name="name">Purchase order organization user</field>
             <field name="model_id" ref="model_purchase_order"/>
             <field name="domain_force">['|', ('create_uid','=',False), ('create_uid','=',user.id), ('x_organization_id','=',user.x_organization_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
             <field name="perm_unlink" eval="0"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_read" eval="0"/>
             <field name="perm_create" eval="0"/>
         </record>
+
+        <record model="ir.rule" id="purchase_order_organiztion_employee">
+            <field name="name">Purchase order organization employee</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="domain_force">['|', ('x_organization_id','=',False), ('x_organization_id','=',user.x_organization_id.id)]</field>
+            <field name="groups" eval="[(4, ref('x_security_groups.group_branch_employee'))]"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="purchase_order_organiztion_manager">
+            <field name="name">Purchase order organization manager</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="domain_force">['|', ('x_organization_id','=',False), ('x_organization_id','child_of',user.x_organization_id.id)]</field>
+            <field name="groups" eval="[(4, ref('x_security_groups.group_branch_manager'))]"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        <record model="ir.rule" id="purchase_order_organiztion_sale_head">
+            <field name="name">Purchase order organization sale head</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('x_security_groups.group_sale_head'))]"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_create" eval="1"/>
+        </record>
+
+        
     </data>
 </odoo>

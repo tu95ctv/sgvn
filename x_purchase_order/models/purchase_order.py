@@ -22,7 +22,7 @@ class PurchaseOrder(models.Model):
     def _check_unit_line_product(self, line):
         if not self.env.user.has_group('x_purchase_order.group_warning_unit_product_purchase'):
             return True
-        if line.product_id.po_uom_ids and line.product_uom in line.product_id.po_uom_ids:
+        if not line.product_id.po_uom_ids or (line.product_id.po_uom_ids and line.product_uom in line.product_id.po_uom_ids):
             return True
         return False
 
@@ -30,7 +30,7 @@ class PurchaseOrder(models.Model):
         if not self.env.user.has_group('x_purchase_order.group_warning_qty_product_purchase'):
             return True
         line_qty = line.product_uom_qty
-        if line.product_id.po_qty_confirm and line_qty <= line.product_id.po_qty_confirm:
+        if line.product_id.po_qty_confirm == 0 or line_qty <= line.product_id.po_qty_confirm:
             return True
         return False
 
@@ -38,23 +38,27 @@ class PurchaseOrder(models.Model):
         if not self.env.user.has_group('x_purchase_order.group_warning_amount_product_purchase'):
             return True
         line_amount = line.price_subtotal
-        if line.product_id.po_amount_confirm and line_amount <= line.product_id.po_amount_confirm:
+        if line.product_id.po_amount_confirm == 0 or line_amount <= line.product_id.po_amount_confirm:
             return True
         return False
 
     def action_button_confirm(self):
         msg = ""
         for order in self:
-            for line in order.order_line:
-                if not self._check_amount_line_product(line):
-                    msg = _("The subtotal of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
-                    break
-                if not self._check_qty_line_product(line):
-                    msg = _("The quantity of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
-                    break
-                if not self._check_unit_line_product(line):
-                    msg = _("The unit of the purchase order item is a unit other than the set value.\n\nDo you want to place an order as it is?")
-                    break
+            if not order.order_line:
+                msg = _("The required items have not been entered.")
+                break
+            else:
+                for line in order.order_line:
+                    if not self._check_amount_line_product(line):
+                        msg = _("The subtotal of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
+                        break
+                    if not self._check_qty_line_product(line):
+                        msg = _("The quantity of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
+                        break
+                    if not self._check_unit_line_product(line):
+                        msg = _("The unit of the purchase order item is a unit other than the set value.\n\nDo you want to place an order as it is?")
+                        break
         if msg:
             action = {
                 'name': _("Purchase order slip: Confirmed"),
