@@ -45,16 +45,20 @@ class PurchaseOrder(models.Model):
     def action_button_confirm(self):
         msg = ""
         for order in self:
-            for line in order.order_line:
-                if not self._check_amount_line_product(line):
-                    msg = _("The subtotal of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
-                    break
-                if not self._check_qty_line_product(line):
-                    msg = _("The quantity of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
-                    break
-                if not self._check_unit_line_product(line):
-                    msg = _("The unit of the purchase order item is a unit other than the set value.\n\nDo you want to place an order as it is?")
-                    break
+            if not order.order_line:
+                msg = _("The required items have not been entered.")
+                break
+            else:
+                for line in order.order_line:
+                    if not self._check_amount_line_product(line):
+                        msg = _("The subtotal of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
+                        break
+                    if not self._check_qty_line_product(line):
+                        msg = _("The quantity of the purchase order item exceeds the standard value.\n\nDo you want to place an order as it is?")
+                        break
+                    if not self._check_unit_line_product(line):
+                        msg = _("The unit of the purchase order item is a unit other than the set value.\n\nDo you want to place an order as it is?")
+                        break
         if msg:
             action = {
                 'name': _("Purchase order slip: Confirmed"),
