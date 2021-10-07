@@ -22,7 +22,7 @@ class PurchaseOrder(models.Model):
     def _check_unit_line_product(self, line):
         if not self.env.user.has_group('x_purchase_order.group_warning_unit_product_purchase'):
             return True
-        if line.product_id.po_uom_ids and line.product_uom in line.product_id.po_uom_ids:
+        if not line.product_id.po_uom_ids or (line.product_id.po_uom_ids and line.product_uom in line.product_id.po_uom_ids):
             return True
         return False
 
