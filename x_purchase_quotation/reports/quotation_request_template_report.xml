@@ -30,7 +30,7 @@
                 <tbody>
                     <t t-foreach="o.order_line" t-as="order_line">
                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if order_line.display_type == 'line_section' else 'font-italic o_line_note' if order_line.display_type == 'line_note' else ''">
-                            <t t-if="not order_line.display_type">
+                            <t t-if="not order_line.display_type" class="text-left">
                                 <td id="product">
                                     <span t-field="order_line.product_id.default_code"/>
                                 </td>
@@ -58,11 +58,17 @@
             <div>
                 <b>Remarks</b>
                 <p t-field="o.notes"/>
-                <p t-field="o.notes"/>
             </div>
-            <div>
-                <b>Direct shipping information</b>
-                <p t-field="o.dest_address_infor"/>
+            <div class="row">
+                <div class="col-8">
+                    <t t-if="o.is_dropshipping">
+                        <b>Direct shipping information</b>
+                        <t t-if="o.show_construction or len(o.order_line) > 5">
+                            <p style="page-break-before:always;"> </p>
+                        </t>
+                        <p t-field="o.dest_address_infor"/>
+                    </t>
+                </div>
             </div>
 
             <div class="oe_structure"/>

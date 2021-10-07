@@ -16,11 +16,16 @@ class PurchaseOrder(models.Model):
     def _compute_show_construction(self):
         for rec in self:
             rec.show_construction = True if self.trans_classify_id and self.trans_classify_id.code == 'construction' else False
+    
+    @api.depends('order_line', 'order_line.product_id')
+    def _compute_is_dropshipping(self):
+        for record in self:
+            record.is_dropshipping = False
+            if record.order_line:
+                route_id = self.env.ref('stock_dropshipping.route_drop_shipping', raise_if_not_found=False)
+                record.is_dropshipping = True if route_id in record.mapped('product_id').mapped('route_ids') else False
 
-    def _default_content(self):
-        return '''
-            <p class="o_default_snippet_text">''' + _("Dropship") + '''</p>
-        '''
+
     trans_classify_id = fields.Many2one('x.transaction.classification', "Transaction classification")
     type = fields.Selection([
         ('normal', 'Normal purchase'),
@@ -33,7 +38,7 @@ class PurchaseOrder(models.Model):
     date_response = fields.Datetime("Response date", copy=False)
     date_issuance = fields.Date("Issuance date", copy=False, default=fields.Date.context_today)
     jurisdiction_id = fields.Many2one('crm.team', "Jurisdiction")
-    dest_address_infor = fields.Html("Direct shipping information", copy=False, default=_default_content, translate=html_translate, sanitize=False)
+    dest_address_infor = fields.Html("Direct shipping information", copy=False)
     # Displayed only when the transaction classification item of the slip is "Construction"
     show_construction = fields.Boolean("Show Construction", compute='_compute_show_construction')
     construction_name = fields.Char("Construction name")
@@ -69,6 +74,8 @@ class PurchaseOrder(models.Model):
     dest_address_id = fields.Many2one('res.partner', string='Direct delivery',)
     fiscal_position_id = fields.Many2one('account.fiscal.position', string='Accounting position',)
     date_planned = fields.Datetime(string="Requested delivery date", copy=False)
+    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping',)
+
 
     # TODO: Hide print with state
     @api.model

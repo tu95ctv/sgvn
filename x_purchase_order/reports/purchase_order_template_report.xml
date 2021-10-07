@@ -10,7 +10,7 @@
             </t>
             <div class="row">
                 <div class="col-12 text-right">
-                    <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-esc="x_purchase_person_id and o.x_purchase_person_id.name or ''"/> <span t-esc="o.x_organization_id and o.x_organization_id.name or ''"/> <span t-field="o.user_id"/></div>
+                    <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-esc="o.partner_id.x_purchase_person_id and o.partner_id.x_purchase_person_id.name + ', ' or ''"/> <span t-esc="o.x_organization_id and o.x_organization_id.name + ', ' or ''"/> <span t-field="o.user_id"/></div>
                 </div>
             </div>            
             <table class="table table-sm">
@@ -39,20 +39,20 @@
                                 <td name="td_product_uom">
                                     <span t-field="order_line.product_uom"/>
                                 </td>
-                                <td name="td_price_unit" class="text-right">
+                                <td name="td_price_unit">
                                     <span t-field="order_line.price_unit"/>
                                 </td>
-                                <td class="text-right">
+                                <td>
                                     <span t-field="order_line.price_subtotal"
                                         t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
                                 </td>
                                 <td name="td_taxes">
                                     <span t-esc="', '.join(map(lambda x: x.name, order_line.taxes_id))"/>
                                 </td>
-                                <td name="td_fixed_price" class="text-right">
+                                <td name="td_fixed_price">
                                     <span t-field="order_line.fixed_price"/>
                                 </td>
-                                <td name="td_date_planned" class="text-center">
+                                <td name="td_date_planned">
                                     <span t-esc="o.date_planned and o.date_planned.strftime('%Y年%m月%d日') or ''"/>
                                 </td>
                             </t>
@@ -92,9 +92,9 @@
             <t t-if="o.show_construction">
                 <span>Construction information</span>
                 <div class="row" style="border-bottom: 1px solid black;border-top: 1px solid black;">
-                    <div class="col-6">
-                        <div><b>Construction name</b> <span t-field="o.construction_name"/></div>
-                        <div><b>Construction site</b> <span t-field="o.construction_site"/></div>
+                    <div class="col-4">
+                        <div><b>Construction name</b> <span style="padding-left: 5px;" t-field="o.construction_name"/></div>
+                        <div><b>Construction site</b> <span style="padding-left: 5px;" t-field="o.construction_site"/></div>
                         <div class="d-flex">
                             <div>
                                 <b>Construction outline</b> According to a separate design document
@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="d-flex">
                             <div>
                                 <b>Presence or absence of supplies</b>
@@ -121,18 +121,6 @@
                         <div class="d-flex">
                             <div>
                                 <b>Construction conditions and range</b> According to a separate design document and construction plan 
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <div>
-                                <b>Payment terms</b> 
-                            </div>
-                            <div style="margin-left:6px">
-                                <div>Dealine at the end of the month, payment at the </div>
-                                <div>end of the following month according to our regulations</div>
-                                <div>
-                                Cash <span t-field="o.construction_cash"/> % Bills <span t-field="o.construction_bills"/> %
-                                </div>
                             </div>
                         </div>
                         <div class="d-flex">
@@ -152,16 +140,43 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-4">
+                        <div class="d-flex">
+                            <div>
+                                <b>Payment terms</b> 
+                            </div>
+                            <div style="margin-left:6px">
+                                <div style="max-width:280px; word-wrap:break-word;">Dealine at the end of the month, payment at the end of the following month according to our regulations</div>
+                                <div>
+                                Cash <span t-field="o.construction_cash"/> % Bills <span t-field="o.construction_bills"/> %
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
+                
+            </t>
+            <div class="row">
+                <div class="col-8">
+                    <t t-if="o.is_dropshipping">
+                        <b>Direct shipping information</b>
+                        <t t-if="o.show_construction or len(o.order_line) > 5">
+                            <p style="page-break-before:always;"> </p>
+                        </t>
+                        <p t-field="o.dest_address_infor"/>
+                    </t>
+                    <t t-if="o.show_construction">
+                        <div><b>Estimated price and estimated period for subcontracting work</b></div>
+                        <p t-field="o.estimated_subcontracting_work"/>
+                    </t>
+                    
+                </div>
+                <div class="col-4">
                     <b>Remarks</b>
                     <p t-field="o.notes"/>
                 </div>
-                <div>
-                    <b>Direct shipping information</b>
-                    <p t-field="o.dest_address_infor"/>
-                </div>
-            </t>
+                
+            </div>
             <div class="oe_structure"/>
         </div>
     </t>
