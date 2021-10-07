@@ -29,7 +29,7 @@
                 <tbody>
                     <t t-foreach="o.order_line" t-as="order_line">
                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if order_line.display_type == 'line_section' else 'font-italic o_line_note' if order_line.display_type == 'line_note' else ''">
-                            <t t-if="not order_line.display_type" class="text-left">
+                            <t t-if="not order_line.display_type">
                                 <td id="product">
                                     <span t-field="order_line.product_id.default_code"/>
                                 </td>
@@ -52,9 +52,9 @@
             </table>
             <span>Construction information</span>
             <div class="row" style="border-bottom: 1px solid black;border-top: 1px solid black;">
-                <div class="col-4">
-                    <div><b>Construction name</b> <span t-field="o.construction_name"/></div>
-                    <div><b>Construction site</b> <span t-field="o.construction_site"/></div>
+                <div class="col-6">
+                    <div><b>Construction name</b> <span style="padding-left: 5px;" t-field="o.construction_name"/></div>
+                    <div><b>Construction site</b> <span style="padding-left: 5px;" t-field="o.construction_site"/></div>
                     <div class="d-flex">
                         <div>
                             <b>Construction outline</b> According to a separate design document
@@ -67,7 +67,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="d-flex">
                         <div>
                             <b>Presence or absence of supplies</b>
@@ -83,7 +83,17 @@
                             <b>Construction conditions and range</b> According to a separate design document and construction plan 
                         </div>
                     </div>
-                    
+                    <div class="d-flex">
+                        <div>
+                            <b>Payment terms</b> 
+                        </div>
+                        <div style="margin-left:6px">
+                            <div style="max-width:450px; word-wrap:break-word;">Dealine at the end of the month, payment at the end of the following month according to our regulations</div>
+                            <div>
+                              Cash <span t-field="o.construction_cash"/> % Bills <span t-field="o.construction_bills"/> %
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex">
                         <div>
                         <b>Presence or absence of the current theory</b>
@@ -97,19 +107,6 @@
                             </div>
                             <div>
                                 <span t-field="o.construction_current_place"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="d-flex">
-                        <div>
-                            <b>Payment terms</b> 
-                        </div>
-                        <div style="margin-left:6px">
-                            <div style="max-width:280px; word-wrap:break-word;">Dealine at the end of the month, payment at the end of the following month according to our regulations</div>
-                            <div>
-                                Cash <span t-field="o.construction_cash"/> % Bills <span t-field="o.construction_bills"/> %
                             </div>
                         </div>
                     </div>
@@ -128,10 +125,10 @@
                         </t>
                         <p t-field="o.dest_address_infor"/>
                     </t>
-                    <t t-if="o.show_construction">
-                        <div><b>Estimated price and estimated period for subcontracting work</b></div>
-                        <p t-field="o.estimated_subcontracting_work"/>
-                    </t>
+
+                    <div><b>Estimated price and estimated period for subcontracting work</b></div>
+                    <p t-field="o.estimated_subcontracting_work"/>
+                    
                 </div>
             </div>
             <div class="oe_structure"/>
