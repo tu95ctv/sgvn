@@ -30,7 +30,7 @@ class PurchaseOrder(models.Model):
         if not self.env.user.has_group('x_purchase_order.group_warning_qty_product_purchase'):
             return True
         line_qty = line.product_uom_qty
-        if line.product_id.po_qty_confirm and line_qty <= line.product_id.po_qty_confirm:
+        if line.product_id.po_qty_confirm == 0 or line_qty <= line.product_id.po_qty_confirm:
             return True
         return False
 
@@ -38,7 +38,7 @@ class PurchaseOrder(models.Model):
         if not self.env.user.has_group('x_purchase_order.group_warning_amount_product_purchase'):
             return True
         line_amount = line.price_subtotal
-        if line.product_id.po_amount_confirm and line_amount <= line.product_id.po_amount_confirm:
+        if line.product_id.po_amount_confirm == 0 or line_amount <= line.product_id.po_amount_confirm:
             return True
         return False
 
