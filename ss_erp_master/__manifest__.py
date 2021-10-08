@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 {
-    "name": "SS ERP Responsible Department",
+    "name": "SS ERP Master",
     "summary": """
-        SS ERP Responsible Department
+        SS ERP Master
     """,
     "version": "14.0.1.0.0",
-    "category": "Purchase",
+    "category": "Human Resources/Employees",
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
+        "hr"
     ],
     "data": [
         # SECURITY
@@ -16,6 +17,8 @@
         # DATA
         # VIEWS
         "views/responsible_department_views.xml",
+        "views/organization_views.xml",
+        "views/organization_category_views.xml",
         # REPORTS
 
     ],
