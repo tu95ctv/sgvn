@@ -46,8 +46,12 @@ class PurchaseOrder(models.Model):
         msg = ""
         for order in self:
             if not order.order_line:
-                msg = _("The required items have not been entered.")
-                break
+                return {
+                    'warning': {
+                        'title': _("Purchase order slip: Confirmed"),
+                        'message': _("The required items have not been entered.")
+                    },
+                }
             else:
                 for line in order.order_line:
                     if not self._check_amount_line_product(line):
