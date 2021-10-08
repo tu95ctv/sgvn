@@ -44,14 +44,12 @@ class PurchaseOrder(models.Model):
 
     def action_button_confirm(self):
         msg = ""
+        default_type = 'confirm'
         for order in self:
             if not order.order_line:
-                return {
-                    'warning': {
-                        'title': _("Purchase order slip: Confirmed"),
-                        'message': _("The required items have not been entered.")
-                    },
-                }
+                msg = _("The required items have not been entered.")
+                default_type = ''
+                break
             else:
                 for line in order.order_line:
                     if not self._check_amount_line_product(line):
@@ -72,7 +70,7 @@ class PurchaseOrder(models.Model):
                 'context': {
                     'default_po_id': self.id,
                     'default_msg': msg,
-                    'default_type': 'confirm',
+                    'default_type': default_type,
                 },
                 'res_model': 'purchase.order.confirm.wizard'
             }
