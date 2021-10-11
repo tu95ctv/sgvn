@@ -23,7 +23,7 @@ class Organization(models.Model):
     code = fields.Char(string="Organization Code", required=True, copy=False)
     organization_category_id = fields.Many2one("ss_erp.organization.category", string="Organization category")
     parent_id = fields.Many2one("ss_erp.organization", string="Parent organization", )
-    parent_organization_code = fields.Char(string="Parent organization code", compute="_compute_parent_organization_code")
+    parent_organization_code = fields.Char(string="Parent organization code", compute="_compute_parent_organization_code", compute_sudo=True)
     organization_country_id = fields.Many2one("res.country", string="Organization address / country")
     organization_zip = fields.Char(string="Organization address / zip code")
     organization_state_id = fields.Many2one("res.country.state", string="Organization address / prefecture")
