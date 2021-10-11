@@ -24,7 +24,7 @@ class Organization(models.Model):
         string="Organization Code", required=True, copy=False
     )
     organization_category_id = fields.Many2one("ss_erp.organization.category", string="Organization category")
-    parent_id = fields.Many2one("ss_erp.organization", string="Parent organization code")
+    parent_id = fields.Many2one("ss_erp.organization", string="Parent organization")
     parent_organization_code = fields.Char(string="Parent organization code")
     organization_country_id = fields.Many2one("res.country", string="Organization address / country")
     organization_zip = fields.Char(string="Organization address / zip code")
