@@ -36,7 +36,7 @@ class Organization(models.Model):
     @api.depends('parent_id', 'parent_id.code')
     def _compute_parent_organization_code(self):
         for record in self:
-            record.parent_organization_code = record.parent_id and record.parent_id.code
+            record.parent_organization_code = record.parent_id.code if record.parent_id else ''
 
     @api.constrains("expire_start_date", "expire_end_date")
     def _check_dates(self):
