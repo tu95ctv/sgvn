@@ -20,12 +20,10 @@ class Organization(models.Model):
     expire_end_date = fields.Datetime(string="Expiration date", copy=False)
     child_ids = fields.One2many('ss_erp.organization', 'parent_id', string="Contains Organizations", ondelete="restrict",)
     parent_path = fields.Char(index=True)
-    organization_code = fields.Char(
-        string="Organization Code", required=True, copy=False
-    )
+    code = fields.Char(string="Organization Code", required=True, copy=False)
     organization_category_id = fields.Many2one("ss_erp.organization.category", string="Organization category")
-    parent_id = fields.Many2one("ss_erp.organization", string="Parent organization")
-    parent_organization_code = fields.Char(string="Parent organization code")
+    parent_id = fields.Many2one("ss_erp.organization", string="Parent organization", )
+    parent_organization_code = fields.Char(string="Parent organization code", compute="_compute_parent_organization_code")
     organization_country_id = fields.Many2one("res.country", string="Organization address / country")
     organization_zip = fields.Char(string="Organization address / zip code")
     organization_state_id = fields.Many2one("res.country.state", string="Organization address / prefecture")
@@ -34,6 +32,11 @@ class Organization(models.Model):
     organization_street2 = fields.Char("Organization address / town name address 2")
     organization_phone = fields.Char("Organization phone number")
     organization_fax = fields.Char("Organization Representative Fax")
+
+    @api.depends('parent_id', 'parent_id.code')
+    def _compute_parent_organization_code(self):
+        for record in self:
+            record.parent_organization_code = record.parent_id and record.parent_id.code
 
     @api.constrains("expire_start_date", "expire_end_date")
     def _check_dates(self):

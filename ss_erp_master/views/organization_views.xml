@@ -7,7 +7,7 @@
             <tree>
                 <field name="sequence" widget="handle"/>
                 <field name="company_id" groups="base.group_no_one,base.group_erp_manager"/>
-                <field name="organization_code"/>
+                <field name="code"/>
                 <field name="name"/>
                 <field name="parent_organization_code"/>
                 <field name="parent_id"/>
@@ -31,7 +31,7 @@
                             <field name="parent_id"/>
                         </group>
                         <group>
-                            <field name="organization_code"/>
+                            <field name="code"/>
                             <field name="active" invisible="1"/>
                             <field name="expire_start_date"/>
                             <field name="expire_end_date"/>
@@ -70,7 +70,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name" />
-                <field name="organization_code" />
+                <field name="code" />
                 <field name="organization_category_id" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <separator />
