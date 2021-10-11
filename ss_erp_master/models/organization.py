@@ -6,18 +6,20 @@ from odoo.exceptions import ValidationError
 class Organization(models.Model):
     _name = 'ss_erp.organization'
     _description = 'Organization'
+    _parent_name = "parent_id"
+    _parent_store = True
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
-
 
     name = fields.Char(string='Name')
     company_id = fields.Many2one(
-        'res.company', string='Company',required=True,
+        'res.company', string='Company', required=True,
         readonly=True, default=lambda self: self.env.company)
     sequence = fields.Integer("Sequence")
     active = fields.Boolean(default=True, help="If the active field is set to False, it will allow you to hide the payment terms without removing it.")
     expire_start_date = fields.Datetime(string="Valid start date", copy=False)
     expire_end_date = fields.Datetime(string="Expiration date", copy=False)
     child_ids = fields.One2many('ss_erp.organization', 'parent_id', string="Contains Organizations", ondelete="restrict",)
+    parent_path = fields.Char(index=True)
     organization_code = fields.Char(
         string="Organization Code", required=True, copy=False
     )
@@ -32,8 +34,7 @@ class Organization(models.Model):
     organization_street2 = fields.Char("Organization address / town name address 2")
     organization_phone = fields.Char("Organization phone number")
     organization_fax = fields.Char("Organization Representative Fax")
-    
-    
+
     @api.constrains("expire_start_date", "expire_end_date")
     def _check_dates(self):
         """End date should not be before start date, if not filled
@@ -49,7 +50,7 @@ class Organization(models.Model):
                 raise ValidationError(
                     _("The starting date cannot be after the ending date.")
                 )
-    
+
     @api.constrains('child_ids')
     def _check_recursion(self):
         if not self._check_m2m_recursion('child_ids'):
