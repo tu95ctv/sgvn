@@ -6,13 +6,13 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
+                <field name="organization_code"/>
                 <field name="company_id" groups="base.group_no_one,base.group_erp_manager"/>
-                <field name="code"/>
                 <field name="name"/>
                 <field name="parent_organization_code"/>
                 <field name="parent_id"/>
-                <field name="expire_start_date"/>
-                <field name="expire_end_date"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
             </tree>
         </field>
     </record>
@@ -31,10 +31,10 @@
                             <field name="parent_id"/>
                         </group>
                         <group>
-                            <field name="code"/>
+                            <field name="organization_code"/>
                             <field name="active" invisible="1"/>
-                            <field name="expire_start_date"/>
-                            <field name="expire_end_date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
                         </group>
                     </group>
                     <group>

@@ -8,6 +8,8 @@ class Organization(models.Model):
     _description = 'Organization'
     _parent_name = "parent_id"
     _parent_store = True
+    _rec_name = 'complete_name'
+    _order = 'complete_name'
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
 
     name = fields.Char(string='Name')
@@ -16,11 +18,11 @@ class Organization(models.Model):
         readonly=True, default=lambda self: self.env.company)
     sequence = fields.Integer("Sequence")
     active = fields.Boolean(default=True, help="If the active field is set to False, it will allow you to hide the payment terms without removing it.")
-    expire_start_date = fields.Datetime(string="Valid start date", copy=False)
-    expire_end_date = fields.Datetime(string="Expiration date", copy=False)
+    start_date = fields.Datetime(string="Valid start date", copy=False)
+    end_date = fields.Datetime(string="Expiration date", copy=False)
     child_ids = fields.One2many('ss_erp.organization', 'parent_id', string="Contains Organizations", ondelete="restrict",)
     parent_path = fields.Char(index=True)
-    code = fields.Char(string="Organization Code", required=True, copy=False)
+    organization_code = fields.Char(string="Organization Code", required=True, copy=False)
     organization_category_id = fields.Many2one("ss_erp.organization.category", string="Organization category")
     parent_id = fields.Many2one("ss_erp.organization", string="Parent organization", )
     parent_organization_code = fields.Char(string="Parent organization code", compute="_compute_parent_organization_code", compute_sudo=True)
@@ -32,13 +34,26 @@ class Organization(models.Model):
     organization_street2 = fields.Char("Organization address / town name address 2")
     organization_phone = fields.Char("Organization phone number")
     organization_fax = fields.Char("Organization Representative Fax")
+    complete_name = fields.Char(
+        'Complete Name', compute='_compute_complete_name',
+        store=True)
+    
+    
+    @api.depends('name', 'parent_id.complete_name')
+    def _compute_complete_name(self):
+        for organization in self:
+            if organization.parent_id:
+                organization.complete_name = '%s / %s' % (organization.parent_id.complete_name, organization.name)
+            else:
+                organization.complete_name = organization.name
 
-    @api.depends('parent_id', 'parent_id.code')
+
+    @api.depends('parent_id', 'parent_id.organization_code')
     def _compute_parent_organization_code(self):
         for record in self:
-            record.parent_organization_code = record.parent_id.code if record.parent_id else ''
+            record.parent_organization_code = record.parent_id.organization_code if record.parent_id else ''
 
-    @api.constrains("expire_start_date", "expire_end_date")
+    @api.constrains("start_date", "end_date")
     def _check_dates(self):
         """End date should not be before start date, if not filled
 
@@ -46,9 +61,9 @@ class Organization(models.Model):
         """
         for record in self:
             if (
-                record.expire_start_date
-                and record.expire_end_date
-                and record.expire_start_date > record.expire_end_date
+                record.start_date
+                and record.end_date
+                and record.start_date > record.end_date
             ):
                 raise ValidationError(
                     _("The starting date cannot be after the ending date.")

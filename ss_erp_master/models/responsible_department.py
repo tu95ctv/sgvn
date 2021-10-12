@@ -14,8 +14,9 @@ class ResponsibleDepartment(models.Model):
     active = fields.Boolean(default=True, help="If the active field is set to False, it will allow you to hide the payment terms without removing it.")
     date_start = fields.Datetime(string="Valid start date", copy=False)
     date_end = fields.Datetime(string="Expiration date", copy=False)
+    code = fields.Char(string="Code", copy=False)
     
-    
+
     @api.constrains("date_start", "date_end")
     def _check_dates(self):
         """End date should not be before start date, if not filled
