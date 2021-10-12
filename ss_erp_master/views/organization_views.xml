@@ -98,8 +98,4 @@
 
     <menuitem id="menu_organization_settings" name="Organizations"
         parent="base.menu_users" action="action_organizations" />
-
-    <menuitem id="menu_organization_hr_config" name="Organizations"
-        parent="hr.menu_human_resources_configuration" action="action_organizations" />
-
 </odoo>

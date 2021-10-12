@@ -24,10 +24,10 @@
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="action_view_organizations"
                             class="oe_stat_button" icon="fa-building"
-                            groups="base.group_no_one,base.group_erp_manager,hr.group_hr_user"
+                            groups="base.group_no_one,base.group_erp_manager"
                             attrs="{'invisible': [('organization_count', '&lt;=', 0)]}">
                             <field name="organization_count" string="Organizations"
-                                groups="base.group_no_one,base.group_erp_manager,hr.group_hr_user"
+                                groups="base.group_no_one,base.group_erp_manager"
                                 widget="statinfo" />
                         </button>
                     </div>
@@ -78,9 +78,5 @@
 
     <menuitem id="menu_organization_category_setting" name="Org. Categories"
             parent="base.menu_users" action="action_organizations_category" />
-
-    <menuitem id="menu_organization_category_hr_config" name="Org. Categories"
-        parent="hr.menu_human_resources_configuration" action="action_organizations_category" />
-
 
 </odoo>
