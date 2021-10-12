@@ -10,8 +10,8 @@
                 <field name="code"/>
                 <field name="name"/>
                 <field name="company_id"/>
-                <field name="date_start"/>
-                <field name="date_end"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
             </tree>
         </field>
     </record>
