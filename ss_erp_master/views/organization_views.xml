@@ -6,13 +6,13 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
+                <field name="organization_code"/>
                 <field name="company_id" groups="base.group_no_one,base.group_erp_manager"/>
-                <field name="code"/>
                 <field name="name"/>
                 <field name="parent_organization_code"/>
                 <field name="parent_id"/>
-                <field name="expire_start_date"/>
-                <field name="expire_end_date"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
             </tree>
         </field>
     </record>
@@ -33,8 +33,8 @@
                         <group>
                             <field name="code"/>
                             <field name="active" invisible="1"/>
-                            <field name="expire_start_date"/>
-                            <field name="expire_end_date"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
                         </group>
                     </group>
                     <group>
@@ -44,7 +44,7 @@
                                 <field name="organization_street" placeholder="Street..." class="o_address_street"/>
                                 <field name="organization_street2" placeholder="Street 2..." class="o_address_street"/>
                                 <field name="organization_city" placeholder="City" class="o_address_city"/>
-                                <field name="organization_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'default_country_id': organization_country_id}"/>
+                                <field name="organization_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" domain="[('country_id', '=', organization_country_id)]"/>
                                 <field name="organization_zip" placeholder="ZIP" class="o_address_zip"/>
                                 <field name="organization_country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
                             </div>
@@ -98,8 +98,4 @@
 
     <menuitem id="menu_organization_settings" name="Organizations"
         parent="base.menu_users" action="action_organizations" />
-
-    <menuitem id="menu_organization_hr_config" name="Organizations"
-        parent="hr.menu_human_resources_configuration" action="action_organizations" />
-
 </odoo>

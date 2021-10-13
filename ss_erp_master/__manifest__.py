@@ -9,7 +9,7 @@
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
-        "hr"
+        "mail"
     ],
     "data": [
         # SECURITY
