@@ -6,10 +6,10 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="sequence" widget="handle"/>
-                <field name="organization_code"/>
                 <field name="company_id" groups="base.group_no_one,base.group_erp_manager"/>
-                <field name="name"/>
-                <field name="parent_organization_code"/>
+                <field name="organization_code" string="Org code"/>
+                <field name="name" string="Org name"/>
+                <field name="parent_organization_code" string="Parent org code"/>
                 <field name="parent_id"/>
                 <field name="start_date"/>
                 <field name="end_date"/>
@@ -86,7 +86,7 @@
     </record> -->
 
     <record id="action_organizations" model="ir.actions.act_window">
-        <field name="name">Organizations</field>
+        <field name="name">Organization</field>
         <field name="res_model">ss_erp.organization</field>
         <field name="view_mode">tree,form</field>
         <field name="help" type="html">
