@@ -8,8 +8,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
 
     x_fixed_cost = fields.Float("Purchase Fixed price")
 

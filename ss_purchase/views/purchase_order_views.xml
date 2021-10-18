@@ -138,6 +138,9 @@
             <xpath expr="//form/sheet/group[1]/group[2]/label[@for='date_approve']" position="attributes">
                 <attribute name="string">Order confirmation date</attribute>
             </xpath>
+            <xpath expr="//page[@name='products']/field/tree/field[@name='name']" position="after">
+                <field name="x_fixed_cost"/>
+            </xpath>
 
             <!-- <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
                 <attribute name="optional">show</attribute>
