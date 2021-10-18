@@ -29,7 +29,7 @@ class PartnerRebate(models.Model):
         'ss_erp.responsible.department', "Jurisdiction", index=True)
     partner_id = fields.Many2one(
         'res.partner', string='Supplier',
-        change_default=True, tracking=True,
+        change_default=True, tracking=True, index=True,
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
         help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     partner_ref = fields.Char(
