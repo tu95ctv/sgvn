@@ -25,7 +25,7 @@ class PurchaseOrder(models.Model):
     x_desired_delivery = fields.Selection([
         ('full', 'Hope for full payment'),
         ('separated', 'Can be paid in installments'),
-    ], string="Purchase type", default='full', copy=True)
+    ], string="Desired delivery", default='full', copy=True)
     x_dest_address_info = fields.Html("Direct shipping information")
     x_truck_number = fields.Char("Car number")
     x_organization_id = fields.Many2one('ss_erp.organization', string="Organization in charge", index=True)
