@@ -151,8 +151,8 @@
             <field name="picking_type_id" position="attributes">
                 <attribute name="string">Arrival type</attribute>
             </field>
-            <field name="picking_type_id" position="after">
-                <field name="dest_address_id" string="Direct delivery"/>
+            <field name="dest_address_id" position="attributes">
+                <attribute name="string">Direct delivery</attribute>
             </field>
             <field name="incoterm_id" position="after">
                 <field name="x_dest_address_info" attrs="{'invisible': [('default_location_dest_id_usage', '!=', 'customer')]}"/>
