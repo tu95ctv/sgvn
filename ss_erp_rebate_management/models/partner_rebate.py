@@ -78,6 +78,7 @@ class PartnerRebate(models.Model):
                     _("The starting date cannot be after the ending date.")
                 )
 
+    # TODO: prepare display name if it happens
     # @api.model
     # def create(self, vals):
     #     if vals.get('name', _('New')) == _('New'):
