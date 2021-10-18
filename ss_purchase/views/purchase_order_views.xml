@@ -78,11 +78,12 @@
             <field name="partner_id" position="attributes">
                 <attribute name="string">Supplier</attribute>
             </field>
-            <field name="invoice_status" position="after">
+            <field name="invoice_status" position="before">
                 <field name="state"/>
             </field>
             <field name="invoice_status" position="attributes">
                 <attribute name="string">Invoice Status</attribute>
+                <attribute name="optional">hide</attribute>
             </field>
         </field>
     </record>
