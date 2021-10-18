@@ -186,26 +186,35 @@
                             </div>
                             <field name="x_supplies_check" widget="radio" options="{'horizontal': true}"/> 
                             <field name="x_supplies_info" /> 
-                            <field name="x_construction_payment_term" nolabel="1"/> 
-                            <field name="x_construction_payment_cash" /> 
+                            
+                            
                         </group>
                         <group>
                             <field name="x_explanation_check" widget="radio" options="{'horizontal': true}"/>
                             <field name="x_explanation_date"/>
                             <field name="x_explanation_spot"/>
                             <field name="x_construction_other"/>    
+                            
+                        </group>
+                    </group>
+                    <group>
+                        <field name="x_construction_payment_term" nolabel="1"/> 
+                    </group>
+                    <group>
+                        <group>
+                            <field name="x_construction_payment_cash" /> 
+                        </group>
+                        <group>
                             <field name="x_construction_payment_bill" /> 
                         </group>
                     </group>
                     <group>
-                        <group name="group_contract">
+                        <group name="group_contract" string="Notes on construction contract">
                             <label for="x_construction_contract_notice"/>
-                            <field name="x_construction_contract_notice"/>
+                            <field name="x_construction_contract_notice" nolabel="1"/>
                         </group>
-                        <group name="group_subcontract">
-                            
-                            <label for="x_construction_subcontract"/>
-                            <field name="x_construction_subcontract"/>
+                        <group name="group_subcontract" string="Estimated price and estimated period for subcontracting work">
+                            <field name="x_construction_subcontract" nolabel="1"/>
                         </group>
                     </group>
                 </page>
