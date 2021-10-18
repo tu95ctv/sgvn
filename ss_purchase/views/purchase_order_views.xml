@@ -169,117 +169,48 @@
                 <field name="x_organization_id" options="{'no_create': True}" required="1" readonly="0"/>
                 <field name="x_responsible_dept_id" options="{'no_create': True}" required="1" readonly="0"/>
                 <field name="x_mkt_user_id" options="{'no_create': True}" required="1" readonly="0"/>
+                <field name="x_is_construction" invisible="1"/>     
             </field>
-            <!-- <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
-                <attribute name="optional">show</attribute>
-            </xpath>
-            <xpath expr="//page[@name='products']/field/tree/field[@name='product_id']" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </xpath>
-            <xpath expr="//page[@name='products']/field/tree/field[@name='product_uom']" position="attributes">
-                <attribute name="options">{'no_create': True}</attribute>
-            </xpath>
-            <xpath expr="//page[@name='products']/field/tree/field[@name='product_qty']" position="before">
-                <field name="location_dest_id" options="{'no_create': True}"/>
-            </xpath>
             
-            <field name="company_id" position="after">
-                <field name="jurisdiction_id" options="{'no_create': True}"/>
-                <field name="create_uid" readonly="1"/>
-            </field>
-            <field name="invoice_status" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="invoice_status" position="before">
-                <field name="x_organization_id" options="{'no_create': True}"/>
-            </field>
-
-            <xpath expr="//page[@name='purchase_delivery_invoice']" position="inside">
-                <group>
-                    <field name="dest_address_infor" attrs="{'invisible': [('is_dropshipping', '=', False)], 'required': [('is_dropshipping', '=', True)]}"/>
-                </group>
-            </xpath>
-
             <page name="products" position="after">
-                <page string="Construction information" name="construction_information" attrs="{'invisible': [('show_construction', '=', False)]}">
+                <page string="Construction information" name="construction_information" attrs="{'invisible': [('x_is_construction', '=', False)]}">
                     <group>
                         <group name="construction_info">
-                            <field name="construction_name"/>
-                            <field name="construction_site"/>
-                            <label for="construction_period_start"/>
+                            <field name="x_construction_name"/>
+                            <field name="x_construction_sopt"/>
+                            <label for="x_construction_period_start"/>
                             <div name="construction_period_div" class="o_row">
-                                <field name="construction_period_start"/>
+                                <field name="x_construction_period_start"/>
                                 <h2> ~ </h2>
-                                <field name="construction_period_end"/>
+                                <field name="x_construction_period_end"/>
                             </div>
-                            <field name="pres_abs_supplies" widget="radio" options="{'horizontal': true}"/> 
-                            <field name="construction_supplies" /> 
-                            <field name="construction_payment_term" /> 
-
-                            <label for="construction_cash" invisible="1"/>
-                            <div name="construction_cash_bill_div">
-                                <div class="row">
-                                    <label for="construction_cash"/>
-                                    <field name="construction_cash" class="oe_inline"/>
-                                    <h2>%</h2>
-                                </div>
-                                <div class="row">
-                                    <label for="construction_bills"/>
-                                    <field name="construction_bills" class="oe_inline"/>
-                                    <h2>%</h2>
-                                </div>
-                            </div>
+                            <field name="x_supplies_check" widget="radio" options="{'horizontal': true}"/> 
+                            <field name="x_supplies_info" /> 
+                            <field name="x_construction_payment_term" nolabel="1"/> 
+                            <field name="x_construction_payment_cash" /> 
                         </group>
                         <group>
-                            <field name="pres_abs_current_theory" widget="radio" options="{'horizontal': true}"/>
-                            <field name="construction_current_date"/>
-                            <field name="construction_current_place"/>
-                            <field name="construction_others"/>    
-
+                            <field name="x_explanation_check" widget="radio" options="{'horizontal': true}"/>
+                            <field name="x_explanation_date"/>
+                            <field name="x_explanation_spot"/>
+                            <field name="x_construction_other"/>    
+                            <field name="x_construction_payment_bill" /> 
                         </group>
                     </group>
-                    <hr/>
-                    <label for="notes_construction_contract" string="Notes on construction contract"/>
-                    <field name="notes_construction_contract"/>
-                    <label for="estimated_subcontracting_work" string="Estimated price and estimated period for subcontracting work"/>
-                    <field name="estimated_subcontracting_work"/>
-                    <hr/>
+                    <group>
+                        <group name="group_contract">
+                            <label for="x_construction_contract_notice"/>
+                            <field name="x_construction_contract_notice"/>
+                        </group>
+                        <group name="group_subcontract">
+                            
+                            <label for="x_construction_subcontract"/>
+                            <field name="x_construction_subcontract"/>
+                        </group>
+                    </group>
                 </page>
-            </page> -->
+            </page> 
         </field>
     </record>
-
-    <!-- Form view for Purchase order -->
-    <!-- <record id="purchase_order_view_form_inherit" model="ir.ui.view">
-        <field name="name">purchase.order.form.inherit</field>
-        <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="x_purchase_quotation.purchase_order_view_form_inherit"/>
-        <field name="arch" type="xml">
-            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='create_date']" position="attributes">
-                <attribute name="attrs">{'invisible': [('state', 'not in', ['draft', 'sent'])]}</attribute>
-            </xpath>
-            <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
-                <field name="date_issuance_order" attrs="{'invisible': [('state', 'in', ['draft', 'sent'])]}"/>
-            </xpath>
-            <xpath expr="//page[@name='products']/field/tree/field[@name='taxes_id']" position="after">
-                <field name="fixed_price"/>
-            </xpath>
-
-            <xpath expr="//button[@id='bid_confirm']" position="attributes">
-                <attribute name="name">action_button_confirm</attribute>
-            </xpath>
-            <xpath expr="//button[@id='draft_confirm']" position="attributes">
-                <attribute name="name">action_button_confirm</attribute>
-            </xpath>
-            <button name="button_cancel" position="after">
-                <button name="action_button_cancel" states="draft,to approve,sent,purchase" string="Cancel" type="object"/>
-            </button>
-            <button name="button_cancel" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </button>
-            
-
-        </field>
-    </record> -->
 
 </odoo>

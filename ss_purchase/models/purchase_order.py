@@ -33,6 +33,13 @@ class PurchaseOrder(models.Model):
     x_mkt_user_id = fields.Many2one('res.users', string="Sales representative", index=True, default=lambda self: self.env.user)
 
     # Construction information
+    @api.depends('x_bis_categ_id')
+    def _compute_show_construction(self):
+        rec_construction_id = self.env.ref("ss_erp_master.ss_erp_bis_category_data_0").id
+        for rec in self:
+            rec.x_is_construction = True if self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id else False
+
+    x_is_construction = fields.Boolean("Is construction?", compute='_compute_show_construction', compute_sudo=True)
     x_construction_name = fields.Char("Construction name")
     x_construction_sopt = fields.Char("construction site")
     x_construction_period_start = fields.Date("Scheduled construction period start")
@@ -42,6 +49,8 @@ class PurchaseOrder(models.Model):
         ('exist', 'Can be'),
     ], string="Presence or absence of supplies", default='no')
     x_supplies_info = fields.Char("Supplies")
+    x_construction_payment_term = fields.Char("Payment terms", readonly=True, default=_("Construction payment conditions (deadline at the end of the month and payment at the end of the following month according to our regulations)"))
+
     x_explanation_check = fields.Selection([
         ('no', 'None'),
         ('exist', 'Can be'),
