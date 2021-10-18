@@ -172,7 +172,7 @@
                 <field name="x_is_construction" invisible="1"/>     
             </field>
             
-            <page name="products" position="after">
+            <page name="purchase_delivery_invoice" position="after">
                 <page string="Construction information" name="construction_information" attrs="{'invisible': [('x_is_construction', '=', False)]}">
                     <group>
                         <group name="construction_info">
