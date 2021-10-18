@@ -139,9 +139,12 @@
                 <attribute name="string">Order confirmation date</attribute>
             </xpath>
             <xpath expr="//page[@name='products']/field/tree/field[@name='name']" position="after">
-                <field name="x_fixed_cost"/>
+                <field name="x_fixed_cost" string="Fixed price"/>
             </xpath>
-
+            <xpath expr="//page[@name='products']/field/tree/field[@name='product_uom']" position="attributes">
+                <attribute name="options">{'no_create': True}</attribute>
+                <attribute name="string">Unit</attribute>
+            </xpath>
             <!-- <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
                 <attribute name="optional">show</attribute>
             </xpath>
