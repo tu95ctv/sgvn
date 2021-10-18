@@ -101,6 +101,9 @@
             <field name="partner_ref" position="attributes">
                 <attribute name="string">See supplier</attribute>
             </field>
+            <!-- <field name="origin" position="attributes">
+                <attribute name="attrs"></attribute>
+            </field> -->
             <field name="partner_ref" position="after">
                 <field name="x_bis_categ_id" options="{'no_create': True}" required="1"/>
                 <field name="x_po_type" required="1" readonly="0"/>
