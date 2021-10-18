@@ -210,7 +210,6 @@
                     </group>
                     <group>
                         <group name="group_contract" string="Notes on construction contract">
-                            <label for="x_construction_contract_notice"/>
                             <field name="x_construction_contract_notice" nolabel="1"/>
                         </group>
                         <group name="group_subcontract" string="Estimated price and estimated period for subcontracting work">
