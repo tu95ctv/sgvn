@@ -6,13 +6,11 @@ from datetime import datetime
 import pytz
 
 
-
 class PartnerRebate(models.Model):
     _name = 'ss_erp.partner.rebate'
     _description = 'Rebate condition'
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
     _rec_name = 'partner_id'
-    
 
     name = fields.Char(string='No.', default='New', readonly=1)
     sequence = fields.Integer(string='Sequence', default=10)
@@ -39,11 +37,11 @@ class PartnerRebate(models.Model):
         string="Enable", default=True,
         help="Set active to false to hide the rebate contract without removing it.")
     date_start = fields.Datetime(
-        string="Contract start date", 
+        string="Contract start date",
         default=lambda self: fields.Datetime.now().strftime('%Y-%m-%d 00:00:00'))
-        
+
     date_end = fields.Datetime(
-        string="Contract end date", 
+        string="Contract end date",
         default=lambda self: fields.Datetime.now().strftime('%Y-%m-%d 23:59:59'))
     rebate_price = fields.Float("Bounty",)
     rebate_standard = fields.Text("Reward criteria")
