@@ -11,7 +11,7 @@ class PartnerRebate(models.Model):
     _name = 'ss_erp.partner.rebate'
     _description = 'Rebate condition'
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
-
+    _rec_name = 'partner_id'
     
 
     name = fields.Char(string='No.', default='New', readonly=1)
@@ -80,13 +80,13 @@ class PartnerRebate(models.Model):
                     _("The starting date cannot be after the ending date.")
                 )
 
-    @api.model
-    def create(self, vals):
-        if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code(
-                'ss_erp.partner.rebate') or _('New')
-        result = super(PartnerRebate, self).create(vals)
-        return result
+    # @api.model
+    # def create(self, vals):
+    #     if vals.get('name', _('New')) == _('New'):
+    #         vals['name'] = self.env['ir.sequence'].next_by_code(
+    #             'ss_erp.partner.rebate') or _('New')
+    #     result = super(PartnerRebate, self).create(vals)
+    #     return result
 
     # @api.model
     # def _default_organization_id(self):
