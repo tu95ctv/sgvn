@@ -128,7 +128,7 @@
             </xpath>
 
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
-                <field name="date_planned" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                <field name="date_planned" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}" string="Requested delivery date"/>
                 <field name="x_desired_delivery" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
                 <field name="user_id" position="move"/>
             </xpath>
