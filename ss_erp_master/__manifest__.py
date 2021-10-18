@@ -15,6 +15,7 @@
         # SECURITY
         "security/ir.model.access.csv",
         # DATA
+        "data/bis_category_data.xml",
         # VIEWS
         "views/responsible_department_views.xml",
         "views/organization_views.xml",
