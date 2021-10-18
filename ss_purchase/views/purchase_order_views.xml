@@ -145,6 +145,28 @@
                 <attribute name="options">{'no_create': True}</attribute>
                 <attribute name="string">Unit</attribute>
             </xpath>
+            <field name="company_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="picking_type_id" position="attributes">
+                <attribute name="string">Arrival type</attribute>
+            </field>
+            <field name="picking_type_id" position="after">
+                <field name="dest_address_id" string="Direct delivery"/>
+            </field>
+            <field name="incoterm_id" position="after">
+                <field name="x_dest_address_info" attrs="{'invisible': [('default_location_dest_id_usage', '!=', 'customer')]}"/>
+                <field name="x_truck_number"/>
+            </field>
+            
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="string">Accounting position</attribute>
+            </field>
+            <field name="fiscal_position_id" position="after">
+                <field name="x_organization_id" options="{'no_create': True}" required="1" readonly="0"/>
+                <field name="x_responsible_dept_id" options="{'no_create': True}" required="1" readonly="0"/>
+                <field name="x_mkt_user_id" options="{'no_create': True}" required="1" readonly="0"/>
+            </field>
             <!-- <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
                 <attribute name="optional">show</attribute>
             </xpath>
@@ -157,9 +179,7 @@
             <xpath expr="//page[@name='products']/field/tree/field[@name='product_qty']" position="before">
                 <field name="location_dest_id" options="{'no_create': True}"/>
             </xpath>
-            <field name="incoterm_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
+            
             <field name="company_id" position="after">
                 <field name="jurisdiction_id" options="{'no_create': True}"/>
                 <field name="create_uid" readonly="1"/>
