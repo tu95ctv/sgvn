@@ -202,10 +202,19 @@
                     </group>
                     <group>
                         <group>
-                            <field name="x_construction_payment_cash" /> 
+                            <label for="x_construction_payment_cash"/>
+                            <div>
+                              <field name="x_construction_payment_cash" class="oe_inline" />
+                              <span class="o_form_label oe_inline">%</span>
+                            </div>
+                            
                         </group>
                         <group>
-                            <field name="x_construction_payment_bill" /> 
+                            <label for="x_construction_payment_bill"/>
+                            <div>
+                              <field name="x_construction_payment_bill" class="oe_inline" />
+                              <span class="o_form_label oe_inline">%</span>
+                            </div>
                         </group>
                     </group>
                     <group>
