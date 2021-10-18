@@ -18,7 +18,7 @@
         # VIEWS
         "views/res_company_views.xml",
         "views/product_template_views.xml",
-        "views/purchase_views.xml",
+        "views/purchase_order_views.xml",
         # REPORTS
         # "reports/action.xml",
         # "reports/layout.xml",

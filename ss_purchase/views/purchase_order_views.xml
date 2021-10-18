@@ -70,26 +70,16 @@
                 <attribute name="options">{'no_create': True}</attribute>
             </field>
             <field name="partner_ref" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
-            <field name="origin" position="attributes">
-                <attribute name="attrs"></attribute>
-            </field>
-            <field name="origin" position="attributes">
-                <attribute name="readonly">1</attribute>
+                <attribute name="string">See supplier</attribute>
             </field>
             <field name="partner_ref" position="after">
-                <field name="trans_classify_id" options="{'no_create': True}"/>
-                <!-- <field name="type" attrs="{'readonly':[('id','>',0)]}"/> -->
-                <field name="type"/>
+                <field name="x_bis_categ_id" options="{'no_create': True}" required="1"/>
+                <field name="x_po_type" required="1" readonly="1"/>
                 <field name="origin" position="move"/>
-                <field name="desired_delivery"/>
-                <field name="show_construction" invisible="1"/>
-                <field name="is_dropshipping" invisible="1"/>
             </field>
 
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute name="string">Response date</attribute>
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[2]/label[@for='receipt_reminder_email']" position="attributes">
                 <attribute name="invisible">1</attribute>
@@ -97,17 +87,17 @@
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='reminder']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-
-            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="after">
+            <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="before">
                 <field name="create_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                <field name="x_rfq_issue_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
             </xpath>
+
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
-                <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
-                <field name="date_issuance" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
+                <field name="x_desired_delivery" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
                 <field name="user_id" position="move"/>
             </xpath>
 
-            <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
+            <!-- <xpath expr="//page[@name='products']/field/tree/field[@name='date_planned']" position="attributes">
                 <attribute name="optional">show</attribute>
             </xpath>
             <xpath expr="//page[@name='products']/field/tree/field[@name='product_id']" position="attributes">
@@ -184,12 +174,12 @@
                     <field name="estimated_subcontracting_work"/>
                     <hr/>
                 </page>
-            </page>
+            </page> -->
         </field>
     </record>
 
     <!-- Form view for Purchase order -->
-    <record id="purchase_order_view_form_inherit" model="ir.ui.view">
+    <!-- <record id="purchase_order_view_form_inherit" model="ir.ui.view">
         <field name="name">purchase.order.form.inherit</field>
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="x_purchase_quotation.purchase_order_view_form_inherit"/>
@@ -219,6 +209,6 @@
             
 
         </field>
-    </record>
+    </record> -->
 
 </odoo>
