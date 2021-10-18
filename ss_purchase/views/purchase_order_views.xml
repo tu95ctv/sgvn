@@ -25,6 +25,15 @@
             <field name="activity_ids" position="attributes">
                 <attribute name="optional">hide</attribute>
             </field>
+            <field name="origin" position="attributes">
+                <attribute name="string">Reference source</attribute>
+            </field>
+            <field name="user_id" position="attributes">
+                <attribute name="string">Purchasing person</attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="string">Supplier</attribute>
+            </field>
         </field>
     </record>
 
