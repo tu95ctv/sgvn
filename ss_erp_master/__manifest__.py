@@ -20,6 +20,7 @@
         "views/responsible_department_views.xml",
         "views/organization_views.xml",
         "views/organization_category_views.xml",
+        "views/res_partner_views.xml",
         # REPORTS
 
     ],
