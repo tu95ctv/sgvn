@@ -35,9 +35,9 @@ class PurchaseOrder(models.Model):
     # Construction information
     @api.depends('x_bis_categ_id')
     def _compute_show_construction(self):
-        rec_construction_id = self.env.ref("ss_erp_master.ss_erp_bis_category_data_0").id
+        rec_construction_id = self.env.ref("ss_erp_master.ss_erp_bis_category_data_0", raise_if_not_found=False)
         for rec in self:
-            rec.x_is_construction = True if self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id else False
+            rec.x_is_construction = True if rec_construction_id and self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id.id else False
 
     x_is_construction = fields.Boolean("Is construction?", compute='_compute_show_construction', compute_sudo=True)
     x_construction_name = fields.Char("Construction name")
