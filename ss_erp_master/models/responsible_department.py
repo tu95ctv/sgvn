@@ -5,6 +5,7 @@ from odoo.exceptions import ValidationError
 
 class ResponsibleDepartment(models.Model):
     _name = 'ss_erp.responsible.department'
+    _description = 'Responsible Department'
 
     name = fields.Char(string='Name')
     company_id = fields.Many2one(
