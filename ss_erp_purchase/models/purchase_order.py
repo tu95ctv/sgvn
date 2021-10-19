@@ -11,6 +11,14 @@ _logger = logging.getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+
+    # Construction information
+    @api.depends('x_bis_categ_id')
+    def _compute_show_construction(self):
+        rec_construction_id = self.env.ref("ss_erp_master.ss_erp_bis_category_data_0", raise_if_not_found=False)
+        for rec in self:
+            rec.x_is_construction = True if rec_construction_id and self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id.id else False
+
     x_bis_categ_id = fields.Many2one('ss_erp.bis.category', string="Transaction classification", copy=True, index=True)
     x_po_type = fields.Selection([
         ('normal', 'Normal purchase'),
@@ -19,6 +27,7 @@ class PurchaseOrder(models.Model):
         ('lng_lorry', 'Raleigh delivery(LNG gas)'),
         ('dropship', 'Direct delivery'),
     ], string="Purchase type", default='normal', index=True, copy=False)
+    date_response = fields.Date("Response date", copy=False)
 
     x_rfq_issue_date = fields.Date("Quotation request date")
     x_po_issue_date = fields.Date("Order sending date")
@@ -31,14 +40,6 @@ class PurchaseOrder(models.Model):
     x_organization_id = fields.Many2one('ss_erp.organization', string="Organization in charge", index=True)
     x_responsible_dept_id = fields.Many2one('ss_erp.responsible.department', string="Jurisdiction", index=True)
     x_mkt_user_id = fields.Many2one('res.users', string="Sales representative", index=True, default=lambda self: self.env.user)
-
-    # Construction information
-    @api.depends('x_bis_categ_id')
-    def _compute_show_construction(self):
-        rec_construction_id = self.env.ref("ss_erp_master.ss_erp_bis_category_data_0", raise_if_not_found=False)
-        for rec in self:
-            rec.x_is_construction = True if rec_construction_id and self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id.id else False
-
     x_is_construction = fields.Boolean("Is construction?", compute='_compute_show_construction', compute_sudo=True)
     x_construction_name = fields.Char("Construction name")
     x_construction_sopt = fields.Char("construction site")
@@ -62,3 +63,13 @@ class PurchaseOrder(models.Model):
     x_construction_payment_bill = fields.Float("Bills")
     x_construction_contract_notice = fields.Html("Notes on construction contract", copy=True, default=lambda self: self.env.user.company_id.x_construction_contract_notice)
     x_construction_subcontract = fields.Html("Estimated price and estimated period for subcontracting work", copy=True, default=lambda self: self.env.user.company_id.x_construction_subcontract)
+    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping',)
+
+    @api.depends('order_line', 'order_line.product_id')
+    def _compute_is_dropshipping(self):
+        for record in self:
+            record.is_dropshipping = False
+            if record.order_line:
+                route_id = self.env.ref('stock_dropshipping.route_drop_shipping', raise_if_not_found=False)
+                record.is_dropshipping = True if route_id in record.mapped('product_id').mapped('route_ids') else False
+

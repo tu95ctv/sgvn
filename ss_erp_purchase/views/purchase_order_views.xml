@@ -105,7 +105,7 @@
                 <attribute name="attrs"></attribute>
             </field> -->
             <field name="partner_ref" position="after">
-                <field name="x_bis_categ_id" options="{'no_create': True}" required="1"/>
+                <field name="x_bis_categ_id" options="{'no_create': True}"/>
                 <field name="x_po_type" required="1" readonly="0"/>
                 <field name="origin" position="move"/>
             </field>
@@ -127,6 +127,7 @@
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="before">
                 <field name="create_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}" string="Created date"/>
+                <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
                 <field name="x_rfq_issue_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
             </xpath>
 
@@ -170,6 +171,7 @@
                 <field name="x_responsible_dept_id" options="{'no_create': True}" required="1" readonly="0"/>
                 <field name="x_mkt_user_id" options="{'no_create': True}" required="1" readonly="0"/>
                 <field name="x_is_construction" invisible="1"/>     
+                <field name="is_dropshipping" invisible="1"/>     
             </field>
             
             <page name="purchase_delivery_invoice" position="after">

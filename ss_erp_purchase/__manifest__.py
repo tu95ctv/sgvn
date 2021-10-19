@@ -9,7 +9,7 @@
     "website": "https://latido.vn",
     "author": "LATIDO",
     "depends": [
-        "ss_erp_master", "purchase_stock", "sales_team"
+        "ss_erp_master", "purchase_stock", "sales_team", "ss_erp_base"
     ],
     "data": [
         # SECURITY
@@ -20,10 +20,11 @@
         "views/product_template_views.xml",
         "views/purchase_order_views.xml",
         # REPORTS
-        # "reports/action.xml",
+        "reports/action.xml",
         # "reports/layout.xml",
-        # "reports/quotation_request_template_report.xml",
-        # "reports/estimate_request_template_report.xml",
+        "reports/purchase_quotation_report.xml",
+        "reports/purchase_quotation_for_construction_report.xml",
+        "reports/purchase_order_template_report.xml",
         # # MAIL TEMPLATE
         # "data/mail_template_data.xml",
     ],
