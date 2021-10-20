@@ -31,10 +31,10 @@
             </div>
             <div class="row" style="margin-top: 10px">
                 <div class="col-4">
+                    <div>
+                        <span t-esc="o.partner_id.name"/> 殿
+                    </div>
                     <t t-if="o.state not in ['draft', 'sent']">
-                        <div>
-                            <span t-esc="o.partner_id.name"/> 殿
-                        </div>
                         <div>
                             TEL: <span t-esc="o.partner_id.mobile"/> <span style="margin-left:4px;">FAX: <t t-esc="o.partner_id.x_fax_number"/> </span>
                         </div>
