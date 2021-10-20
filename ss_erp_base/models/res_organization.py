@@ -9,8 +9,7 @@ class Organization(models.Model):
 
     @api.model
     def _get_default_address_format(self):
-        return "%(street)s\n%(street2)s\n%(city)s %(state_name)s %(zip)s\n\
-        %(country_name)s"
+        return "%(state_name)s %(city)s %(zip)s %(street)s %(street2)s %(country_name)s"
 
     def _display_address(self, without_company=False):
 
