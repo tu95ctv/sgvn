@@ -89,6 +89,11 @@ class PurchaseOrder(models.Model):
                 if sum([cash, bills]) != 100 or not(self.clamp(cash) or self.clamp(cash)):
                     raise ValidationError(_('Total payment must be 100%%: Cash %s%% - Bills %s%%' % (cash, bills)))
 
+    def _prepare_picking(self):
+        res = super(PurchaseOrder, self)._prepare_picking()
+        res.update({'user_id': self.user_id.id})
+        return res
+
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
         if self.env.context.get('send_rfq', False):
