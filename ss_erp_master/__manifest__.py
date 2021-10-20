@@ -22,6 +22,7 @@
         "views/organization_views.xml",
         "views/organization_category_views.xml",
         "views/res_partner_views.xml",
+        "views/res_users_views.xml",
         # REPORTS
 
     ],
