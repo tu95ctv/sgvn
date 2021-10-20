@@ -127,7 +127,6 @@
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[2]/field[@name='date_order']" position="before">
                 <field name="create_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}" string="Created date"/>
-                <field name="date_response" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
                 <field name="x_rfq_issue_date" attrs="{'invisible': [('state', 'not in', ['draft', 'sent'])]}"/>
             </xpath>
 

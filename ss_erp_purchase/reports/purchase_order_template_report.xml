@@ -170,7 +170,7 @@
                     </t>
                     <t t-if="o.x_is_construction">
                         <div><b>Estimated price and estimated period for subcontracting work</b></div>
-                        <p t-field="o.estimated_subcontracting_work"/>
+                        <p t-field="o.x_construction_subcontract"/>
                     </t>
                     
                 </div>

@@ -17,7 +17,8 @@ class MailMail(models.Model):
             if partner:
                 email = getattr(partner, self._context.get(
                     'partner_email_field'))
-                email_to = [tools.formataddr((partner.name or 'False', email))]
+                if email:
+                    email_to = [tools.formataddr((partner.name or 'False', email))]
             else:
                 email_to = tools.email_split_and_format(self.email_to)
             res.update({'email_to': email_to})

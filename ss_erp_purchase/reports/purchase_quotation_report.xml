@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-4">
                     <div><b>Requested delivery date:</b> <span t-esc="o.date_planned and o.date_planned.strftime('%Y年%m月%d日') or ''"/></div>
-                    <div><b>Response date: </b><span t-esc="o.date_response and o.date_response.strftime('%Y年%m月%d日') or ''"/></div>
+                    <div><b>Response date: </b><span t-esc="o.date_order and o.date_order.strftime('%Y年%m月%d日') or ''"/></div>
                 </div>
                 <div class="col-8">
                     <div style="margin-left:5em;"><b>Purchasing Person:</b> <span t-field="o.user_id"/></div>

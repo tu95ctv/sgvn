@@ -25,7 +25,5 @@
     ],
     "application": False,
     "installable": True,
-    'pre_init_hook': 'pre_init_hook',
-    'uninstall_hook': 'uninstall_hook',
 
 }
