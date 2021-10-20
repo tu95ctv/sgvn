@@ -16,9 +16,6 @@
             <field name="partner_id" position="after">
                 <field name="x_organization_id" optional="show"/>
             </field>
-            <field name="company_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="date_order" position="attributes">
                 <attribute name="string">Response date</attribute>
                 <attribute name="optional">show</attribute>
@@ -60,9 +57,6 @@
             </field>
             <field name="partner_id" position="after">
                 <field name="x_organization_id"/>
-            </field>
-            <field name="company_id" position="attributes">
-                <attribute name="invisible">1</attribute>
             </field>
             <field name="date_planned" position="attributes">
                 <attribute name="string">Requested delivery date</attribute>
@@ -150,9 +144,6 @@
                 <attribute name="options">{'no_create': True}</attribute>
                 <attribute name="string">Unit</attribute>
             </xpath>
-            <field name="company_id" position="attributes">
-                <attribute name="invisible">1</attribute>
-            </field>
             <field name="picking_type_id" position="attributes">
                 <attribute name="string">Arrival type</attribute>
             </field>
