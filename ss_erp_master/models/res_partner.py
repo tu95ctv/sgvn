@@ -9,3 +9,5 @@ class ResPartner(models.Model):
     x_fax_number = fields.Char(
         string="Fax Number", size=20
     )
+    organization_id = fields.Many2one('ss_erp.organization', string='Organization')
+
