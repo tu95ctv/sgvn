@@ -129,7 +129,7 @@
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_planned_div']" position="after">
                 <field name="date_planned" string="Requested delivery date"/>
                 <field name="x_desired_delivery" required="1"/>
-                <field name="user_id" position="move"/>
+                <field name="user_id" domain="[('share', '=', False),('organization_id', '=', x_organization_id)]" widget="many2one_avatar_user" position="move"/>
             </xpath>
             <xpath expr="//form/sheet/group[1]/group[2]/div[@name='date_approve']" position="after">
                 <field name="x_po_issue_date" attrs="{'invisible': [('state','!=','purchase')]}"/>
@@ -158,6 +158,9 @@
             <field name="fiscal_position_id" position="attributes">
                 <attribute name="string">Accounting position</attribute>
             </field>
+            <xpath expr="//group[@name='other_info']/field[@name='user_id']" position="attributes">
+                <attribute name="domain">[('share', '=', False),('organization_id', '=', x_organization_id)]</attribute>
+            </xpath>
             <field name="fiscal_position_id" position="after">
                 <field name="x_organization_id" options="{'no_create': True}" required="1" readonly="0"/>
                 <field name="x_responsible_dept_id" options="{'no_create': True}" required="1" readonly="0"/>
@@ -192,7 +195,7 @@
                         </group>
                     </group>
                     <group>
-                        <field name="x_construction_payment_term" nolabel="1"/> 
+                        <span>Construction payment conditions (deadline at the end of the month and payment at the end of the following month according to our regulations)</span>
                     </group>
                     <group>
                         <group>
@@ -201,7 +204,6 @@
                               <field name="x_construction_payment_cash" class="oe_inline" />
                               <span class="o_form_label oe_inline">%</span>
                             </div>
-                            
                         </group>
                         <group>
                             <label for="x_construction_payment_bill"/>
