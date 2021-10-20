@@ -25,7 +25,7 @@
                         </div> -->
                         <group>
                             <group>
-                                <field name="company_id" groups="base.group_multi_company" string="About us" required="1"/>
+                                <field name="company_id" string="About us" required="1"/>
                                 <field name="organization_id" options="{'no_create': True}" string="Organization information" required="1"/>
                                 <field name="responsible_id" options="{'no_create': True}" required="1"/>
                                 <field name="partner_ref" invisible="1" required="1"/>
@@ -43,7 +43,7 @@
                             <group>
                                 <field name="rebate_price" widget="monetary" options="{'currency_field': 'currency_id'}" required="1"/>
                                 <field name="rebate_standard"/>
-                                <field name="remarks"/>
+                                <field name="remarks" string="Remark"/>
                             </group>
                             <group>
                                 <field name="rebate_goal"/>

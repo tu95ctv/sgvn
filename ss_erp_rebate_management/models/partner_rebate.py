@@ -9,8 +9,35 @@ import pytz
 class PartnerRebate(models.Model):
     _name = 'ss_erp.partner.rebate'
     _description = 'Rebate condition'
-    _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'partner_id'
+
+
+    def _get_default_date_start(self):
+        dt = datetime.strptime(str(fields.Datetime.now().replace(hour=0,minute=0,second=0)), '%Y-%m-%d %H:%M:%S')
+        user = self.env.user
+        if user and user.tz:
+            user_tz = user.tz
+            if user_tz in pytz.all_timezones:
+                old_tz = pytz.timezone('UTC')
+                new_tz = pytz.timezone(user_tz)
+                dt = new_tz.localize(dt).astimezone(old_tz)
+            else:
+                _logger.info(_("Unknown timezone {}".format(user_tz)))
+        return datetime.strftime(dt, '%Y-%m-%d %H:%M:%S')
+
+    def _get_default_date_end(self):
+        dt = datetime.strptime(str(fields.Datetime.now().replace(hour=23,minute=59,second=59)), '%Y-%m-%d %H:%M:%S')
+        user = self.env.user
+        if user and user.tz:
+            user_tz = user.tz
+            if user_tz in pytz.all_timezones:
+                old_tz = pytz.timezone('UTC')
+                new_tz = pytz.timezone(user_tz)
+                dt = new_tz.localize(dt).astimezone(old_tz)
+            else:
+                _logger.info(_("Unknown timezone {}".format(user_tz)))
+        return datetime.strftime(dt, '%Y-%m-%d %H:%M:%S')
 
     name = fields.Char(string='No.', default='New', readonly=1)
     sequence = fields.Integer(string='Sequence', default=10)
@@ -38,11 +65,11 @@ class PartnerRebate(models.Model):
         help="Set active to false to hide the rebate contract without removing it.")
     date_start = fields.Datetime(
         string="Contract start date",
-        default=lambda self: fields.Datetime.now().strftime('%Y-%m-%d 00:00:00'))
+        default=_get_default_date_start)
 
     date_end = fields.Datetime(
         string="Contract end date",
-        default=lambda self: fields.Datetime.now().strftime('%Y-%m-%d 23:59:59'))
+        default=_get_default_date_end)
     rebate_price = fields.Float("Bounty",)
     rebate_standard = fields.Text("Reward criteria")
     remarks = fields.Text("Memo")
