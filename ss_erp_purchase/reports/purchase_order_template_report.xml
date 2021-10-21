@@ -11,8 +11,8 @@
             <div class="row">
                 <div class="col-12">
                     <t t-if="o.picking_type_id and o.picking_type_id.default_location_dest_id">
-                        <div style="margin-left:5em;"><b>Delivery destination:</b> <span t-esc="o.picking_type_id.default_location_dest_id.display_name"/></div>
-                        <div style="margin-left:5em;">* For direct delivery, refer to the direct delivery destination information at the bottom.</div>
+                        <div><b>Delivery destination:</b> <span t-esc="o.picking_type_id.default_location_dest_id.display_name"/></div>
+                        <div>* For direct delivery, refer to the direct delivery destination information at the bottom.</div>
                     </t>
                 </div>
             </div>            
