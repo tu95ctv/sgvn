@@ -2,7 +2,6 @@
 
 from . import res_company
 from . import res_partner
-from . import res_users
 from . import bis_category
 from . import mail_mail
 from . import model
