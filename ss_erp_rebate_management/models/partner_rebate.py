@@ -12,9 +12,9 @@ class PartnerRebate(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'partner_id'
 
-
     def _get_default_date_start(self):
-        dt = datetime.strptime(str(fields.Datetime.now().replace(hour=0,minute=0,second=0)), '%Y-%m-%d %H:%M:%S')
+        dt = datetime.strptime(str(fields.Datetime.now().replace(
+            hour=0, minute=0, second=0)), '%Y-%m-%d %H:%M:%S')
         user = self.env.user
         if user and user.tz:
             user_tz = user.tz
@@ -27,7 +27,8 @@ class PartnerRebate(models.Model):
         return datetime.strftime(dt, '%Y-%m-%d %H:%M:%S')
 
     def _get_default_date_end(self):
-        dt = datetime.strptime(str(fields.Datetime.now().replace(hour=23,minute=59,second=59)), '%Y-%m-%d %H:%M:%S')
+        dt = datetime.strptime(str(fields.Datetime.now().replace(
+            hour=23, minute=59, second=59)), '%Y-%m-%d %H:%M:%S')
         user = self.env.user
         if user and user.tz:
             user_tz = user.tz
