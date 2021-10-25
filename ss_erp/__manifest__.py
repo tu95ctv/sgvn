@@ -9,8 +9,8 @@
     "website": "https://www.systemgear-vietnam.com/",
     "author": "SGVN",
     "depends": [
-                "delivery","mail", "contacts", "purchase", "purchase_stock", "web"
-                ],
+        "delivery","mail", "contacts", "purchase", "purchase_stock", "web"
+        ],
     "data": [
         # SECURITY
         "security/ir.model.access.csv",
@@ -22,11 +22,8 @@
 
         # REPORTS
         "reports/paperformat.xml",
-
         "reports/layout.xml",
-
         "reports/purchase_order_template_report.xml",
-        # "reports/purchase_quotation_for_construction_report.xml",
         "reports/purchase_quotation_report.xml",
         "reports/action.xml",
 
