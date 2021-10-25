@@ -8,10 +8,12 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    x_bis_categ_id = fields.Many2one('ss_erp.bis.category', string="Transaction classification", copy=True, index=True)
+    x_bis_categ_id = fields.Many2one(
+        'ss_erp.bis.category', string="Transaction classification", copy=True, index=True)
     x_po_type = fields.Selection([
         ('normal', 'Normal purchase'),
         ('industry_lorry', 'Raleigh delivery(industrial gas)'),
@@ -28,37 +30,48 @@ class PurchaseOrder(models.Model):
     ], string="Desired delivery", default='full', copy=True)
     x_dest_address_info = fields.Html("Direct shipping information")
     x_truck_number = fields.Char("Car number")
-    x_organization_id = fields.Many2one('ss_erp.organization', string="Organization in charge", index=True)
-    x_responsible_dept_id = fields.Many2one('ss_erp.responsible.department', string="Jurisdiction", index=True)
-    x_mkt_user_id = fields.Many2one('res.users', string="Sales representative", index=True, default=lambda self: self.env.user)
-    x_is_construction = fields.Boolean("Is construction?", compute='_compute_show_construction', compute_sudo=True)
+    x_organization_id = fields.Many2one(
+        'ss_erp.organization', string="Organization in charge", index=True)
+    x_responsible_dept_id = fields.Many2one(
+        'ss_erp.responsible.department', string="Jurisdiction", index=True)
+    x_mkt_user_id = fields.Many2one(
+        'res.users', string="Sales representative", index=True, default=lambda self: self.env.user)
+    x_is_construction = fields.Boolean(
+        "Is construction?", compute='_compute_show_construction', compute_sudo=True)
     x_construction_name = fields.Char("Construction name")
     x_construction_sopt = fields.Char("construction site")
-    x_construction_period_start = fields.Date("Scheduled construction period start")
-    x_construction_period_end = fields.Date("Scheduled construction period ends")
+    x_construction_period_start = fields.Date(
+        "Scheduled construction period start")
+    x_construction_period_end = fields.Date(
+        "Scheduled construction period ends")
     x_supplies_check = fields.Selection([
         ('exist', 'Yes'),
-        ('no', 'No'),       
+        ('no', 'No'),
     ], string="Presence or absence of supplies", default='no')
     x_supplies_info = fields.Char("Supplies")
-    x_construction_payment_term = fields.Char("Payment terms", readonly=True, default=_("Construction payment conditions (deadline at the end of the month and payment at the end of the following month according to our regulations)"))
+    x_construction_payment_term = fields.Char("Payment terms", readonly=True, default=_(
+        "Construction payment conditions (deadline at the end of the month and payment at the end of the following month according to our regulations)"))
 
     x_explanation_check = fields.Selection([
         ('exist', 'Yes'),
-        ('no', 'No'),        
+        ('no', 'No'),
     ], string="Presence or absence of the current theory", default='no')
     x_explanation_date = fields.Date("Current date")
     x_explanation_spot = fields.Char("Current theory place")
     x_construction_other = fields.Text("others")
     x_construction_payment_cash = fields.Float("Cash")
     x_construction_payment_bill = fields.Float("Bills")
-    x_construction_contract_notice = fields.Html("Notes on construction contract", copy=True, default=lambda self: self.env.user.company_id.x_construction_contract_notice)
-    x_construction_subcontract = fields.Html("Estimated price and estimated period for subcontracting work", copy=True, default=lambda self: self.env.user.company_id.x_construction_subcontract)
-    is_dropshipping = fields.Boolean('Is dropship', compute='_compute_is_dropshipping',)
+    x_construction_contract_notice = fields.Html(
+        "Notes on construction contract", copy=True, default=lambda self: self.env.user.company_id.x_construction_contract_notice)
+    x_construction_subcontract = fields.Html("Estimated price and estimated period for subcontracting work",
+                                             copy=True, default=lambda self: self.env.user.company_id.x_construction_subcontract)
+    is_dropshipping = fields.Boolean(
+        'Is dropship', compute='_compute_is_dropshipping',)
 
     @api.depends('x_bis_categ_id')
     def _compute_show_construction(self):
-        rec_construction_id = self.env.ref("ss_erp.ss_erp_bis_category_data_0", raise_if_not_found=False)
+        rec_construction_id = self.env.ref(
+            "ss_erp.ss_erp_bis_category_data_0", raise_if_not_found=False)
         for rec in self:
             rec.x_is_construction = True if rec_construction_id and self.x_bis_categ_id and self.x_bis_categ_id.id == rec_construction_id.id else False
 
@@ -67,8 +80,10 @@ class PurchaseOrder(models.Model):
         for record in self:
             record.is_dropshipping = False
             if record.order_line:
-                route_id = self.env.ref('stock_dropshipping.route_drop_shipping', raise_if_not_found=False)
-                record.is_dropshipping = True if route_id in record.mapped('product_id').mapped('route_ids') else False
+                route_id = self.env.ref(
+                    'stock_dropshipping.route_drop_shipping', raise_if_not_found=False)
+                record.is_dropshipping = True if route_id in record.mapped(
+                    'product_id').mapped('route_ids') else False
 
     @api.onchange('x_construction_payment_cash')
     def _onchange_construction_cash(self):
@@ -87,7 +102,8 @@ class PurchaseOrder(models.Model):
             bills = record.x_construction_payment_bill
             if cash or bills:
                 if sum([cash, bills]) != 100 or not(self.clamp(cash) or self.clamp(cash)):
-                    raise ValidationError(_('Total payment must be 100%%: Cash %s%% - Bills %s%%' % (cash, bills)))
+                    raise ValidationError(
+                        _('Total payment must be 100%%: Cash %s%% - Bills %s%%' % (cash, bills)))
 
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
@@ -132,7 +148,7 @@ class PurchaseOrder(models.Model):
                 return False
             else:
                 return number
-    
+
     def _prepare_picking(self):
         res = super(PurchaseOrder, self)._prepare_picking()
         res.update({'user_id': self.user_id.id})

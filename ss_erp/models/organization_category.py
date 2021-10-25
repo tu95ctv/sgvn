@@ -49,5 +49,6 @@ class OrganizationCategory(models.Model):
     def unlink(self):
         for record in self:
             if self.env['ss_erp.organization'].search([('organization_category_id', '=', record.id)]):
-                raise UserError(_('You can not delete organization category as other records still reference it. However, you can archive it.'))
+                raise UserError(
+                    _('You can not delete organization category as other records still reference it. However, you can archive it.'))
         return super(OrganizationCategory, self).unlink()
