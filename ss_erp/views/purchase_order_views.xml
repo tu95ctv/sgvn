@@ -61,8 +61,10 @@
                 <field name="x_organization_id"/>
             </field>
             <field name="date_planned" position="attributes">
-                <attribute name="string">Requested delivery date</attribute>
-                <attribute name="optional">show</attribute>
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="user_id" position="after">
+                <field name="date_planned" invisible="context.get('quotation_only', False)" optional="show" string="Requested delivery date"/>
             </field>
             <field name="activity_ids" position="attributes">
                 <attribute name="optional">hide</attribute>
@@ -179,7 +181,7 @@
                         <group name="construction_info">
                             <field name="x_construction_name"/>
                             <field name="x_construction_sopt"/>
-                            <label for="x_construction_period_start"/>
+                            <label for="x_construction_period_start" string="Scheduled construction period"/>
                             <div name="construction_period_div" class="o_row">
                                 <field name="x_construction_period_start"/>
                                 <h2> ~ </h2>
@@ -218,10 +220,13 @@
                         </group>
                     </group>
                     <group>
-                        <group name="group_contract" string="Notes on construction contract">
+                        <group name="group_contract">
+                            <separator string="Notes on construction contract" colspan="4" style="font-size:1.2rem"/>
                             <field name="x_construction_contract_notice" nolabel="1"/>
+
                         </group>
-                        <group name="group_subcontract" string="Estimated price and estimated period for subcontracting work">
+                        <group name="group_subcontract">
+                            <separator string="Estimated price and estimated period for subcontracting work" colspan="4" style="font-size:1.2rem"/>
                             <field name="x_construction_subcontract" nolabel="1"/>
                         </group>
                     </group>

@@ -20,9 +20,10 @@ class StockPicking(models.Model):
     x_mkt_user_id = fields.Many2one(
         'res.users', string="Sales staff", related='purchase_id.x_mkt_user_id')
     x_po_type = fields.Selection(
-        related='purchase_id.x_po_type', string="Purchase type", index=True)
+        related='purchase_id.x_po_type', string="Sales type", index=True)
+
     # TODO
-    # x_so_type = ields.Selection(related='sale_id.x_so_type', string="Sales type" )
+    # x_so_type = fields.Selection(related='sale_id.x_so_type', string="Sales type" )
     x_import_id = fields.Char("Capture ID", copy=False)
     location_dest_id_usage = fields.Selection(
         related='location_dest_id.usage', string='Destination Location Type', readonly=True)

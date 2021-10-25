@@ -21,6 +21,15 @@
             <field name="origin" position="attributes">
                 <attribute name="string">Reference source</attribute>
             </field>
+            <field name="user_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="location_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="location_dest_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
         </field>
     </record>
 
@@ -49,7 +58,7 @@
             </field>
             <group name="carrier_data" position="inside">
                 <field name="location_dest_id_usage" invisible="1"/>
-                <field name="x_dest_address_info" attrs="{'invisible': [('location_dest_id_usage', '!=', 'customer')]}"/>
+                <!-- <field name="x_dest_address_info" attrs="{'invisible': [('location_dest_id_usage', '!=', 'customer')]}"/> -->
             </group>
             <field name="group_id" position="before">
                 <field name="x_organization_id" />

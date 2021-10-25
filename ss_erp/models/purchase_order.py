@@ -35,7 +35,7 @@ class PurchaseOrder(models.Model):
     x_responsible_dept_id = fields.Many2one(
         'ss_erp.responsible.department', string="Jurisdiction", index=True)
     x_mkt_user_id = fields.Many2one(
-        'res.users', string="Sales representative", index=True, default=lambda self: self.env.user)
+        'res.users', string="Sales creator", index=True, default=lambda self: self.env.user)
     x_is_construction = fields.Boolean(
         "Is construction?", compute='_compute_show_construction', compute_sudo=True)
     x_construction_name = fields.Char("Construction name")
