@@ -28,14 +28,14 @@
         "reports/action.xml",
 
         # VIEWS
+        "views/res_partner_views.xml",
+        "views/res_users_views.xml",
+        "views/res_company_views.xml",
         "views/organization_category_views.xml",
         "views/organization_views.xml",
         "views/partner_rebate_views.xml",
         "views/product_template_views.xml",
         "views/purchase_order_views.xml",
-        "views/res_company_views.xml",
-        "views/res_partner_views.xml",
-        "views/res_users_views.xml",
         "views/responsible_department_views.xml",
         "views/ss_erp_bis_category_views.xml",
         "views/stock_picking_views.xml",
