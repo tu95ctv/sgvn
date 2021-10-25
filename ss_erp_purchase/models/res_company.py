@@ -3,6 +3,7 @@
 from odoo import models, fields, api, _
 from odoo.tools.translate import html_translate
 
+
 class ResCompany(models.Model):
     _inherit = 'res.company'
 
@@ -26,5 +27,7 @@ class ResCompany(models.Model):
 
         return result
 
-    x_construction_contract_notice = fields.Html("Notes on construction contract", default=_get_default_notes_construction_contract, copy=False, translate=html_translate, sanitize=False)
-    x_construction_subcontract = fields.Html("Estimated price and estimated period for subcontracting work", default=_get_default_estimated_subcontracting_work, copy=False, translate=html_translate, sanitize=False)
+    x_construction_contract_notice = fields.Html(
+        "Notes on construction contract", default=_get_default_notes_construction_contract, copy=False, translate=html_translate, sanitize=False)
+    x_construction_subcontract = fields.Html("Estimated price and estimated period for subcontracting work",
+                                             default=_get_default_estimated_subcontracting_work, copy=False, translate=html_translate, sanitize=False)
