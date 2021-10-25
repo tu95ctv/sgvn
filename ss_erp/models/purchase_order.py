@@ -132,3 +132,8 @@ class PurchaseOrder(models.Model):
                 return False
             else:
                 return number
+    
+    def _prepare_picking(self):
+        res = super(PurchaseOrder, self)._prepare_picking()
+        res.update({'user_id': self.user_id.id})
+        return res
