@@ -42,6 +42,7 @@
         "views/web_access_rule_buttons.xml",
         "views/webclient_templates.xml",
         "views/res_partner_bank_views.xml",
+        "views/ss_erp_contact_category_views.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",
