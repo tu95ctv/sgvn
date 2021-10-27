@@ -20,7 +20,7 @@ class ContactCategory(models.Model):
         ('other', 'Other addresses'),
         ('private', 'Personal address'),
     ], string='Address type')
-    description = fields.Char(string='explanation')
+    description = fields.Char(string='Explanation')
     basic = fields.Char('Basic')
     has_partner_info = fields.Boolean(
         string="Account Overview tab", default=True)
@@ -201,3 +201,5 @@ class ContactCategory(models.Model):
         ('optional', 'Optional'),
         ('no', 'No'),
     ], string='Purchasing related', default='required')
+    
+   

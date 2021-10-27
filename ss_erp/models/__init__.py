@@ -15,3 +15,4 @@ from . import stock_picking
 from . import purchase_order
 from . import res_partner_bank
 from . import ss_erp_contact_category
+from . import ss_erp_partner_construction
