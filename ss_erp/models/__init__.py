@@ -17,3 +17,4 @@ from . import res_partner_bank
 from . import ss_erp_contact_category
 from . import ss_erp_partner_construction
 from . import ss_erp_partner_performance
+from . import ss_erp_multi_approvers
