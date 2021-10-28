@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="ss_erp_contact_category_data_0" model="ss_erp.contact.category">
+            <field name="name">Default Contact Person</field>
+            <field name="company_type">person</field>
+            <field name="type">contact</field>
+            <field name="description">demo data default</field>
+        </record>
+    </data>
+</odoo>
