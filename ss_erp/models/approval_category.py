@@ -13,13 +13,39 @@ class ApprovalCategory(models.Model):
         CATEGORY_SELECTION, string="Application department", default="no",)
     has_x_reject = fields.Selection(
         CATEGORY_SELECTION, string="Reason for rejection", default="no",)
-    has_x_contact_form = fields.Selection(
+    has_x_contact_form_id = fields.Selection(
         CATEGORY_SELECTION, string="Contact application form", default="no",)
-    has_x_inventory_order_id = fields.Selection(
+    has_x_inventory_order_ids = fields.Selection(
         CATEGORY_SELECTION, string="Inventory slip", default="no",)
-    has_x_sale_order_id = fields.Selection(
+    has_x_sale_order_ids = fields.Selection(
         CATEGORY_SELECTION, string="Quotation slip", default="no",)
-    has_x_account_move_id = fields.Selection(
+    has_x_account_move_ids = fields.Selection(
         CATEGORY_SELECTION, string="Purchase request slip", default="no",)
     x_is_multiple_approval = fields.Boolean(string='Multi-step approval', default=False)
-    multiple_approval_ids = fields.Many2one
+    multiple_approval_ids = fields.One2many('ss_erp.multi.approvers', 'approval_categ_id', string="Approver setting")
+    has_x_payment_date = fields.Selection(
+        CATEGORY_SELECTION, string="Invoice date", default="no",)
+    has_x_purchase_material = fields.Selection(
+        CATEGORY_SELECTION, string="Purchased products", default="no",)
+    has_x_cash_amount = fields.Selection(
+        CATEGORY_SELECTION, string="Cash purchase amount", default="no",)
+    has_x_cash_payment_date = fields.Selection(
+        CATEGORY_SELECTION, string="Cash payment date", default="no",)
+    has_x_prepay_amount = fields.Selection(
+        CATEGORY_SELECTION, string="Prepaid purchase amount", default="no",)
+    has_x_prepay_payment_date = fields.Selection(
+        CATEGORY_SELECTION, string="Prepaid payment date", default="no",)
+    has_x_payment_reason = fields.Selection(
+        CATEGORY_SELECTION, string="Reason for payment", default="no",)
+    has_x_purchase_order_ids = fields.Selection(
+        CATEGORY_SELECTION, string="Quotation request slip", default="no",)
+    has_x_transfer_preferred_date = fields.Selection(
+        CATEGORY_SELECTION, string="Desired remittance date", default="no",)
+    has_x_present_date = fields.Selection(
+        CATEGORY_SELECTION, string="Balance current date", default="no",)
+    has_x_cash_balance = fields.Selection(
+        CATEGORY_SELECTION, string="Current balance", default="no",)
+    has_x_bank_balance = fields.Selection(
+        CATEGORY_SELECTION, string="Deposit balance", default="no",)
+    has_x_transfer_date = fields.Selection(
+        CATEGORY_SELECTION, string="Remittance date", default="no",)

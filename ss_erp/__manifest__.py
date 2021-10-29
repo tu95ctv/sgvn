@@ -9,7 +9,7 @@
     "website": "https://www.systemgear-vietnam.com/",
     "author": "SGVN",
     "depends": [
-        "delivery","mail", "contacts", "purchase", "purchase_stock", "web", "approvals"
+        "delivery", "mail", "contacts", "purchase", "purchase_stock", "web", "approvals"
         ],
     "data": [
         # SECURITY
@@ -44,6 +44,8 @@
         "views/webclient_templates.xml",
         "views/res_partner_bank_views.xml",
         "views/ss_erp_contact_category_views.xml",
+        "views/approval_category_views.xml",
+        "views/approval_request_views.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",

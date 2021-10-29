@@ -4,11 +4,11 @@ from odoo import models, fields, api, _
 
 class MultiApprovers(models.Model):
     _name = 'ss_erp.multi.approvers'
-    _description = 'Partner Construction'
+    _description = 'Multi Approvers'
 
     name = fields.Char(string='Name')
     active = fields.Boolean('Active', default=True)
-    x_approval_seq = fields.Integer('Sequence', default=10)
+    x_approval_seq = fields.Integer('Seq.', default=10)
     x_create_date = fields.Datetime('Created date')
     x_write_date = fields.Datetime('Latest update date')
     x_create_uid = fields.Many2one('res.users', string='Author')
@@ -34,3 +34,4 @@ class MultiApprovers(models.Model):
         ('cancel', 'Cancel'),
     ], string='status', default='new', readonly=True)
     x_minimum_approvers = fields.Integer('Minimum number of approved people')
+    approval_categ_id = fields.Many2one('approval.category', 'Approvals Types')
