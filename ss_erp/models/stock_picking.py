@@ -11,16 +11,20 @@ class StockPicking(models.Model):
 
     x_account_modify = fields.Boolean(
         "Inventory journal correction", index=True)
-    x_dest_address_info = fields.Html(
-        "Direct shipping address", related='purchase_id.x_dest_address_info')
+    x_dest_address_info = fields.Html("Direct shipping address")
     x_organization_id = fields.Many2one(
-        'ss_erp.organization', string="Organization in charge", related='purchase_id.x_organization_id')
+        'ss_erp.organization', string="Organization in charge")
     x_responsible_dept_id = fields.Many2one(
-        'ss_erp.responsible.department', string="Jurisdiction", related='purchase_id.x_responsible_dept_id')
+        'ss_erp.responsible.department', string="Jurisdiction")
     x_mkt_user_id = fields.Many2one(
-        'res.users', string="Sales staff", related='purchase_id.x_mkt_user_id')
-    x_po_type = fields.Selection(
-        related='purchase_id.x_po_type', string="Sales type", index=True)
+        'res.users', string="Sales staff")
+    x_po_type = fields.Selection([
+        ('normal', 'Normal purchase'),
+        ('industry_lorry', 'Raleigh delivery(industrial gas)'),
+        ('lp_lorry', 'Raleigh delivery(LP gas)'),
+        ('lng_lorry', 'Raleigh delivery(LNG gas)'),
+        ('dropship', 'Direct delivery'),
+    ], string="Purchase type", index=True)
 
     # TODO
     # x_so_type = fields.Selection(related='sale_id.x_so_type', string="Sales type" )

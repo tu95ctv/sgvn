@@ -151,5 +151,12 @@ class PurchaseOrder(models.Model):
 
     def _prepare_picking(self):
         res = super(PurchaseOrder, self)._prepare_picking()
-        res.update({'user_id': self.user_id.id})
+        res.update({
+            'user_id': self.user_id and self.user_id.id or False,
+            'x_dest_address_info': self.x_dest_address_info,
+            'x_organization_id': self.x_organization_id and self.x_organization_id.id or False,
+            'x_responsible_dept_id': self.x_responsible_dept_id and self.x_responsible_dept_id.id or False,
+            'x_mkt_user_id': self.x_mkt_user_id and self.x_mkt_user_id.id or False,
+            'x_po_type': self.x_po_type,
+        })
         return res
