@@ -40,12 +40,12 @@
         "views/responsible_department_views.xml",
         "views/ss_erp_bis_category_views.xml",
         "views/stock_picking_views.xml",
-        "views/web_access_rule_buttons.xml",
         "views/webclient_templates.xml",
         "views/res_partner_bank_views.xml",
         "views/ss_erp_contact_category_views.xml",
         "views/approval_category_views.xml",
         "views/approval_request_views.xml",
+        "views/res_partner_form_views.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",

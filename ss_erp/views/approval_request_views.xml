@@ -5,6 +5,24 @@
         <field name="model">approval.request</field>
         <field name="inherit_id" ref="approvals.approval_request_view_form"/>
         <field name="arch" type="xml">
+            <field name="request_owner_id" position="attributes">
+                <attribute name="string">Applicant</attribute>
+            </field>
+            <!-- <field name="write_date" position="attributes">
+                <attribute name="string">Application date</attribute>
+            </field> -->
+            <field name="category_id" position="attributes">
+                <attribute name="string">Application type</attribute>
+            </field>
+            <field name="date_confirmed" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <page name="description" position="attributes">
+                <attribute name="string">explanation</attribute>
+            </page>
+            <page name="approvers" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </page>
             <xpath expr="//field[@name='request_owner_id']" position="after">
                 <field name="x_department_id" attrs="{
                     'invisible': [('has_x_department', '=', 'no')],
@@ -89,7 +107,7 @@
                 <field name="x_contact_form_id" attrs="{
                     'invisible': [('has_x_contact_form_id', '=', 'no')],
                     'required': [('has_x_contact_form_id', '=', 'required')],
-                }" options="{'no_open': False, 'no_create': False}"/>
+                }" options="{'no_quick_create': True}"/>
                 <field name="x_inventory_order_ids" widget="many2many_tags" attrs="{
                     'invisible': [('has_x_inventory_order_ids', '=', 'no')],
                     'required': [('has_x_inventory_order_ids', '=', 'required')],
@@ -109,7 +127,7 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Multi-step approval">
-                    <field name="multi_approvers_ids" readonly="1">
+                    <field name="multi_approvers_ids">
                         <tree>
                             <field name="x_approval_seq" />
                             <field name="x_approver_group_ids" widget="many2many_tags"/>

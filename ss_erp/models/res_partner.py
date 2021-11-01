@@ -169,16 +169,15 @@ class ResPartner(models.Model):
         related='x_contact_categ.has_sales_note', store=True,)
     has_purchase_note = fields.Selection(
         related='x_contact_categ.has_purchase_note', store=True,)
-    has_partner_info = fields.Boolean(related='x_contact_categ.has_partner_info',store=True)
-    has_x_payment_terms = fields.Boolean(related='x_contact_categ.has_x_payment_terms',store=True)
-
+    has_partner_info = fields.Boolean(related='x_contact_categ.has_partner_info', store=True)
+    has_x_payment_terms = fields.Boolean(related='x_contact_categ.has_x_payment_terms', store=True)
 
     @api.depends('is_company', 'x_contact_categ')
     def _compute_company_type(self):
         for partner in self:
             if partner.x_contact_categ and partner.x_contact_categ.company_type:
                 partner.company_type = partner.x_contact_categ.company_type
-                print(33333333,partner.company_type)
+                print(33333333, partner.company_type)
             else:
                 super(ResPartner, partner)._compute_company_type()
 

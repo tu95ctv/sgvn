@@ -2,6 +2,10 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
+import logging
+
+_logger = logging.getLogger(__name__)
+
 
 class ApprovalRequest(models.Model):
     _inherit = 'approval.request'
@@ -75,4 +79,38 @@ class ApprovalRequest(models.Model):
         related='category_id.has_x_bank_balance', store=True)
     has_x_transfer_date = fields.Selection(
         related='category_id.has_x_transfer_date', store=True)
-    
+
+    def action_confirm(self):
+        super(ApprovalRequest, self).action_confirm()
+        if self.x_contact_form_id:
+            # TODO: fix here
+            self.x_contact_form_id.write({'approval_id': self.id, 'approval_state': self.request_status})
+
+    def action_process_with_contact_form(self):
+        form_id = self.x_contact_form_id
+        DEFAULT_FIELDS = ['id', 'create_uid', 'create_date', 'write_uid', 'write_date',
+                '__last_update', 'approval_id', 'approval_state', 'meeting_ids']
+        if form_id:
+            vals = {}
+            for name, field in form_id._fields.items():
+                if name not in DEFAULT_FIELDS \
+                        and form_id._fields[name].type not in ['one2many'] \
+                        and not form_id._fields[name].compute:
+                    if form_id._fields[name].type == 'many2many':
+                        value = getattr(form_id, name, ())
+                        value = [(5, 0)] + [(6, 0, value.ids)] if value else False
+                    else:
+                        value = getattr(form_id, name)
+                        if form_id._fields[name].type == 'many2one':
+                            value = value.id if value else False
+
+                    vals.update({name: value})
+            res_partner_id = vals.pop('res_partner_id')
+            if not res_partner_id:
+                # Create partner with contact form
+                partner_id = self.env['res.partner'].create(vals)
+                form_id.write({'res_partner_id': partner_id.id})
+            else:
+                # Update partner with contact form
+                partner_id = self.env['res.partner'].browse(int(res_partner_id))
+                partner_id.write(vals)
