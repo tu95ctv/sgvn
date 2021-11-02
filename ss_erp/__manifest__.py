@@ -46,6 +46,7 @@
         "views/approval_category_views.xml",
         "views/approval_request_views.xml",
         "views/res_partner_form_views.xml",
+        "views/ss_erp_multi_approvers_views.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",

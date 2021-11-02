@@ -65,3 +65,36 @@ class ResPartnerForm(models.Model):
         if not recs:
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
+
+    def write(self, values):
+        res = super(ResPartnerForm, self).write(values)
+        if 'approval_state' in values and values.get('approval_state') == 'approved':
+            self._action_process()
+
+    def _action_process(self):
+        DEFAULT_FIELDS = ['id', 'create_uid', 'create_date', 'write_uid', 'write_date',
+                '__last_update', 'approval_id', 'approval_state', 'meeting_ids']
+        for form_id in self:
+            vals = {}
+            for name, field in form_id._fields.items():
+                if name not in DEFAULT_FIELDS \
+                        and form_id._fields[name].type not in ['one2many'] \
+                        and not form_id._fields[name].compute:
+                    if form_id._fields[name].type == 'many2many':
+                        value = getattr(form_id, name, ())
+                        value = [(5, 0)] + [(6, 0, value.ids)] if value else False
+                    else:
+                        value = getattr(form_id, name)
+                        if form_id._fields[name].type == 'many2one':
+                            value = value.id if value else False
+
+                    vals.update({name: value})
+            res_partner_id = vals.pop('res_partner_id')
+            if not res_partner_id:
+                # Create partner with contact form
+                partner_id = self.env['res.partner'].create(vals)
+                form_id.write({'res_partner_id': partner_id.id})
+            else:
+                # Update partner with contact form
+                partner_id = self.env['res.partner'].browse(int(res_partner_id))
+                partner_id.write(vals)

@@ -36,6 +36,7 @@ class ApprovalRequest(models.Model):
     x_cash_balance = fields.Float('Cash balance')
     x_bank_balance = fields.Float('Deposit balance')
     x_transfer_date = fields.Date('Remittance date')
+    x_is_multiple_approval = fields.Boolean(related='category_id.x_is_multiple_approval')
     multi_approvers_ids = fields.One2many(
         'ss_erp.multi.approvers', 'x_request_id', string='Multi-step approval')
     # FIELD RELATED
@@ -86,31 +87,53 @@ class ApprovalRequest(models.Model):
             # TODO: fix here
             self.x_contact_form_id.write({'approval_id': self.id, 'approval_state': self.request_status})
 
-    def action_process_with_contact_form(self):
-        form_id = self.x_contact_form_id
-        DEFAULT_FIELDS = ['id', 'create_uid', 'create_date', 'write_uid', 'write_date',
-                '__last_update', 'approval_id', 'approval_state', 'meeting_ids']
-        if form_id:
-            vals = {}
-            for name, field in form_id._fields.items():
-                if name not in DEFAULT_FIELDS \
-                        and form_id._fields[name].type not in ['one2many'] \
-                        and not form_id._fields[name].compute:
-                    if form_id._fields[name].type == 'many2many':
-                        value = getattr(form_id, name, ())
-                        value = [(5, 0)] + [(6, 0, value.ids)] if value else False
-                    else:
-                        value = getattr(form_id, name)
-                        if form_id._fields[name].type == 'many2one':
-                            value = value.id if value else False
+    @api.onchange('category_id', 'request_owner_id')
+    def _onchange_category_id(self):
+        if self.category_id.x_is_multiple_approval:
+            cate_approvers_ids = self.category_id.multi_approvers_ids
+            current_users = self.approver_ids.mapped('user_id')
+            new_users = cate_approvers_ids.mapped('x_approver_group_ids')
+            multi_approvers_ids = self.env['ss_erp.multi.approvers']
 
-                    vals.update({name: value})
-            res_partner_id = vals.pop('res_partner_id')
-            if not res_partner_id:
-                # Create partner with contact form
-                partner_id = self.env['res.partner'].create(vals)
-                form_id.write({'res_partner_id': partner_id.id})
-            else:
-                # Update partner with contact form
-                partner_id = self.env['res.partner'].browse(int(res_partner_id))
-                partner_id.write(vals)
+            for multi_approvers_id in cate_approvers_ids:
+                multi_approvers_ids += self.env['ss_erp.multi.approvers'].new({
+                    'x_request_id': self.id,
+                    'x_user_status': 'new',
+                    'x_approver_group_ids': [(6, 0, multi_approvers_id.x_approver_group_ids.ids)] if multi_approvers_id.x_approver_group_ids else False,
+                    'x_related_user_ids': [(6, 0, multi_approvers_id.x_related_user_ids.ids)] if multi_approvers_id.x_related_user_ids else False,
+                    'x_is_manager_approver': multi_approvers_id.x_is_manager_approver,
+                    'x_minimum_approvers': multi_approvers_id.x_minimum_approvers,
+                })
+                if multi_approvers_id.x_is_manager_approver:
+                    employee = self.env['hr.employee'].search([('user_id', '=', self.request_owner_id.id)], limit=1)
+                    if employee.parent_id.user_id:
+                        new_users |= employee.parent_id.user_id
+
+            self.multi_approvers_ids = multi_approvers_ids
+
+            for user in new_users - current_users:
+                self.approver_ids += self.env['approval.approver'].new({
+                    'user_id': user.id,
+                    'request_id': self.id,
+                    'status': 'new'
+                })
+
+        else:
+            super(ApprovalRequest, self)._onchange_category_id()
+
+    @api.depends('approver_ids.status')
+    def _compute_request_status(self):
+        super(ApprovalRequest, self)._compute_request_status()
+        for request in self:
+            # if request.request_status == 'cancel':
+            #     status = _("Cancel")
+            # elif request.request_status == 'refused':
+            #     status = _("Rejected")
+            # elif request.request_status == 'approved':
+            #     status = _("Approved")
+            #     request.action_process_with_contact_form()
+            # elif request.request_status == 'pending':
+            #     status = _("Unapproved")
+            # else:
+            #     status = _("New")
+            request.x_contact_form_id.write({'approval_state': request.request_status})

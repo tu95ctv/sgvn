@@ -22,8 +22,8 @@ class ApprovalCategory(models.Model):
     has_x_account_move_ids = fields.Selection(
         CATEGORY_SELECTION, string="Purchase request slip", default="no",)
     x_is_multiple_approval = fields.Boolean(string='Multi-step approval', default=False)
-    multiple_approval_ids = fields.Many2many('ss_erp.multi.approvers', column1='approval_categ_id',
-                                    column2='multi_approver_id', string='Approver setting')
+    multi_approvers_ids = fields.Many2many('ss_erp.multi.approvers', column1='approval_categ_id',
+                                    column2='multi_approver_id', string='Approver setting', domain="[('x_request_id','=',False)]")
     has_x_payment_date = fields.Selection(
         CATEGORY_SELECTION, string="Invoice date", default="no",)
     has_x_purchase_material = fields.Selection(

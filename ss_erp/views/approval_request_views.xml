@@ -21,7 +21,7 @@
                 <attribute name="string">explanation</attribute>
             </page>
             <page name="approvers" position="attributes">
-                <attribute name="invisible">1</attribute>
+                <attribute name="attrs">{'invisible': [('x_is_multiple_approval', '=', True)]}</attribute>
             </page>
             <xpath expr="//field[@name='request_owner_id']" position="after">
                 <field name="x_department_id" attrs="{
@@ -32,6 +32,7 @@
                     'invisible': [('has_x_organization', '=', 'no')],
                     'required': [('has_x_organization', '=', 'required')],
                 }"/>
+                <field name="x_is_multiple_approval" invisible="1"/>
                 <field name="has_x_organization" invisible="1"/>
                 <field name="has_x_department" invisible="1"/>
                 <field name="has_x_reject" invisible="1"/>
@@ -126,7 +127,7 @@
                 }"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Multi-step approval">
+                <page string="Multi-step approval" attrs="{'invisible': [('x_is_multiple_approval', '=', False)]}">
                     <field name="multi_approvers_ids">
                         <tree>
                             <field name="x_approval_seq" />
