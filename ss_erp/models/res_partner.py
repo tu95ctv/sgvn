@@ -22,7 +22,7 @@ class ResPartner(models.Model):
         ('vendor', 'Supplier'),
         ('multi', 'Customers & Supplier'),
         ('other', 'Other'),
-    ], string="Contact classification")
+    ], string="Contact classification", help=_("Select Other for contacts not related to the transaction"))
     type = fields.Selection(selection_add=[
         ('for_rfq', 'Address for requesting a quote'),
         ('for_po', 'Order destination'),
@@ -31,7 +31,8 @@ class ResPartner(models.Model):
                                            'categ_id', 'partner_id', string="Transaction classification", index=True)
     x_transaction_department = fields.Many2many(
         'ss_erp.bis.category', 'department_partner_rel', 'department_id', 'partner_id', string="Department", index=True)
-    x_is_branch = fields.Boolean(string="Organization in charge", default=True)
+    x_is_branch = fields.Boolean(string="Organization in charge", default=True, help=_("Check if you have a place of responsibility, branch office, sales office, branch office"))
+
     x_branch_name = fields.Many2one(
         'ss_erp.organization', string='Name of organization in charge')
     x_fax = fields.Char('FAX representative')

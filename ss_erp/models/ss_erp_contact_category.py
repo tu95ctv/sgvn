@@ -102,3 +102,11 @@ class ContactCategory(models.Model):
         CONTACT_CATEGORY_SELECTION, string='Sales related', default='required')
     has_purchase_note = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Purchasing related', default='required')
+
+    @api.onchange('has_partner_info')
+    def _onchange_has_partner_info(self):
+        if not self.has_partner_info:
+            self.has_x_found_year = 'no'
+            self.has_x_capital = 'no'
+            self.has_performance_info = 'no'
+            self.has_construction_info = 'no'
