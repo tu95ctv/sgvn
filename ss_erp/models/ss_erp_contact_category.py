@@ -30,7 +30,7 @@ class ContactCategory(models.Model):
     basic = fields.Char('Basic')
     has_partner_info = fields.Boolean(
         string="Account Overview tab", default=True)
-    has_parent = fields.Selection(
+    has_parent_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='related company', default='required')
     has_ref = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Customer code', default='required')
@@ -56,7 +56,7 @@ class ContactCategory(models.Model):
         CONTACT_CATEGORY_SELECTION, string='Tax ID', default='required')
     has_title = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Title', default='required')
-    has_category = fields.Selection(
+    has_category_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Tag', default='required')
     has_x_found_year = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Founding year', default='required')
@@ -66,13 +66,13 @@ class ContactCategory(models.Model):
         CONTACT_CATEGORY_SELECTION, string='Achievement information', default='required')
     has_construction_info = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Construction permit', default='required')
-    has_user = fields.Selection(
+    has_user_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Sales person', default='required')
-    has_property_delivery_carrier = fields.Selection(
+    has_property_delivery_carrier_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Shipping method', default='required')
-    has_team = fields.Selection(
+    has_team_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Sales team', default='required')
-    has_property_payment_term = fields.Selection(
+    has_property_payment_term_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Payment terms', default='required')
     has_property_product_pricelist = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Price list', default='required')
@@ -84,17 +84,17 @@ class ContactCategory(models.Model):
         CONTACT_CATEGORY_SELECTION, string='Fee burden', default='required')
     has_x_bill_site = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Bill site', default='required')
-    has_x_purchase_user = fields.Selection(
+    has_x_purchase_user_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Purchasing person', default='required')
     has_x_vendor_payment_term = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Payment terms and conditions', default='required')
-    has_property_supplier_payment_term = fields.Selection(
+    has_property_supplier_payment_term_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Payment terms', default='required')
     has_x_minimum_cost = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Minimum purchase price', default='required')
     has_x_payment_terms = fields.Boolean(
         string='Our regulations on payment terms', default=True)
-    has_property_account_position = fields.Selection(
+    has_property_account_position_id = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Accounting position', default='required')
     has_bank_accounts = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Bank accounts', default='required')

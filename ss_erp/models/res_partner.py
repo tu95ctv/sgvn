@@ -14,7 +14,8 @@ class ResPartner(models.Model):
         'ss_erp.organization', string='Organization')
     x_contact_categ = fields.Many2one(
         'ss_erp.contact.category', string='Contact category', index=True,
-        default=lambda self: self.env.ref('ss_erp.ss_erp_contact_category_data_0', raise_if_not_found=False)
+        default=lambda self: self.env.ref(
+            'ss_erp.ss_erp_contact_category_data_0', raise_if_not_found=False)
     )
     x_name_furigana = fields.Char(string="Furigana")
     x_partner_categ = fields.Selection([
@@ -31,7 +32,8 @@ class ResPartner(models.Model):
                                            'categ_id', 'partner_id', string="Transaction classification", index=True)
     x_transaction_department = fields.Many2many(
         'ss_erp.bis.category', 'department_partner_rel', 'department_id', 'partner_id', string="Department", index=True)
-    x_is_branch = fields.Boolean(string="Organization in charge", default=True, help=_("Check if you have a place of responsibility, branch office, sales office, branch office"))
+    x_is_branch = fields.Boolean(string="Organization in charge", default=True, help=_(
+        "Check if you have a place of responsibility, branch office, sales office, branch office"))
 
     x_branch_name = fields.Many2one(
         'ss_erp.organization', string='Name of organization in charge')
@@ -102,8 +104,8 @@ class ResPartner(models.Model):
     construction_ids = fields.One2many(
         'ss_erp.partner.construction', 'partner_id')
     # ADDITIONAL FIELD RELATED
-    has_parent = fields.Selection(
-        related='x_contact_categ.has_parent', store=True,)
+    has_parent_id = fields.Selection(
+        related='x_contact_categ.has_parent_id', store=True,)
     has_ref = fields.Selection(related='x_contact_categ.has_ref', store=True,)
     has_address = fields.Selection(
         related='x_contact_categ.has_address', store=True,)
@@ -126,8 +128,8 @@ class ResPartner(models.Model):
     has_vat = fields.Selection(related='x_contact_categ.has_vat', store=True,)
     has_title = fields.Selection(
         related='x_contact_categ.has_title', store=True,)
-    has_category = fields.Selection(
-        related='x_contact_categ.has_category', store=True,)
+    has_category_id = fields.Selection(
+        related='x_contact_categ.has_category_id', store=True,)
     has_x_found_year = fields.Selection(
         related='x_contact_categ.has_x_found_year', store=True,)
     has_x_capital = fields.Selection(
@@ -136,14 +138,14 @@ class ResPartner(models.Model):
         related='x_contact_categ.has_performance_info', store=True,)
     has_construction_info = fields.Selection(
         related='x_contact_categ.has_construction_info', store=True,)
-    has_user = fields.Selection(
-        related='x_contact_categ.has_user', store=True,)
-    has_property_delivery_carrier = fields.Selection(
-        related='x_contact_categ.has_property_delivery_carrier', store=True,)
-    has_team = fields.Selection(
-        related='x_contact_categ.has_team', store=True,)
-    has_property_payment_term = fields.Selection(
-        related='x_contact_categ.has_property_payment_term', store=True,)
+    has_user_id = fields.Selection(
+        related='x_contact_categ.has_user_id', store=True,)
+    has_property_delivery_carrier_id = fields.Selection(
+        related='x_contact_categ.has_property_delivery_carrier_id', store=True,)
+    has_team_id = fields.Selection(
+        related='x_contact_categ.has_team_id', store=True,)
+    has_property_payment_term_id = fields.Selection(
+        related='x_contact_categ.has_property_payment_term_id', store=True,)
     has_property_product_pricelist = fields.Selection(
         related='x_contact_categ.has_property_product_pricelist', store=True,)
     has_sales_term = fields.Selection(
@@ -154,16 +156,16 @@ class ResPartner(models.Model):
         related='x_contact_categ.has_x_fee_burden', store=True,)
     has_x_bill_site = fields.Selection(
         related='x_contact_categ.has_x_bill_site', store=True,)
-    has_x_purchase_user = fields.Selection(
-        related='x_contact_categ.has_x_purchase_user', store=True,)
+    has_x_purchase_user_id = fields.Selection(
+        related='x_contact_categ.has_x_purchase_user_id', store=True,)
     has_x_vendor_payment_term = fields.Selection(
         related='x_contact_categ.has_x_vendor_payment_term', store=True,)
-    has_property_supplier_payment_term = fields.Selection(
-        related='x_contact_categ.has_property_supplier_payment_term', store=True,)
+    has_property_supplier_payment_term_id = fields.Selection(
+        related='x_contact_categ.has_property_supplier_payment_term_id', store=True,)
     has_x_minimum_cost = fields.Selection(
         related='x_contact_categ.has_x_minimum_cost', store=True,)
-    has_property_account_position = fields.Selection(
-        related='x_contact_categ.has_property_account_position', store=True,)
+    has_property_account_position_id = fields.Selection(
+        related='x_contact_categ.has_property_account_position_id', store=True,)
     has_bank_accounts = fields.Selection(
         related='x_contact_categ.has_bank_accounts', store=True,)
     has_sales_note = fields.Selection(

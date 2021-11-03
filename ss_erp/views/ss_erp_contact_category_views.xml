@@ -38,7 +38,7 @@
                         <page string="Basic" name="categ_basic" autofocus="autofocus">
                             <group>
                                 <group>
-                                    <field name="has_parent" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_parent_id" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_ref" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_address" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_function" widget="radio" options="{'horizontal': true}"/>
@@ -53,7 +53,7 @@
                                     <field name="has_website" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_vat" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_title" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_category" widget="radio" options="{'horizontal': true}"/>                                </group>
+                                    <field name="has_category_id" widget="radio" options="{'horizontal': true}"/>                                </group>
                             </group>
                         </page>
                         <page string="Business partner overview" name="categ_partner_overview">
@@ -70,10 +70,10 @@
                         <page string="Sale &amp; Buy" name="categ_sale_and_buy">
                             <group>
                                 <group>
-                                    <field name="has_user" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_property_delivery_carrier" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_team" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_property_payment_term" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_user_id" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_property_delivery_carrier_id" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_team_id" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_property_payment_term_id" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_property_product_pricelist" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_sales_term" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_x_collecting_money" widget="radio" options="{'horizontal': true}"/>
@@ -81,12 +81,12 @@
                                     <field name="has_x_bill_site" widget="radio" options="{'horizontal': true}"/>
                                 </group>
                                 <group>
-                                    <field name="has_x_purchase_user" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_x_purchase_user_id" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_x_vendor_payment_term" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_property_supplier_payment_term" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_property_supplier_payment_term_id" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_x_minimum_cost" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_x_payment_terms" widget="boolean_toggle"/>
-                                    <field name="has_property_account_position" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_property_account_position_id" widget="radio" options="{'horizontal': true}"/>
                                 </group>
                             </group>
                         </page>

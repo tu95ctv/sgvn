@@ -10,7 +10,7 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="x_name_furigana"/>
-                <field name="has_parent" invisible="1"/>
+                <field name="has_parent_id" invisible="1"/>
                 <field name="has_ref" invisible="1"/>
                 <field name="has_address" invisible="1"/>
                 <field name="has_function" invisible="1"/>
@@ -23,25 +23,25 @@
                 <field name="has_website" invisible="1"/>
                 <field name="has_vat" invisible="1"/>
                 <field name="has_title" invisible="1"/>
-                <field name="has_category" invisible="1"/>
+                <field name="has_category_id" invisible="1"/>
                 <field name="has_x_found_year" invisible="1"/>
                 <field name="has_x_capital" invisible="1"/>
                 <field name="has_performance_info" invisible="1"/>
                 <field name="has_construction_info" invisible="1"/>
-                <field name="has_user" invisible="1"/>
-                <field name="has_team" invisible="1"/>
-                <field name="has_property_delivery_carrier" invisible="1"/>
-                <field name="has_property_payment_term" invisible="1"/>
+                <field name="has_user_id" invisible="1"/>
+                <field name="has_team_id" invisible="1"/>
+                <field name="has_property_delivery_carrier_id" invisible="1"/>
+                <field name="has_property_payment_term_id" invisible="1"/>
                 <field name="has_property_product_pricelist" invisible="1"/>
                 <field name="has_sales_term" invisible="1"/>
                 <field name="has_x_collecting_money" invisible="1"/>
                 <field name="has_x_fee_burden" invisible="1"/>
                 <field name="has_x_bill_site" invisible="1"/>
-                <field name="has_x_purchase_user" invisible="1"/>
+                <field name="has_x_purchase_user_id" invisible="1"/>
                 <field name="has_x_vendor_payment_term" invisible="1"/>
-                <field name="has_property_supplier_payment_term" invisible="1"/>
+                <field name="has_property_supplier_payment_term_id" invisible="1"/>
                 <field name="has_x_minimum_cost" invisible="1"/>
-                <field name="has_property_account_position" invisible="1"/>
+                <field name="has_property_account_position_id" invisible="1"/>
                 <field name="has_bank_accounts" invisible="1"/>
                 <field name="has_sales_note" invisible="1"/>
                 <field name="has_purchase_note" invisible="1"/>
@@ -152,39 +152,39 @@
             </xpath>
             <xpath expr="//field[@name='category_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_category', '=', 'no')],
-                    'required': [('has_category', '=', 'required')]
+                    'invisible': [('has_category_id', '=', 'no')],
+                    'required': [('has_category_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//group[@name='sale']/field[@name='user_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_user', '=', 'no')],
-                    'required': [('has_user', '=', 'required')]
+                    'invisible': [('has_user_id', '=', 'no')],
+                    'required': [('has_user_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//field[@name='property_delivery_carrier_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_property_delivery_carrier', '=', 'no')],
-                    'required': [('has_property_delivery_carrier', '=', 'required')]
+                    'invisible': [('has_property_delivery_carrier_id', '=', 'no')],
+                    'required': [('has_property_delivery_carrier_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//page[@name='sales_purchases']//field[@name='team_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_team', '=', 'no')],
-                    'required': [('has_team', '=', 'required')]
+                    'invisible': [('has_team_id', '=', 'no')],
+                    'required': [('has_team_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//field[@name='property_payment_term_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_property_payment_term', '=', 'no')],
-                    'required': [('has_property_payment_term', '=', 'required')]
+                    'invisible': [('has_property_payment_term_id', '=', 'no')],
+                    'required': [('has_property_payment_term_id', '=', 'required')]
                 }</attribute>
             </xpath>
             
             <xpath expr="//field[@name='property_supplier_payment_term_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_property_supplier_payment_term', '=', 'no')],
-                    'required': [('has_property_supplier_payment_term', '=', 'required')]
+                    'invisible': [('has_property_supplier_payment_term_id', '=', 'no')],
+                    'required': [('has_property_supplier_payment_term_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//field[@name='user_ids']" position="before">
@@ -207,8 +207,8 @@
             </xpath>
             <xpath expr="//field[@name='parent_id']" position="attributes">
                 <attribute name="attrs">{
-                    'invisible': [('has_parent', '=', 'no')],
-                    'required': [('has_parent', '=', 'required')]
+                    'invisible': [('has_parent_id', '=', 'no')],
+                    'required': [('has_parent_id', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//page[@name='contact_addresses']" position="after">
@@ -329,8 +329,8 @@
             </xpath>
             <xpath expr="//field[@name='property_supplier_payment_term_id']" position="before">
                 <field name="x_purchase_user_id" attrs="{
-                    'invisible': [('has_x_purchase_user', '=', 'no')],
-                    'required': [('has_x_purchase_user', '=', 'required')]
+                    'invisible': [('has_x_purchase_user_id', '=', 'no')],
+                    'required': [('has_x_purchase_user_id', '=', 'required')]
                 }"/>
                 <field name="x_vendor_payment_term" widget="radio" options="{'horizontal': true}" attrs="{
                     'invisible': [('has_x_vendor_payment_term', '=', 'no')],
@@ -458,9 +458,8 @@
         </field>
     </record>
 
-
-    <record model="ir.ui.view" id="view_partner_property_form_inherit">
-        <field name="name">res.partner.form</field>
+    <record model="ir.ui.view" id="view_partner_property_form_inherit_product">
+        <field name="name">res.partner.form.product</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="product.view_partner_property_form"/>
         <field name="arch" type="xml">
@@ -472,4 +471,20 @@
             </field>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="view_partner_property_form_inherit_account">
+        <field name="name">res.partner.form.account</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <field name="property_account_position_id" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_property_account_position_id', '=', 'no')],
+                    'required': [('has_property_account_position_id', '=', 'required')]
+                }</attribute>    
+            </field>
+        </field>
+    </record>
+
+    
 </odoo>
