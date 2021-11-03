@@ -76,8 +76,8 @@ class ResPartner(models.Model):
         ('no', '無'),
     ], string='Collecting money', default='no')
     x_fee_burden = fields.Selection([
-        ('other_side', '有'),
-        ('our_side', '無'),
+        ('other_side', '先方'),
+        ('our_side', '当方'),
     ], string='Fee burden', default='other_side')
     x_bill_site = fields.Char('Bill site', )
     x_purchase_user_id = fields.Many2one(
