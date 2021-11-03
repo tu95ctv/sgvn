@@ -398,8 +398,7 @@
         </field>
     </record>
 
-    <!-- mail.res_partner_view_form_inherit_mail -->
-    <record model="ir.ui.view" id="res_partner_inherit_sms_form">
+<!--     <record model="ir.ui.view" id="res_partner_inherit_sms_form">
         <field name="name">res.partner.inherit.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="sms.res_partner_view_form"/>
@@ -427,7 +426,7 @@
                 }</attribute>
             </xpath>
         </field>
-    </record>
+    </record> -->
 
     <record model="ir.ui.view" id="res_partner_view_form_inherit_mail">
         <field name="name">res.partner.inherit.form</field>
