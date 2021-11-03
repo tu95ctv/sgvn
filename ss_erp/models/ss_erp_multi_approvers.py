@@ -6,19 +6,18 @@ class MultiApprovers(models.Model):
     _name = 'ss_erp.multi.approvers'
     _description = 'Multi Approvers'
 
-    name = fields.Char(string='Name', compute="_compute_name")
-    active = fields.Boolean('Active', default=True)
-    x_approval_seq = fields.Integer('Seq.', default=0)
-    x_create_date = fields.Datetime('Created date')
-    x_write_date = fields.Datetime('Latest update date')
-    x_create_uid = fields.Many2one('res.users', string='Author')
-    x_write_uid = fields.Many2one('res.users', string='Last updated')
-    x_display_name = fields.Char(string='display name')
-    x_request_id = fields.Many2one('approval.request', string='Request')
     x_company_id = fields.Many2one(
-        'res.company', related='x_request_id.company_id', store=True, copy=False, index=True)
+        'res.company', related='x_request_id.company_id', readonly=True, copy=False, store=True, index=True)
+    x_create_date = fields.Datetime('Created date', readonly=True, copy=True, store=True, index=False)
+    x_create_uid = fields.Many2one('res.users', string='Author', readonly=True, copy=True, store=True, index=False)
+    x_display_name = fields.Char(string='display name', readonly=True)
     x_existing_request_user_ids = fields.Many2many(
         'res.users', 'existing_request_users_approvers_rel', 'user_id', 'approver_id', string='Existing Request User', readonly=True)
+    x_id = fields.Integer(string='ID', readonly=True, copy=True, store=True)
+    x_request_id = fields.Many2one('approval.request', string='Request', copy=True, store=True)
+    x_write_date = fields.Datetime('Latest update date')
+    x_write_uid = fields.Many2one('res.users', string='Last updated')
+    x_approval_seq = fields.Integer('Seq.', default=0)
     x_approver_group_ids = fields.Many2many(
         'res.users', 'approver_group_users_approvers_rel', 'user_id', 'approver_id', string='Approver group', store=True, copy=True)
     x_related_user_ids = fields.Many2many(
@@ -31,13 +30,8 @@ class MultiApprovers(models.Model):
         ('approved', 'Approved'),
         ('refused', 'Rejected'),
         ('cancel', 'Cancel'),
-    ], string='status', default='new', store=True, copy=True, compute='_compute_x_user_status')
+    ], string='status', default='new', readonly=True, store=True, copy=True, compute='_compute_x_user_status')
     x_minimum_approvers = fields.Integer('Minimum number of approved people')
-
-    @api.depends('x_approver_group_ids', 'x_approver_group_ids.name')
-    def _compute_name(self):
-        for record in self:
-            record.name = ",".join(user.name for user in record.x_approver_group_ids)
 
     @api.constrains("x_approver_group_ids", "x_minimum_approvers")
     def _check_approver_group_minimum_approvers(self):
