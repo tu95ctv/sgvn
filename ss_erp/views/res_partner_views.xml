@@ -61,13 +61,6 @@
                 <field name="x_is_branch"/>
                 <field name="x_branch_name" attrs="{'invisible': [('x_is_branch', '=', False)]}"/>
             </xpath>
-            <xpath expr="//field[@name='email']" position="attributes">
-                <attribute name="attrs">{
-                    'invisible': [('has_email', '=', 'no')],
-                    'required': [('has_email', '=', 'required')]
-                }</attribute>
-            </xpath>
-
             <xpath expr="//field[@name='type']" position="before">
                 <field name="x_partner_categ" widget="radio" options="{'horizontal': true}" required="1"/>
                 <field name="x_transaction_categ"  widget="many2many_checkboxes" attrs="{
@@ -79,6 +72,12 @@
                     'required': [('has_ref', '=', 'required')]
                 }"/>
 
+            </xpath>
+
+            <xpath expr="//span[@name='address_name']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_address', '=', 'no')]
+                }</attribute>
             </xpath>
             <xpath expr="//field[@name='street']" position="attributes">
                 <attribute name="attrs">{
@@ -110,34 +109,22 @@
                     'required': [('has_address', '=', 'required')]
                 }</attribute>
             </xpath>
-            <xpath expr="//field[@name='vat']" position="attributes">
-                <attribute name="attrs">{
-                    'invisible': [('has_vat', '=', 'no')],
-                    'required': [('has_vat', '=', 'required')]
-                }</attribute>
-            </xpath>
             <xpath expr="//field[@name='country_id']" position="attributes">
                 <attribute name="attrs">{
                     'invisible': [('has_address', '=', 'no')],
                     'required': [('has_address', '=', 'required')]
                 }</attribute>
             </xpath>
+            <xpath expr="//field[@name='vat']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_vat', '=', 'no')],
+                    'required': [('has_vat', '=', 'required')]
+                }</attribute>
+            </xpath>
             <xpath expr="//field[@name='function']" position="attributes">
                 <attribute name="attrs">{
                     'invisible': [('has_function', '=', 'no')],
                     'required': [('has_function', '=', 'required')]
-                }</attribute>
-            </xpath>
-            <xpath expr="//field[@name='phone']" position="attributes">
-                <attribute name="attrs">{
-                    'invisible': [('has_phone', '=', 'no')],
-                    'required': [('has_phone', '=', 'required')]
-                }</attribute>
-            </xpath>
-            <xpath expr="//field[@name='mobile']" position="attributes">
-                <attribute name="attrs">{
-                    'invisible': [('has_mobile', '=', 'no')],
-                    'required': [('has_mobile', '=', 'required')]
                 }</attribute>
             </xpath>
             <xpath expr="//field[@name='website']" position="attributes">
@@ -410,6 +397,58 @@
             </xpath>
         </field>
     </record>
+
+    <!-- mail.res_partner_view_form_inherit_mail -->
+    <record model="ir.ui.view" id="res_partner_inherit_sms_form">
+        <field name="name">res.partner.inherit.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="sms.res_partner_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='phone']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_phone', '=', 'no')]
+                }</attribute>
+            </xpath>
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_phone', '=', 'no')],
+                    'required': [('has_phone', '=', 'required')]
+                }</attribute>
+            </xpath>
+            <xpath expr="//label[@for='mobile']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_mobile', '=', 'no')]
+                }</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_mobile', '=', 'no')],
+                    'required': [('has_mobile', '=', 'required')]
+                }</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="res_partner_view_form_inherit_mail">
+        <field name="name">res.partner.inherit.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mail.res_partner_view_form_inherit_mail"/>
+        <field name="arch" type="xml">
+            <xpath expr="//label[@for='email']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_email', '=', 'no')]
+                }</attribute>
+            </xpath>
+            <xpath expr="//field[@name='email']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_email', '=', 'no')],
+                    'required': [('has_email', '=', 'required')]
+                }</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
     <record model="ir.ui.view" id="view_partner_property_form_inherit">
         <field name="name">res.partner.form</field>
         <field name="model">res.partner</field>
