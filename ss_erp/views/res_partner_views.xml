@@ -73,7 +73,18 @@
                 }"/>
 
             </xpath>
-
+            <xpath expr="//field[@name='phone']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_phone', '=', 'no')],
+                    'required': [('has_phone', '=', 'required')]
+                }</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('has_mobile', '=', 'no')],
+                    'required': [('has_mobile', '=', 'required')]
+                }</attribute>
+            </xpath>
             <xpath expr="//span[@name='address_name']" position="attributes">
                 <attribute name="attrs">{
                     'invisible': [('has_address', '=', 'no')]
