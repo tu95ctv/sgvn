@@ -51,3 +51,5 @@ class ApprovalCategory(models.Model):
         CATEGORY_SELECTION, string="Deposit balance", default="no",)
     has_x_transfer_date = fields.Selection(
         CATEGORY_SELECTION, string="Remittance date", default="no",)
+    has_x_reason_for_rejection = fields.Selection(
+        CATEGORY_SELECTION, string="Reason for rejection", default="no",)

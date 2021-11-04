@@ -54,6 +54,7 @@
                 <field name="has_x_cash_balance" invisible="1"/>
                 <field name="has_x_bank_balance" invisible="1"/>
                 <field name="has_x_transfer_date" invisible="1"/>
+                <field name="has_x_reason_for_rejection" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='category_id']" position="after">
                 <field name="x_purchase_material" attrs="{
