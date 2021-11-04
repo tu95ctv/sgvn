@@ -35,6 +35,7 @@ class ApprovalRequest(models.Model):
     x_present_date = fields.Date('Balance current date')
     x_cash_balance = fields.Float('Cash balance')
     x_bank_balance = fields.Float('Deposit balance')
+    x_reason_for_rejection = fields.Char('Reason for rejection')
     x_transfer_date = fields.Date('Remittance date')
     x_is_multiple_approval = fields.Boolean(related='category_id.x_is_multiple_approval')
     multi_approvers_ids = fields.One2many(

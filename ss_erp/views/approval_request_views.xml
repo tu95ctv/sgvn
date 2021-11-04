@@ -126,6 +126,10 @@
                     'invisible': [('has_x_account_move_ids', '=', 'no')],
                     'required': [('has_x_account_move_ids', '=', 'required')],
                 }"/>
+                <field name="x_reason_for_rejection" attrs="{
+                    'invisible': [('has_x_reason_for_rejection', '=', 'no')],
+                    'required': [('has_x_reason_for_rejection', '=', 'required')],
+                }"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Multi-step approval" attrs="{'invisible': [('x_is_multiple_approval', '=', False)]}">
