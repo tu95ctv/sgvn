@@ -172,8 +172,6 @@ class ResPartner(models.Model):
         related='x_contact_categ.has_sales_note', store=True,)
     has_purchase_note = fields.Selection(
         related='x_contact_categ.has_purchase_note', store=True,)
-    has_x_reason_for_rejection = fields.Selection(
-        related='x_contact_categ.has_x_reason_for_rejection', store=True,)
     has_partner_info = fields.Boolean(related='x_contact_categ.has_partner_info', store=True)
     has_x_payment_terms = fields.Boolean(related='x_contact_categ.has_x_payment_terms', store=True)
 

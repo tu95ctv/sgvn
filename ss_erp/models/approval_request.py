@@ -81,6 +81,8 @@ class ApprovalRequest(models.Model):
         related='category_id.has_x_bank_balance', store=True)
     has_x_transfer_date = fields.Selection(
         related='category_id.has_x_transfer_date', store=True)
+    has_x_reason_for_rejection = fields.Selection(
+        related='category_id.has_x_reason_for_rejection', store=True)
 
     def action_confirm(self):
         super(ApprovalRequest, self).action_confirm()
