@@ -62,7 +62,7 @@
                                     <field name="has_partner_info" widget="boolean_toggle"/>
                                     <field name="has_x_found_year" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_x_capital" widget="radio" options="{'horizontal': true}"/>
-                                    <field name="has_performance_info" widget="radio" options="{'horizontal': true}"/>
+                                    <field name="has_perfomance_info" widget="radio" options="{'horizontal': true}"/>
                                     <field name="has_construction_info" widget="radio" options="{'horizontal': true}"/>
                                 </group>
                             </group>
