@@ -45,6 +45,7 @@
                 <field name="has_bank_accounts" invisible="1"/>
                 <field name="has_sales_note" invisible="1"/>
                 <field name="has_purchase_note" invisible="1"/>
+                <field name="has_x_reason_for_rejection" invisible="1"/>
                 <field name="has_partner_info" invisible="1"/>
                 <field name="has_x_payment_terms" invisible="1"/>
             </xpath>
