@@ -26,7 +26,7 @@
                 <field name="has_category_id" invisible="1"/>
                 <field name="has_x_found_year" invisible="1"/>
                 <field name="has_x_capital" invisible="1"/>
-                <field name="has_performance_info" invisible="1"/>
+                <field name="has_perfomance_info" invisible="1"/>
                 <field name="has_construction_info" invisible="1"/>
                 <field name="has_user_id" invisible="1"/>
                 <field name="has_team_id" invisible="1"/>
@@ -228,8 +228,8 @@
                         </group>
                         <group string="Performance information" >
                             <field name="performance_ids" attrs="{
-                                'invisible': [('has_performance_info', '=', 'no')],
-                                'required': [('has_performance_info', '=', 'required')]
+                                'invisible': [('has_perfomance_info', '=', 'no')],
+                                'required': [('has_perfomance_info', '=', 'required')]
                             }"  nolabel="1">
                                 <tree>
                                     <field name="accounting_period" />
