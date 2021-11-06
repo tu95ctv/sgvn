@@ -180,7 +180,6 @@ class ResPartner(models.Model):
         for partner in self:
             if partner.x_contact_categ and partner.x_contact_categ.company_type:
                 partner.company_type = partner.x_contact_categ.company_type
-                print(33333333, partner.company_type)
             else:
                 super(ResPartner, partner)._compute_company_type()
 

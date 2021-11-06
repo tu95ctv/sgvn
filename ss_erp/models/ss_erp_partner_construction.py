@@ -14,12 +14,12 @@ class PartnerConstruction(models.Model):
         ('minister', '大臣'),
         ('governor', '知事'),
         ('other', 'その他')
-        ],string='Minister / Governor classification', default='minister')
+    ], string='Minister / Governor classification', default='minister')
     license_flag_2 = fields.Selection([
         ('specific', '特定'),
         ('normal', '一般'),
         ('other', 'その他')
-        ],string='Specific / general classification', default='normal')
+    ], string='Specific / general classification', default='normal')
     license_number = fields.Char(string='Permission number')
     license_period = fields.Date(string='Permit date')
     partner_id = fields.Many2one('res.partner', string='Contact address')
