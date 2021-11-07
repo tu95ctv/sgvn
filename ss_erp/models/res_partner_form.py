@@ -67,6 +67,7 @@ class ResPartnerForm(models.Model):
     website_message_ids = fields.Many2many(
         'mail.message', 'web_mail_message_res_partner_form_rel', 'partner_id', 'mail_message_id', copy=False)
 
+    # Override to fix conflict
     @api.depends('is_company', 'parent_id.commercial_partner_id')
     def _compute_commercial_partner(self):
         for partner in self:
@@ -101,10 +102,12 @@ class ResPartnerForm(models.Model):
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
 
+    # New
     def write(self, values):
         res = super(ResPartnerForm, self).write(values)
         if 'approval_state' in values and values.get('approval_state') == 'approved':
             self._action_process()
+        return res
 
     def _action_process(self):
         DEFAULT_FIELDS = ['id', 'create_uid', 'create_date', 'write_uid', 'write_date',
