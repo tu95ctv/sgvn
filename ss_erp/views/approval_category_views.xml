@@ -8,7 +8,6 @@
             <xpath expr="//field[@name='has_location']" position="after">
                 <field name="has_x_organization" widget="radio" options="{'horizontal': true}"/>
                 <field name="has_x_department" widget="radio" options="{'horizontal': true}"/>
-                <field name="has_x_reason_for_rejection" widget="radio" options="{'horizontal': true}"/>
                 <field name="has_x_reject" widget="radio" options="{'horizontal': true}"/>
                 <field name="has_x_contact_form_id" widget="radio" options="{'horizontal': true}"/>
                 <field name="has_x_inventory_order_ids" widget="radio" options="{'horizontal': true}"/>

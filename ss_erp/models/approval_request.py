@@ -35,7 +35,7 @@ class ApprovalRequest(models.Model):
     x_present_date = fields.Date('Balance current date')
     x_cash_balance = fields.Float('Cash balance')
     x_bank_balance = fields.Float('Deposit balance')
-    x_reason_for_rejection = fields.Char('Reason for rejection')
+    x_reject = fields.Char('Reason for rejection')
     x_transfer_date = fields.Date('Remittance date')
     x_is_multiple_approval = fields.Boolean(related='category_id.x_is_multiple_approval')
     multi_approvers_ids = fields.One2many(
@@ -81,8 +81,6 @@ class ApprovalRequest(models.Model):
         related='category_id.has_x_bank_balance', store=True)
     has_x_transfer_date = fields.Selection(
         related='category_id.has_x_transfer_date', store=True)
-    has_x_reason_for_rejection = fields.Selection(
-        related='category_id.has_x_reason_for_rejection', store=True)
 
     def _pass_multi_approvers(self):
         curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
