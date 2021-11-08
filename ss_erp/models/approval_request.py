@@ -172,8 +172,8 @@ class ApprovalRequest(models.Model):
         approvers.write({'status': 'pending'})
         self.write({'date_confirmed': fields.Datetime.now()})
 
-        if self.category_id.x_is_multiple_approval:
-            self.mapped('multi_approvers_ids').write({'x_user_status': 'pending'})
+        # if self.category_id.x_is_multiple_approval:
+        #     self.mapped('multi_approvers_ids').write({'x_user_status': 'pending'})
         if self.x_contact_form_id:
             self.x_contact_form_id.write(
                 {'approval_id': self.id, 'approval_state': self.request_status})

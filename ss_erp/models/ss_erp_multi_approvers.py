@@ -53,6 +53,8 @@ class MultiApprovers(models.Model):
             for record in self:
                 num_approved = len(record.x_existing_request_user_ids)
                 minimal_approver = record.x_minimum_approvers
+                if num_approved == 1:
+                    record.write({'x_user_status': 'pending'})
                 if num_approved >= minimal_approver:
                     record.x_request_id._pass_multi_approvers()
                     record.write({'x_user_status': 'approved'})
