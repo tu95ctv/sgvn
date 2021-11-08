@@ -90,7 +90,6 @@ class ApprovalRequest(models.Model):
         if curren_multi_approvers:
             curren_multi_approvers[0].write({'is_current': False})
         if self.request_status != 'approved' and no_curren_multi_approvers:
-            _logger.info('111111111111111111111')
             self._genera_approver_ids(no_curren_multi_approvers[0])
 
     @api.onchange('category_id', 'request_owner_id')
