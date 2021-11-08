@@ -155,9 +155,9 @@ class ApprovalRequest(models.Model):
     def action_confirm(self):
         if self.request_owner_id != self.env.user:
             raise UserError(_("Only the applicant can submit."))
-        if len(self.multi_approvers_ids) < self.approval_minimum:
-            raise UserError(
-                _("You have to add at least %s multi-step approvers to confirm your request.", self.approval_minimum))
+        # if len(self.multi_approvers_ids) < self.approval_minimum:
+        #     raise UserError(
+        #         _("You have to add at least %s multi-step approvers to confirm your request.", self.approval_minimum))
         if self.requirer_document == 'required' and not self.attachment_number:
             raise UserError(_("You have to attach at lease one document."))
 
