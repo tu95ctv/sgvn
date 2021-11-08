@@ -23,7 +23,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='bank_name']" position="after">
                 <field name="x_bank_branch"/>
-                <field name="x_acc_holder_furigana"/>
+                <field name="acc_type"/>
             </xpath>
         </field>
     </record>
