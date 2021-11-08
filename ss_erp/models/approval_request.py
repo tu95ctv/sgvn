@@ -245,6 +245,7 @@ class ApprovalRequest(models.Model):
     def _compute_request_status(self):
         for request in self:
             status_lst = request.mapped('multi_approvers_ids.x_user_status')
+            status_lst_pp = request.mapped('approver_ids.status')
             minimal_approver = request.approval_minimum if len(
                 status_lst) >= request.approval_minimum else len(status_lst)
             if status_lst:
@@ -252,7 +253,7 @@ class ApprovalRequest(models.Model):
                     status = 'cancel'
                 elif status_lst.count('refused'):
                     status = 'refused'
-                elif status_lst.count('new'):
+                elif status_lst.count('new') and status_lst_pp.count('new'):
                     status = 'new'
                 # elif status_lst.count('approved') >= minimal_approver:
                 elif status_lst.count('approved') >= len(status_lst):
