@@ -111,8 +111,8 @@ class ApprovalRequest(models.Model):
                     'x_minimum_approvers': multi_approvers_id.x_minimum_approvers,
                 }
                 multi_approvers_ids += self.env['ss_erp.multi.approvers'].new(new_vals)
-
-            multi_approvers_ids[0].is_current = True
+            if multi_approvers_ids:
+                multi_approvers_ids[0].is_current = True
             self.multi_approvers_ids = multi_approvers_ids
 
         else:
