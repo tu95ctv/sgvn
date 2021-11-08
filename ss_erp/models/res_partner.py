@@ -134,8 +134,8 @@ class ResPartner(models.Model):
         related='x_contact_categ.has_x_found_year', store=True,)
     has_x_capital = fields.Selection(
         related='x_contact_categ.has_x_capital', store=True,)
-    has_perfomance_info = fields.Selection(
-        related='x_contact_categ.has_perfomance_info', store=True,)
+    has_performance_info = fields.Selection(
+        related='x_contact_categ.has_performance_info', store=True,)
     has_construction_info = fields.Selection(
         related='x_contact_categ.has_construction_info', store=True,)
     has_user_id = fields.Selection(

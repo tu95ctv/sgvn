@@ -62,7 +62,7 @@ class ContactCategory(models.Model):
         CONTACT_CATEGORY_SELECTION, string='Founding year', default='required')
     has_x_capital = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Capital', default='required')
-    has_perfomance_info = fields.Selection(
+    has_performance_info = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Achievement information', default='required')
     has_construction_info = fields.Selection(
         CONTACT_CATEGORY_SELECTION, string='Construction permit', default='required')
@@ -108,5 +108,5 @@ class ContactCategory(models.Model):
         if not self.has_partner_info:
             self.has_x_found_year = 'no'
             self.has_x_capital = 'no'
-            self.has_perfomance_info = 'no'
+            self.has_performance_info = 'no'
             self.has_construction_info = 'no'
