@@ -84,7 +84,8 @@ class ApprovalRequest(models.Model):
 
     def _pass_multi_approvers(self):
         curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
-        no_curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: not p.is_current)
+        no_curren_multi_approvers = self.multi_approvers_ids.filtered(
+            lambda p: not p.is_current and p.x_user_status == 'new')
         if no_curren_multi_approvers:
             no_curren_multi_approvers[0].write({'is_current': True})
         if curren_multi_approvers:
@@ -232,6 +233,7 @@ class ApprovalRequest(models.Model):
         curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
         if curren_multi_approvers:
             curren_multi_approvers[0].write({'x_user_status': 'cancel'})
+        self.multi_approvers_ids.write({'x_existing_request_user_ids': [(5, 0, 0)]})
 
     def action_cancel(self):
         # self.sudo()._get_user_approval_activities(user=self.env.user).unlink()
