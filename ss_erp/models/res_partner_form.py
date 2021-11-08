@@ -34,6 +34,8 @@ class ResPartnerForm(models.Model):
         domain="[('internal_type', '=', 'receivable'), ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="This account will be used instead of the default one as the receivable account for the current partner",
         required=False)
+    same_vat_partner_id = fields.Many2one(
+        'res.partner', string='Partner with same Tax ID', store=False)
 
     # Override one2many field -> many2many field
     activity_ids = fields.Many2many(

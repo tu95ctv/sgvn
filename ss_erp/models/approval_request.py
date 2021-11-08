@@ -85,8 +85,10 @@ class ApprovalRequest(models.Model):
     def _pass_multi_approvers(self):
         curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
         no_curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: not p.is_current)
-        no_curren_multi_approvers[0].write({'is_current': True})
-        curren_multi_approvers[0].write({'is_current': False})
+        if no_curren_multi_approvers:
+            no_curren_multi_approvers[0].write({'is_current': True})
+        if curren_multi_approvers:
+            curren_multi_approvers[0].write({'is_current': False})
         if self.request_status != 'approved':
             self._genera_approver_ids(no_curren_multi_approvers[0])
 
