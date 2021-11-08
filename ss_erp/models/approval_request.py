@@ -254,7 +254,8 @@ class ApprovalRequest(models.Model):
                     status = 'refused'
                 elif status_lst.count('new'):
                     status = 'new'
-                elif status_lst.count('approved') >= minimal_approver:
+                # elif status_lst.count('approved') >= minimal_approver:
+                elif status_lst.count('approved') >= len(status_lst):
                     status = 'approved'
                 else:
                     status = 'pending'
