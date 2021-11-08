@@ -6,6 +6,7 @@ from odoo.exceptions import UserError, ValidationError
 class MultiApprovers(models.Model):
     _name = 'ss_erp.multi.approvers'
     _description = 'Multi Approvers'
+    _order = 'x_approval_seq'
 
     x_company_id = fields.Many2one(
         'res.company', related='x_request_id.company_id', readonly=True, copy=False, store=True, index=True)
@@ -33,34 +34,31 @@ class MultiApprovers(models.Model):
         ('approved', 'Approved'),
         ('refused', 'Rejected'),
         ('cancel', 'Cancel'),
-    ], string='status', default='new', readonly=True, store=True, copy=True, compute='_compute_x_user_status')
+    ], string='status', default='new', readonly=True, store=True, copy=True)
     x_minimum_approvers = fields.Integer('Minimum number of approved people')
+    is_current = fields.Boolean("Current", default=False, store=True, copy=True, readonly=True)
+
+    # approval theo thứ tự từ trên xuống dưới
+    # user approvaed -> add to x_existing_request_user_ids
 
     @api.constrains("x_approver_group_ids", "x_minimum_approvers")
     def _check_approver_group_minimum_approvers(self):
         for record in self:
-            if len(record.x_approver_group_ids) < record.x_minimum_approvers:
+            have_manager = 1 if record.x_is_manager_approver else 0
+            if len(record.x_approver_group_ids) + have_manager < record.x_minimum_approvers:
                 raise UserError(
-                    _("You have to add at least %s approvers to confirm your request.", record.x_minimum_approvers))
+                    _("You have to add at least %s approvers to multi-approvers.", record.x_minimum_approvers))
 
-    @api.depends('x_request_id.approver_ids', 'x_request_id.approver_ids.status')
-    def _compute_x_user_status(self):
-        for multi_approver in self:
-            # TODO: Fix here to get x_approval_seq and true value for x_user_status
-            status_lst = multi_approver.x_request_id.mapped('approver_ids.status')
-            minimal_approver = multi_approver.x_minimum_approvers if len(
-                status_lst) >= multi_approver.x_minimum_approvers else len(status_lst)
-            if status_lst:
-                if status_lst.count('cancel'):
-                    status = 'cancel'
-                elif status_lst.count('refused'):
-                    status = 'refused'
-                elif status_lst.count('new'):
-                    status = 'new'
-                elif status_lst.count('approved') >= minimal_approver:
-                    status = 'approved'
-                else:
-                    status = 'pending'
-            else:
-                status = 'new'
-            multi_approver.x_user_status = status
+    def write(self, values):
+        res = super(MultiApprovers, self).write(values)
+        if 'x_existing_request_user_ids' in values and values.get('x_existing_request_user_ids')[0][0] == 4:
+            for record in self:
+                num_approved = len(record.x_existing_request_user_ids)
+                minimal_approver = record.x_minimum_approvers
+                if num_approved >= minimal_approver:
+                    record.x_request_id._pass_multi_approvers()
+                    record.write({'x_user_status': 'approved'})
+        if 'x_user_status' in values and values.get('x_user_status') in ['cancel']:
+            for record in self:
+                record.x_request_id._pass_multi_approvers()
+        return res

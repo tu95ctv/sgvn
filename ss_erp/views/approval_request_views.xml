@@ -134,7 +134,7 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Multi-step approval" attrs="{'invisible': [('x_is_multiple_approval', '=', False)]}">
-                    <field name="multi_approvers_ids">
+                    <field name="multi_approvers_ids" force_save="1">
                         <tree>
                             <field name="x_approval_seq" />
                             <field name="x_approver_group_ids" widget="many2many_tags"/>
@@ -143,6 +143,7 @@
                             <field name="write_date" />
                             <field name="x_user_status" />
                             <field name="x_minimum_approvers" />
+                            <field name="is_current" invisible="1" force_save="1"/>
                         </tree>
                     </field>
                 </page>
