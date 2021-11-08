@@ -253,7 +253,7 @@ class ApprovalRequest(models.Model):
                     status = 'cancel'
                 elif status_lst.count('refused'):
                     status = 'refused'
-                elif status_lst.count('new') and status_lst_pp.count('new'):
+                elif status_lst.count('new') and (status_lst_pp.count('new') or not request.approver_ids):
                     status = 'new'
                 # elif status_lst.count('approved') >= minimal_approver:
                 elif status_lst.count('approved') >= len(status_lst):
