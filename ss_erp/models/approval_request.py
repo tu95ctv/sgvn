@@ -89,7 +89,8 @@ class ApprovalRequest(models.Model):
             no_curren_multi_approvers[0].write({'is_current': True})
         if curren_multi_approvers:
             curren_multi_approvers[0].write({'is_current': False})
-        if self.request_status != 'approved':
+        if self.request_status != 'approved' and no_curren_multi_approvers:
+            _logger.info('111111111111111111111')
             self._genera_approver_ids(no_curren_multi_approvers[0])
 
     @api.onchange('category_id', 'request_owner_id')
@@ -209,7 +210,7 @@ class ApprovalRequest(models.Model):
         if curren_multi_approvers:
             if user in curren_multi_approvers[0].x_existing_request_user_ids:
                 curren_multi_approvers[0].write({'x_existing_request_user_ids': [(3, user.id)]})
-            elif curren_multi_approvers[0].x_user_status == 'refused':
+            if curren_multi_approvers[0].x_user_status == 'refused':
                 curren_multi_approvers[0].write({'x_user_status': 'pending'})
 
     def action_withdraw(self, approver=None):
@@ -223,6 +224,8 @@ class ApprovalRequest(models.Model):
         super(ApprovalRequest, self).action_draft()
         if self.category_id.x_is_multiple_approval:
             self.mapped('multi_approvers_ids').write({'x_user_status': 'new'})
+            # Clear flag
+            self.multi_approvers_ids.write({'is_current': False})
             # Update flag
             self.multi_approvers_ids[0].write({'is_current': True})
 
