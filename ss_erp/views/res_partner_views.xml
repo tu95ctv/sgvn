@@ -238,7 +238,7 @@
                                 'invisible': [('has_performance_info', '=', 'no')],
                                 'required': [('has_performance_info', '=', 'required')]
                             }"  nolabel="1">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="accounting_period" />
                                     <field name="revenue" />
                                     <field name="ordinary_profit" />
@@ -262,7 +262,7 @@
                         'invisible': [('has_construction_info', '=', 'no')],
                         'required': [('has_construction_info', '=', 'required')]
                     }" >
-                        <tree>
+                        <tree editable="bottom">
                             <field name="license_figure" />
                             <field name="license_flag_1" />
                             <field name="license_flag_2" />
@@ -370,7 +370,7 @@
                                 'invisible': [('has_bank_accounts', '=', 'no')],
                                 'required': [('has_bank_accounts', '=', 'required')]
                             }" >
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="bank_id"/>
                                     <field name="x_bank_branch"/>
                                     <field name="acc_number"/>
