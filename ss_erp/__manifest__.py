@@ -10,7 +10,7 @@
     "author": "SGVN",
     "depends": [
         "delivery", "mail", "contacts", "purchase", "purchase_stock", "web", "approvals"
-        ],
+    ],
     "data": [
         # SECURITY
         "security/ir.model.access.csv",

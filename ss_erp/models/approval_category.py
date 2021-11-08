@@ -53,3 +53,10 @@ class ApprovalCategory(models.Model):
         CATEGORY_SELECTION, string="Remittance date", default="no",)
     has_x_reason_for_rejection = fields.Selection(
         CATEGORY_SELECTION, string="Reason for rejection", default="no",)
+
+    # @api.constrains("multi_approvers_ids", "approval_minimum")
+    # def _check_approver_group_minimum_approvers(self):
+    #     for record in self:
+    #         if record.x_is_multiple_approval and len(record.multi_approvers_ids) < record.approval_minimum:
+    #             raise UserError(
+    #                 _("You have to add at least %s multi-step approvers.", record.approval_minimum))

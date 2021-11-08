@@ -36,10 +36,8 @@ class MultiApprovers(models.Model):
         ('cancel', 'Cancel'),
     ], string='status', default='new', readonly=True, store=True, copy=True)
     x_minimum_approvers = fields.Integer('Minimum number of approved people')
+    # flag indicating current level of request
     is_current = fields.Boolean("Current", default=False, store=True, copy=True, readonly=True)
-
-    # approval theo thứ tự từ trên xuống dưới
-    # user approvaed -> add to x_existing_request_user_ids
 
     @api.constrains("x_approver_group_ids", "x_minimum_approvers")
     def _check_approver_group_minimum_approvers(self):
@@ -58,7 +56,4 @@ class MultiApprovers(models.Model):
                 if num_approved >= minimal_approver:
                     record.x_request_id._pass_multi_approvers()
                     record.write({'x_user_status': 'approved'})
-        if 'x_user_status' in values and values.get('x_user_status') in ['cancel']:
-            for record in self:
-                record.x_request_id._pass_multi_approvers()
         return res
