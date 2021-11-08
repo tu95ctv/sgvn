@@ -22,8 +22,10 @@ class ResPartner(models.Model):
         ('customer', 'Customer'),
         ('vendor', 'Supplier'),
         ('multi', 'Customers & Supplier'),
-        ('other', 'Other'),
-    ], string="Contact classification", help=_("Select Other for contacts not related to the transaction"))
+        ('other', 'Other')],
+        string="Contact classification", 
+        help=_("Select Other for contacts not related to the transaction"),
+        default='customer')
     type = fields.Selection(selection_add=[
         ('for_rfq', 'Address for requesting a quote'),
         ('for_po', 'Order destination'),
@@ -187,3 +189,9 @@ class ResPartner(models.Model):
     def _onchange_x_contact_categ(self):
         if self.x_contact_categ and self.x_contact_categ.type:
             self.type = self.x_contact_categ.type
+
+    @api.model
+    def default_get(self, default_fields):
+        rec = super(ResPartner, self).default_get(default_fields)
+        rec['country_id'] = self.env.ref('base.jp', raise_if_not_found=False)
+        return rec
