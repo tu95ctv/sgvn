@@ -15,6 +15,7 @@
         # SECURITY
         "security/ir.model.access.csv",
         "security/x_security_groups_security.xml",
+        "security/approval_security.xml",
 
         # DATA
         "data/bis_category_data.xml",
@@ -29,6 +30,7 @@
         "reports/action.xml",
 
         # VIEWS
+        "views/assets.xml",
         "views/res_partner_views.xml",
         "views/res_users_views.xml",
         "views/res_company_views.xml",
@@ -40,7 +42,6 @@
         "views/responsible_department_views.xml",
         "views/ss_erp_bis_category_views.xml",
         "views/stock_picking_views.xml",
-        "views/webclient_templates.xml",
         "views/res_partner_bank_views.xml",
         "views/ss_erp_contact_category_views.xml",
         "views/approval_category_views.xml",

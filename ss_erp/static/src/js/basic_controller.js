@@ -1,4 +1,4 @@
-odoo.define('x_rebate_management.BasicController', function (require) {
+odoo.define('ss_erp.BasicController', function (require) {
 "use strict";
 var Dialog = require('web.Dialog');
 var BasicController = require('web.BasicController');

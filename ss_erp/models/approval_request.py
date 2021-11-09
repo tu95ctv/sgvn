@@ -82,6 +82,12 @@ class ApprovalRequest(models.Model):
     has_x_transfer_date = fields.Selection(
         related='category_id.has_x_transfer_date', store=True)
 
+    hide_btn_cancel = fields.Boolean(compute='_compute_hide_btn_cancel')
+
+    def _compute_hide_btn_cancel(self):
+        for request in self:
+            request.hide_btn_cancel = False if request.request_owner_id == self.env.user else True
+
     def _pass_multi_approvers(self):
         curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
         no_curren_multi_approvers = self.multi_approvers_ids.filtered(
@@ -95,7 +101,7 @@ class ApprovalRequest(models.Model):
 
     @api.onchange('category_id', 'request_owner_id')
     def _onchange_category_id(self):
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             cate_approvers_ids = self.category_id.multi_approvers_ids
             current_users = self.approver_ids.mapped('user_id')
             new_users = cate_approvers_ids.mapped('x_approver_group_ids')
@@ -138,7 +144,7 @@ class ApprovalRequest(models.Model):
         })
 
     def _check_user_access_request(self):
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
             if curren_multi_approvers:
                 access_user_ids = curren_multi_approvers[0].mapped('x_approver_group_ids')
@@ -152,29 +158,24 @@ class ApprovalRequest(models.Model):
         return True
 
     # Override
-    # 'approval_minimum' use to check 'multi_approvers_ids'
     def action_confirm(self):
+        if not self.x_is_multiple_approval and len(self.approver_ids) < self.approval_minimum:
+            raise UserError(
+                _("You have to add at least %s approvers to confirm your request.", self.approval_minimum))
         if self.request_owner_id != self.env.user:
             raise UserError(_("Only the applicant can submit."))
-        # if len(self.multi_approvers_ids) < self.approval_minimum:
-        #     raise UserError(
-        #         _("You have to add at least %s multi-step approvers to confirm your request.", self.approval_minimum))
         if self.requirer_document == 'required' and not self.attachment_number:
             raise UserError(_("You have to attach at lease one document."))
-
-        if self.category_id.x_is_multiple_approval:
+        self.write({'date_confirmed': fields.Datetime.now()})
+        if self.x_is_multiple_approval:
             curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
             if curren_multi_approvers:
                 self._genera_approver_ids(curren_multi_approvers[0])
-        # super(ApprovalRequest, self).action_confirm()
-        #
+
         approvers = self.mapped('approver_ids').filtered(lambda approver: approver.status == 'new')
         approvers._create_activity()
         approvers.write({'status': 'pending'})
-        self.write({'date_confirmed': fields.Datetime.now()})
 
-        # if self.category_id.x_is_multiple_approval:
-        #     self.mapped('multi_approvers_ids').write({'x_user_status': 'pending'})
         if self.x_contact_form_id:
             self.x_contact_form_id.write(
                 {'approval_id': self.id, 'approval_state': self.request_status})
@@ -185,11 +186,11 @@ class ApprovalRequest(models.Model):
             curren_multi_approvers[0].write({'x_existing_request_user_ids': [(4, user.id)]})
 
     def action_approve(self, approver=None):
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             if not self._check_user_access_request():
                 raise UserError(_("We cannot approve this application."))
         super(ApprovalRequest, self).action_approve(approver=approver)
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             self._approve_multi_approvers(self.env.user)
 
     def _refuse_multi_approvers(self):
@@ -198,31 +199,31 @@ class ApprovalRequest(models.Model):
             curren_multi_approvers[0].write({'x_user_status': 'refused'})
 
     def action_refuse(self, approver=None):
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             if not self._check_user_access_request():
                 raise UserError(_("We cannot refuse this application."))
         super(ApprovalRequest, self).action_refuse(approver=approver)
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             self._refuse_multi_approvers()
 
-    def _withdraw_multi_approvers(self, user):
-        curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
-        if curren_multi_approvers:
-            if user in curren_multi_approvers[0].x_existing_request_user_ids:
-                curren_multi_approvers[0].write({'x_existing_request_user_ids': [(3, user.id)]})
-            if curren_multi_approvers[0].x_user_status == 'refused':
-                curren_multi_approvers[0].write({'x_user_status': 'pending'})
+    # def _withdraw_multi_approvers(self, user):
+    #     curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
+    #     if curren_multi_approvers:
+    #         if user in curren_multi_approvers[0].x_existing_request_user_ids:
+    #             curren_multi_approvers[0].write({'x_existing_request_user_ids': [(3, user.id)]})
+    #         if curren_multi_approvers[0].x_user_status == 'refused':
+    #             curren_multi_approvers[0].write({'x_user_status': 'pending'})
 
-    def action_withdraw(self, approver=None):
-        super(ApprovalRequest, self).action_withdraw(approver=approver)
-        if self.category_id.x_is_multiple_approval:
-            self._withdraw_multi_approvers(self.env.user)
+    # def action_withdraw(self, approver=None):
+    #     super(ApprovalRequest, self).action_withdraw(approver=approver)
+    #     if self.x_is_multiple_approval:
+    #         self._withdraw_multi_approvers(self.env.user)
 
     def action_draft(self):
         if self.request_owner_id != self.env.user:
             raise UserError(_("Only the applicant can back to draft."))
         super(ApprovalRequest, self).action_draft()
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             self.mapped('multi_approvers_ids').write({'x_user_status': 'new'})
             # Clear flag
             self.multi_approvers_ids.write({'is_current': False})
@@ -240,31 +241,49 @@ class ApprovalRequest(models.Model):
         if self.request_owner_id != self.env.user:
             raise UserError(_("Only the applicant can cancel."))
         super(ApprovalRequest, self).action_cancel()
-        if self.category_id.x_is_multiple_approval:
+        if self.x_is_multiple_approval:
             self._cancel_multi_approvers()
 
-    # Override : compute with multi_approvers_ids
-    # old_version : compute with approver_ids
-    @api.depends('multi_approvers_ids.x_user_status')
+    # Override
+    @api.depends('x_is_multiple_approval', 'multi_approvers_ids.x_user_status', 'approver_ids.status')
     def _compute_request_status(self):
         for request in self:
-            status_lst = request.mapped('multi_approvers_ids.x_user_status')
-            status_lst_pp = request.mapped('approver_ids.status')
-            minimal_approver = request.approval_minimum if len(
-                status_lst) >= request.approval_minimum else len(status_lst)
-            if status_lst:
-                if status_lst.count('cancel'):
-                    status = 'cancel'
-                elif status_lst.count('refused'):
-                    status = 'refused'
-                elif status_lst.count('new') and (status_lst_pp.count('new') or not request.approver_ids):
-                    status = 'new'
-                # elif status_lst.count('approved') >= minimal_approver:
-                elif status_lst.count('approved') >= len(status_lst):
-                    status = 'approved'
+            if request.x_is_multiple_approval:
+                status_lst = request.mapped('multi_approvers_ids.x_user_status')
+                status_lst_pp = request.mapped('approver_ids.status')
+                # minimal_approver = request.approval_minimum if len(
+                #     status_lst) >= request.approval_minimum else len(status_lst)
+                if status_lst:
+                    if status_lst.count('cancel'):
+                        status = 'cancel'
+                    elif status_lst.count('refused'):
+                        status = 'refused'
+                    elif status_lst.count('new') and (status_lst_pp.count('new') or not request.approver_ids):
+                        status = 'new'
+                    # elif status_lst.count('approved') >= minimal_approver:
+                    elif status_lst.count('approved') >= len(status_lst):
+                        status = 'approved'
+                    else:
+                        status = 'pending'
                 else:
-                    status = 'pending'
+                    status = 'new'
+
             else:
-                status = 'new'
+                status_lst = request.mapped('approver_ids.status')
+                minimal_approver = request.approval_minimum if len(
+                    status_lst) >= request.approval_minimum else len(status_lst)
+                if status_lst:
+                    if status_lst.count('cancel'):
+                        status = 'cancel'
+                    elif status_lst.count('refused'):
+                        status = 'refused'
+                    elif status_lst.count('new'):
+                        status = 'new'
+                    elif status_lst.count('approved') >= minimal_approver:
+                        status = 'approved'
+                    else:
+                        status = 'pending'
+                else:
+                    status = 'new'
             request.request_status = status
             request.x_contact_form_id.write({'approval_state': request.request_status})

@@ -5,6 +5,21 @@
         <field name="model">approval.request</field>
         <field name="inherit_id" ref="approvals.approval_request_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_withdraw']" position="attributes">
+                <!-- <attribute name="attrs">{'invisible': [('x_is_multiple_approval', '=', True)]}</attribute> -->
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//form" position="attributes">
+                <attribute name="qth_edit">request_status == 'new'</attribute>
+            </xpath>
+            <button name="action_cancel" position="before">
+                <field name="hide_btn_cancel" invisible="1"/>
+            </button>
+            <button name="action_cancel" position="attributes">
+                <attribute name="attrs">{'invisible':['|','|',('hide_btn_cancel', '=', True),('request_status','in',['new','cancel']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}</attribute>
+            </button>
+
+
             <field name="request_owner_id" position="attributes">
                 <attribute name="string">Applicant</attribute>
                 <attribute name="required">1</attribute>
