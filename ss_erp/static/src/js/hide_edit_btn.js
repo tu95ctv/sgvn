@@ -30,7 +30,6 @@ odoo.define('ss_erp.hide_edit_btn', function (require) {
                 args: [[state.data.id], ["write"]],
             });
             this.show_hide_edit_button(accesses.write);
-            console.log(this.$buttons.find('.o_form_button_' + 'edit'));
 
             if (this.$buttons && this.mode === 'readonly') {
                 var self = this;
@@ -47,7 +46,6 @@ odoo.define('ss_erp.hide_edit_btn', function (require) {
                     }
                     // self.$buttons.find('.btn.btn-primary.o_form_button_' + action).toggleClass('o_hidden', !res);
                 });
-                console.log(this.$buttons.find('.o_form_button_' + 'edit'));
             }
             return true;
         },

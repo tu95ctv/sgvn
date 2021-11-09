@@ -14,9 +14,11 @@
             </xpath>
             <button name="action_cancel" position="before">
                 <field name="hide_btn_cancel" invisible="1"/>
+                <field name="show_btn_temporary_approve" invisible="1"/>
+                <button name="action_temporary_approve" string="Temporary Approve" type="object" attrs="{'invisible':[('show_btn_temporary_approve', '=', False)]}"/>
             </button>
             <button name="action_cancel" position="attributes">
-                <attribute name="attrs">{'invisible':['|','|',('hide_btn_cancel', '=', True),('request_status','in',['new','cancel']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}</attribute>
+                <attribute name="attrs">{'invisible':['|','|',('hide_btn_cancel', '=', True),('request_status','in',['cancel']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}</attribute>
             </button>
 
 
@@ -157,7 +159,6 @@
                             <field name="x_write_date" />
                             <field name="x_user_status" />
                             <field name="x_minimum_approvers" />
-                            <field name="is_current" invisible="1" force_save="1"/>
                         </tree>
                     </field>
                 </page>
