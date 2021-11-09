@@ -12,15 +12,19 @@ _logger = logging.getLogger(__name__)
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+
+    def _get_default_x_organization_id(self):
+        x_organization_id = self.x_mkt_user_id and self.x_mkt_user_id.organization_id and self.x_mkt_user_id.organization_id or False
+        return x_organization_id
     x_bis_categ_id = fields.Many2one(
         'ss_erp.bis.category', string="Transaction classification", copy=True, index=True)
-    x_po_type = fields.Selection([
-        ('normal', 'Normal purchase'),
-        ('industry_lorry', 'Raleigh delivery(industrial gas)'),
-        ('lp_lorry', 'Raleigh delivery(LP gas)'),
-        ('lng_lorry', 'Raleigh delivery(LNG gas)'),
-        ('dropship', 'Direct delivery'),
-    ], string="Purchase type", default='normal', index=True, copy=False)
+    # x_po_type = fields.Selection([
+    #     ('normal', 'Normal purchase'),
+    #     ('industry_lorry', 'Raleigh delivery(industrial gas)'),
+    #     ('lp_lorry', 'Raleigh delivery(LP gas)'),
+    #     ('lng_lorry', 'Raleigh delivery(LNG gas)'),
+    #     ('dropship', 'Direct delivery'),
+    # ], string="Purchase type", default='normal', index=True, copy=False)
 
     x_rfq_issue_date = fields.Date("Quotation request date")
     x_po_issue_date = fields.Date("Order sending date")
@@ -31,7 +35,7 @@ class PurchaseOrder(models.Model):
     x_dest_address_info = fields.Html("Direct shipping information")
     x_truck_number = fields.Char("Car number")
     x_organization_id = fields.Many2one(
-        'ss_erp.organization', string="Organization in charge", index=True)
+        'ss_erp.organization', string="Organization in charge", index=True, default=_get_default_x_organization_id)
     x_responsible_dept_id = fields.Many2one(
         'ss_erp.responsible.department', string="Jurisdiction", index=True)
     x_mkt_user_id = fields.Many2one(
@@ -105,6 +109,13 @@ class PurchaseOrder(models.Model):
                     raise ValidationError(
                         _('Total payment must be 100%%: Cash %s%% - Bills %s%%' % (cash, bills)))
 
+    @api.model
+    def _get_picking_type(self, company_id):
+        picking_type = self.env['stock.picking.type'].search([('code', '=', 'incoming'), ('name', 'ilike', 'Dropship%'), ('warehouse_id.company_id', '=', company_id)])
+        if not picking_type:
+            picking_type = self.env['stock.picking.type'].search([('code', '=', 'incoming'), ('name', 'ilike', 'Dropship%'), ('warehouse_id', '=', False)])
+        return picking_type[:1]
+
     def action_rfq_send(self):
         res = super(PurchaseOrder, self).action_rfq_send()
         if self.env.context.get('send_rfq', False):
@@ -157,6 +168,6 @@ class PurchaseOrder(models.Model):
             'x_organization_id': self.x_organization_id and self.x_organization_id.id or False,
             'x_responsible_dept_id': self.x_responsible_dept_id and self.x_responsible_dept_id.id or False,
             'x_mkt_user_id': self.x_mkt_user_id and self.x_mkt_user_id.id or False,
-            'x_po_type': self.x_po_type,
+            # 'x_po_type': self.x_po_type,
         })
         return res
