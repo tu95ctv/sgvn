@@ -92,7 +92,7 @@ class ApprovalRequest(models.Model):
     def _compute_show_btn_temporary_approve(self):
         for request in self:
             index_user = request._get_index_user_multi_approvers()
-            request.show_btn_temporary_approve = True if index_user and index_user > 0 and request.user_status != 'pending' else False
+            request.show_btn_temporary_approve = True if index_user and index_user > 0 and request.user_status and request.user_status == 'pending' else False
 
     @api.onchange('category_id', 'request_owner_id')
     def _onchange_category_id(self):
