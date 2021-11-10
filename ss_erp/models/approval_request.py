@@ -84,6 +84,7 @@ class ApprovalRequest(models.Model):
 
     hide_btn_cancel = fields.Boolean(compute='_compute_hide_btn_cancel')
     show_btn_temporary_approve = fields.Boolean(compute='_compute_show_btn_temporary_approve')
+    show_btn_approve = fields.Boolean(compute='_compute_show_btn_approve')
 
     def _compute_hide_btn_cancel(self):
         for request in self:
@@ -92,7 +93,19 @@ class ApprovalRequest(models.Model):
     def _compute_show_btn_temporary_approve(self):
         for request in self:
             index_user = request._get_index_user_multi_approvers()
-            request.show_btn_temporary_approve = True if index_user and index_user > 0 and request.user_status and request.user_status == 'pending' else False
+            request.show_btn_temporary_approve = True if index_user and index_user > 0 and \
+                request.user_status and request.user_status == 'pending' and \
+                request.multi_approvers_ids[index_user - 1].x_user_status != 'approved' else False
+
+    def _compute_show_btn_approve(self):
+        for request in self:
+            # ('user_status','!=','pending')
+            index_user = request._get_index_user_multi_approvers()
+            if request.user_status == 'pending' and (not index_user or (index_user > 0 and
+                         request.multi_approvers_ids[index_user - 1].x_user_status == 'approved')):
+                request.show_btn_approve = True
+            else:
+                request.show_btn_approve = False
 
     @api.onchange('category_id', 'request_owner_id')
     def _onchange_category_id(self):
