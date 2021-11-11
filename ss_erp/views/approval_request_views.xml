@@ -16,7 +16,7 @@
                 <field name="hide_btn_cancel" invisible="1"/>
                 <field name="show_btn_temporary_approve" invisible="1"/>
                 <field name="show_btn_approve" invisible="1"/>
-                <button name="action_temporary_approve" string="Temporary Approve" type="object" attrs="{'invisible':[('show_btn_temporary_approve', '=', False)]}"/>
+                <button name="action_temporary_approve" string="Temporary Approve" type="object" attrs="{'invisible':['|',('show_btn_temporary_approve', '=', False), ('request_status', '!=' ,'pending')]}"/>
             </button>
             <button name="action_cancel" position="attributes">
                 <attribute name="attrs">{'invisible':['|','|',('hide_btn_cancel', '=', True),('request_status','in',['approved','cancel', 'refused']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}</attribute>
@@ -28,7 +28,7 @@
                 <button name="action_reset_draft" string="Reset to draft" type="object" attrs="{'invisible':['|',('request_status','not in',['refused']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}"/>
             </button>
             <button name="action_refuse" position="after">
-                <button name="action_refuse_popup" string="Refuse" type="object" attrs="{'invisible':[('user_status','!=','pending')]}"/>
+                <button name="action_refuse_popup" string="Refuse" type="object" attrs="{'invisible':['|',('user_status','!=','pending'),('request_status', '!=' ,'pending')]}"/>
             </button>
             <button name="action_refuse" position="attributes">
                 <attribute name="invisible">1</attribute>
