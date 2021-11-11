@@ -85,6 +85,7 @@ class ApprovalRequest(models.Model):
     hide_btn_cancel = fields.Boolean(compute='_compute_hide_btn_cancel')
     show_btn_temporary_approve = fields.Boolean(compute='_compute_show_btn_temporary_approve')
     show_btn_approve = fields.Boolean(compute='_compute_show_btn_approve')
+    last_approver = fields.Many2one('res.users', string="Last approver")
 
     def _compute_hide_btn_cancel(self):
         for request in self:
@@ -106,6 +107,54 @@ class ApprovalRequest(models.Model):
                 request.show_btn_approve = True
             else:
                 request.show_btn_approve = False
+
+    def notify_approval(self, users, approver=None):
+        # message_subscribe
+
+        partner_ids = users.mapped('partner_id').ids
+        body_template = self.env.ref('ss_erp.message_multi_approver_assigned')
+        self = self.with_context(lang=self.env.user.lang)
+        body_template = body_template.with_context(lang=self.env.user.lang)
+        model_description = self.env['ir.model']._get('approval.request').display_name
+        if self.request_status == 'approved' and self.x_contact_form_id and self.x_contact_form_id.res_partner_id:
+            partner = self.env['res.partner'].browse(int(self.x_contact_form_id.res_partner_id))
+        else:
+            partner = False
+        body = body_template._render(
+            dict(
+                request=self,
+                model_description=model_description,
+                approver=approver,
+                approver_date=fields.Date.context_today(self),
+                reject_date=fields.Date.context_today(self),
+                partner=partner,
+                access_link=self.env['mail.thread']._notify_get_action_link(
+                    'view', model=self._name, res_id=self.id),
+            ),
+            engine='ir.qweb',
+            minimal_qcontext=True
+        )
+        subject = _('%(name)s: %(summary)s assigned to you',
+                    name=self.name, summary=self._description)
+        if approver and self.request_status != 'approved':
+            subject = _('%(name)s: %(summary)s is approve by %(approver)s',
+                    name=self.name, summary=self._description, approver=approver.name)
+
+        if approver and self.request_status == 'approved':
+            subject = _('%(name)s: %(summary)s is approved',
+                    name=self.name, summary=self._description)
+        if self.request_status == 'refused':
+            subject = _('%(name)s: %(summary)s is rejected',
+                    name=self.name, summary=self._description)
+
+        self.message_notify(
+            partner_ids=partner_ids,
+            body=body,
+            subject=subject,
+            record_name=self.name,
+            model_description=model_description,
+            email_layout_xmlid='mail.mail_notification_light',
+        )
 
     @api.onchange('category_id', 'request_owner_id')
     def _onchange_category_id(self):
@@ -145,7 +194,7 @@ class ApprovalRequest(models.Model):
             'approver_ids': [(5, 0, 0)] + [(0, 0, {
                 'user_id': user.id,
                 'request_id': self.id,
-                'status': 'pending'
+                'status': 'new'
             }) for user in new_users]
         })
 
@@ -169,6 +218,8 @@ class ApprovalRequest(models.Model):
         if self.x_contact_form_id:
             self.x_contact_form_id.write(
                 {'approval_id': self.id, 'approval_state': self.request_status})
+        user = self.multi_approvers_ids.mapped('x_related_user_ids')
+        self.notify_approval(users=user)
 
     def _check_user_access_request(self):
         if self.x_is_multiple_approval:
@@ -187,6 +238,8 @@ class ApprovalRequest(models.Model):
             lambda p: user in p.x_approver_group_ids)
         if curren_multi_approvers:
             curren_multi_approvers.write({'x_existing_request_user_ids': [(4, user.id)]})
+            users = curren_multi_approvers.mapped('x_approver_group_ids') - self.env.user
+            self.notify_approval(users=users, approver=self.env.user)
 
     def action_approve(self, approver=None):
         if self.x_is_multiple_approval:
@@ -195,6 +248,7 @@ class ApprovalRequest(models.Model):
         super(ApprovalRequest, self).action_approve(approver=approver)
         if self.x_is_multiple_approval:
             self._approve_multi_approvers(self.env.user)
+        self.sudo().write({'last_approver': self.env.user.id})
 
     def _refuse_multi_approvers(self):
         curren_multi_approvers = self.multi_approvers_ids.filtered(
@@ -209,6 +263,22 @@ class ApprovalRequest(models.Model):
         super(ApprovalRequest, self).action_refuse(approver=approver)
         if self.x_is_multiple_approval:
             self._refuse_multi_approvers()
+        users = self.request_owner_id
+        users |= self.multi_approvers_ids.mapped('x_related_user_ids')
+        self.notify_approval(users=users, approver=self.env.user)
+
+    def action_refuse_popup(self):
+        action = {
+            'name': _("Reject"),
+            'type': 'ir.actions.act_window',
+            'views': [[False, 'form']],
+            'target': 'new',
+            'context': {
+                'default_request_id': self.id,
+            },
+            'res_model': 'approval.request.reject.wizard'
+        }
+        return action
 
     # def _withdraw_multi_approvers(self, user):
     #     curren_multi_approvers = self.multi_approvers_ids.filtered(lambda p: p.is_current)
@@ -222,6 +292,10 @@ class ApprovalRequest(models.Model):
     #     super(ApprovalRequest, self).action_withdraw(approver=approver)
     #     if self.x_is_multiple_approval:
     #         self._withdraw_multi_approvers(self.env.user)
+    def action_reset_draft(self):
+        self.action_cancel()
+        self.action_draft()
+
     def action_reset_draft(self):
         self.action_cancel()
         self.action_draft()
@@ -319,3 +393,8 @@ class ApprovalRequest(models.Model):
                     status = 'new'
             request.request_status = status
             request.x_contact_form_id.write({'approval_state': request.request_status})
+
+            if request.request_status == 'approved':
+                users = request.multi_approvers_ids.mapped('x_related_user_ids')
+                users |= request.request_owner_id
+                self.notify_approval(users=users, approver=request.last_approver)

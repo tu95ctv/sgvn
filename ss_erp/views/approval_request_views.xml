@@ -27,7 +27,12 @@
             <button name="action_draft" position="after">
                 <button name="action_reset_draft" string="Reset to draft" type="object" attrs="{'invisible':['|',('request_status','not in',['refused']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}"/>
             </button>
-
+            <button name="action_refuse" position="after">
+                <button name="action_refuse_popup" string="Refuse" type="object" attrs="{'invisible':[('user_status','!=','pending')]}"/>
+            </button>
+            <button name="action_refuse" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </button>
             <field name="request_owner_id" position="attributes">
                 <attribute name="string">Applicant</attribute>
                 <attribute name="required">1</attribute>

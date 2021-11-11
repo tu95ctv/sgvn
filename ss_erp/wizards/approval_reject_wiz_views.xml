@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="approval_request_reject_wizard" model="ir.ui.view">
+        <field name="name">approval.request.reject.wizard</field>
+        <field name="model">approval.request.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="request_id" invisible="1"/>
+                    <field name="reason_reject"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight" />
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

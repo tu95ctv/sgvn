@@ -53,6 +53,7 @@
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",
+        "wizards/approval_reject_wiz_views.xml",
 
         "data/mail_template_data.xml",
 
