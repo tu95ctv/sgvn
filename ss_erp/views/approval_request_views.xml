@@ -24,9 +24,8 @@
             <button name="action_approve" position="attributes">
                 <attribute name="attrs">{'invisible':[('show_btn_approve', '=', False)]}</attribute>
             </button>
-            <button name="action_draft" position="attributes">
-                <attribute name="string">Reset to draft</attribute>
-                <attribute name="attrs">{'invisible':['|',('request_status','not in',['cancel', 'refused']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}</attribute>
+            <button name="action_draft" position="after">
+                <button name="action_reset_draft" string="Reset to draft" type="object" attrs="{'invisible':['|',('request_status','not in',['refused']),'&amp;',('user_status','==',False),('has_access_to_request','==',False)]}"/>
             </button>
 
             <field name="request_owner_id" position="attributes">

@@ -222,6 +222,9 @@ class ApprovalRequest(models.Model):
     #     super(ApprovalRequest, self).action_withdraw(approver=approver)
     #     if self.x_is_multiple_approval:
     #         self._withdraw_multi_approvers(self.env.user)
+    def action_reset_draft(self):
+        self.action_cancel()
+        self.action_draft()
 
     def action_draft(self):
         if self.request_owner_id != self.env.user:
