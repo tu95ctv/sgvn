@@ -22,4 +22,12 @@ class StockPicking(models.Model):
     # x_so_type = fields.Selection(related='sale_id.x_so_type', string="Sales type" )
     x_import_id = fields.Char("Capture ID", copy=False)
     location_dest_id_usage = fields.Selection(
-        related='location_dest_id.usage', string='Destination Location Type', readonly=True)
+        related='location_dest_id.usage',
+        string='Destination Location Type', readonly=True)
+
+    x_inspection_user_id = fields.Many2one(
+        'res.users',
+        string='Non-defective product inspection')
+    x_inspection_exist = fields.Boolean(
+        "Whether or not non-defective product inspection is carried out",
+        default=False)
