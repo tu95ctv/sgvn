@@ -51,6 +51,7 @@
         "views/ss_erp_partner_performance_views.xml",
         "views/ss_erp_partner_construction_views.xml",
         "views/stock_move_line_views.xml",
+        "views/stock_scrap_views.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",
