@@ -287,11 +287,11 @@
                 </page>
             </xpath>
             <xpath expr="//group[@name='sale']" position="inside">
-                <label for="x_more_than_amount" string="Transaction terms" attrs="{
+                <label for="x_payment_terms_ids" string="Transaction terms" attrs="{
                     'invisible': [('has_x_payment_terms', '=', 'no')],
                 }" colspan="4"/>
-                <field name="x_payment_terms_ids" widget="one2many" nolabel="1">
-                    <tree>
+                <field name="x_payment_terms_ids" colspan="4" widget="one2many" nolabel="1">
+                    <tree editable="top">
                         <field name="more_than_amount"/>
                         <field name="more_than_deadline"/>
                         <field name="more_than_payment_site"/>
