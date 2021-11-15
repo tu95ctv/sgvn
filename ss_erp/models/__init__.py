@@ -22,3 +22,4 @@ from . import res_partner_form
 from . import approval_category
 from . import approval_request
 from . import ss_erp_partner_payment_term
+from . import stock_move_line
