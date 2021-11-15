@@ -31,3 +31,11 @@ class StockPicking(models.Model):
     x_inspection_exist = fields.Boolean(
         "Whether or not non-defective product inspection is carried out",
         default=False)
+    has_lot_ids = fields.Boolean(
+        'Has Serial Numbers', compute='_compute_has_lot_ids')
+
+    @api.depends('move_ids_without_package', 'move_ids_without_package.lot_ids')
+    def _compute_has_lot_ids(self):
+        for record in self:
+            record.has_lot_ids = True if len(record.move_ids_without_package.mapped(
+                'lot_ids')) else False
