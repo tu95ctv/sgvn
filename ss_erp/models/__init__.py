@@ -21,3 +21,4 @@ from . import ss_erp_multi_approvers
 from . import res_partner_form
 from . import approval_category
 from . import approval_request
+from . import ss_erp_partner_payment_term

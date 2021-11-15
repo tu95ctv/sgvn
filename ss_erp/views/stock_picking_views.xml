@@ -45,12 +45,14 @@
             </field>  
             <field name="backorder_id" position="before">
                 <field name="user_id" position="move"/>
+                <field name="x_inspection_user_id"/>
             </field>
             <field name="origin" position="attributes">
                 <attribute name="string">Reference source</attribute>
             </field>
             <field name="origin" position="after">
                 <field name="x_account_modify"/>
+                <field name="x_inspection_exist"/>
             </field>
             <field name="carrier_id" position="attributes">
                 <attribute name="string">Shipping company</attribute>
