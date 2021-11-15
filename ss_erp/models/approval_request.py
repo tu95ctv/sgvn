@@ -240,6 +240,12 @@ class ApprovalRequest(models.Model):
             curren_multi_approvers.write({'x_existing_request_user_ids': [(4, user.id)]})
             users = curren_multi_approvers.mapped('x_approver_group_ids') - self.env.user
             self.notify_approval(users=users, approver=self.env.user)
+            if curren_multi_approvers.x_user_status == 'approved':
+                next_multi_approvers = self.multi_approvers_ids.filtered(
+                    lambda p: p.x_approval_seq == curren_multi_approvers.x_approval_seq + 1)
+                if next_multi_approvers:
+                    users = next_multi_approvers.mapped('x_approver_group_ids') - self.env.user
+                    self.notify_approval(users=users, approver=self.env.user)
 
     def action_approve(self, approver=None):
         if self.x_is_multiple_approval:
@@ -292,6 +298,11 @@ class ApprovalRequest(models.Model):
     #     super(ApprovalRequest, self).action_withdraw(approver=approver)
     #     if self.x_is_multiple_approval:
     #         self._withdraw_multi_approvers(self.env.user)
+
+    def action_reset_draft(self):
+        self.action_cancel()
+        self.action_draft()
+
     def action_reset_draft(self):
         self.action_cancel()
         self.action_draft()

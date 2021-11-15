@@ -23,7 +23,7 @@ class ResPartner(models.Model):
         ('vendor', 'Supplier'),
         ('multi', 'Customers & Supplier'),
         ('other', 'Other')],
-        string="Contact classification", 
+        string="Contact classification",
         help=_("Select Other for contacts not related to the transaction"),
         default='customer')
     type = fields.Selection(selection_add=[
