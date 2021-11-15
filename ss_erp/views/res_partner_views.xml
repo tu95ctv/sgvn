@@ -290,7 +290,11 @@
                 <label for="x_payment_terms_ids" string="Transaction terms" attrs="{
                     'invisible': [('has_x_payment_terms', '=', 'no')],
                 }" colspan="4"/>
-                <field name="x_payment_terms_ids" colspan="4" widget="one2many" nolabel="1">
+                <field name="x_payment_terms_ids" colspan="4" widget="one2many" nolabel="1"
+                    attrs="{
+                        'invisible': [('x_payment_terms_ids', '=', 'no')],
+                        'required': [('x_payment_terms_ids', '=', 'required')]
+                    }">
                     <tree editable="top">
                         <field name="more_than_amount"/>
                         <field name="more_than_deadline"/>
