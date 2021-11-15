@@ -303,14 +303,6 @@ class ApprovalRequest(models.Model):
         self.action_cancel()
         self.action_draft()
 
-    def action_reset_draft(self):
-        self.action_cancel()
-        self.action_draft()
-
-    def action_reset_draft(self):
-        self.action_cancel()
-        self.action_draft()
-
     def action_draft(self):
         if self.request_owner_id != self.env.user:
             raise UserError(_("Only the applicant can back to draft."))
