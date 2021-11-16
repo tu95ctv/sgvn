@@ -35,6 +35,6 @@ class PartnerPaymentTerm(models.Model):
     fee_burden = fields.Selection([
         ('other_side', '先方'),
         ('our_side', '当方'),
-    ], string='Collecting money', default='our_side')
+    ], string='Fee burden', default='our_side')
     bill_site = fields.Char(string='Bill site')
     partner_id = fields.Many2one('res.partner', 'Contact address')
