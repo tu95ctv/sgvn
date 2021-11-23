@@ -52,6 +52,9 @@
         "views/ss_erp_partner_construction_views.xml",
         "views/stock_move_line_views.xml",
         "views/stock_scrap_views.xml",
+        "views/ss_erp_convert_code_type.xml",
+        "views/ss_erp_external_system_type.xml",
+        "views/ss_erp_code_convert.xml",
 
         # Wizard
         "wizards/partner_rebate_attachment_wizard_views.xml",

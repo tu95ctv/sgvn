@@ -24,3 +24,6 @@ from . import approval_request
 from . import ss_erp_partner_payment_term
 from . import stock_move_line
 from . import stock_scrap
+from . import ss_erp_convert_code_type
+from . import ss_erp_external_system_type
+from . import ss_erp_code_convert
