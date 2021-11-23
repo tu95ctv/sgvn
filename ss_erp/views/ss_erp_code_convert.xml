@@ -7,10 +7,10 @@
             <field name="model">ss_erp.code.convert</field>
             <field name="arch" type="xml">
                 <tree string="">
-                    <field name="external_system"/>
-                    <field name="convert_code_type"/>
-                    <field name="external_code"/>
-                    <field name="internal_code"/>
+                    <field name="external_system" />
+                    <field name="convert_code_type" string="Code type"/>
+                    <field name="external_code" string="External code"/>
+                    <field name="internal_code" string="Odoo code"/>
                     <field name="priority_conversion"/>
                 </tree>
             </field>
@@ -67,11 +67,23 @@
 
         <!-- MENUITEM -->
         <menuitem
+                id="external_system_cooperation_menu"
+                name="External system cooperation"
+                parent="sale.sale_menu_root"
+                sequence="5"
+        />
+        <menuitem
+                id="external_system_cooperation_other"
+                name="Other"
+                parent="external_system_cooperation_menu"
+                sequence="100"
+        />
+        <menuitem
                 id="ss_erp_code_convert_action_menu"
                 name="Convert Code"
-                parent="contacts.res_partner_menu_config"
+                parent="external_system_cooperation_other"
                 action="ss_erp_code_convert_action"
-                sequence="4"
+                sequence="1"
         />
     </data>
 </odoo>
